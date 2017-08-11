@@ -1,4 +1,4 @@
-obtain(['fs', 'child_process'], (fs, {spawn})=> {
+obtain(['fs', 'child_process'], (fs, { spawn })=> {
   exports.copyConfigFile = (src, dest, fillObj)=> {
     fs.writeFileSync(dest, '');
     fs.readFileSync(src).toString().split('\n').forEach(function(line) {

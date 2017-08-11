@@ -1,6 +1,6 @@
 'use strict';
 
-obtain(['./src/server/express.js', 'µ/piFig/piFig.js'], (hw, piFig)=> {
+obtain(['./src/server/express.js'], (hw)=> {
   exports.app = {};
 
   piFig.setupAutostart();

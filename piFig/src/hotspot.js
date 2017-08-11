@@ -1,26 +1,26 @@
 obtain(['fs', './src/utils.js'], (fs, { copyConfigFile, call: Call })=> {
   var writeInterfaceFile = ()=> {
-    copyConfigFile('./src/configFiles/interfaces', '/etc/network/interfaces');
+    copyConfigFile('./configFiles/interfaces', '/etc/network/interfaces');
   };
 
   var writeHostsFile = (domainName)=> {
-    copyConfigFile('./src/configFiles/hosts', '/etc/hosts', { DOMAIN_NAME: domainName });
+    copyConfigFile('./configFiles/hosts', '/etc/hosts', { DOMAIN_NAME: domainName });
   };
 
   var writeApdConfFile = (ssid, pass)=> {
-    copyConfigFile('./src/configFiles/hostapd.conf', '/etc/hostapd/hostapd.conf', { SSID: ssid, PASSWORD: pass });
+    copyConfigFile('./configFiles/hostapd.conf', '/etc/hostapd/hostapd.conf', { SSID: ssid, PASSWORD: pass });
   };
 
   var writeApdDefaultsFile = ()=> {
-    copyConfigFile('./src/configFiles/hostapd_defaults', '/etc/default/hostapd');
+    copyConfigFile('./configFiles/hostapd_defaults', '/etc/default/hostapd');
   };
 
   var writeDhcpcdConfFile = ()=> {
-    copyConfigFile('./src/configFiles/dhcpcd.conf', '/etc/dhcpcd.conf');
+    copyConfigFile('./configFiles/dhcpcd.conf', '/etc/dhcpcd.conf');
   };
 
   var writeDnsmasqConfFile = (domainName)=> {
-    copyConfigFile('./src/configFiles/dnsmasq.conf', '/etc/dnsmasq.conf', { DOMAIN_NAME: domainName });
+    copyConfigFile('./configFiles/dnsmasq.conf', '/etc/dnsmasq.conf', { DOMAIN_NAME: domainName });
   };
 
   exports.configure = (cfgObj)=> {
@@ -31,7 +31,7 @@ obtain(['fs', './src/utils.js'], (fs, { copyConfigFile, call: Call })=> {
       writeApdDefaultsFile();
       writeDhcpcdConfFile();
       writeDnsmasqConfFile(cfgObj.domainName);
-      var restart = new Call(window.µdir + '/piFig/configFiles/restartHotspot.sh');
+      var restart = new Call('./src/restartHotspot.sh');
       restart.run();
     } else console.error('Error: Password must be 8 or more characters');
   };

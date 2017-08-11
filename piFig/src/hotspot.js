@@ -1,26 +1,26 @@
 obtain(['fs', './src/utils.js'], (fs, { copyConfigFile, call: Call })=> {
   var writeInterfaceFile = ()=> {
-    copyConfigFile(window.µdir + '/piFig/configFiles/interfaces', '/etc/network/interfaces');
+    copyConfigFile('./src/configFiles/interfaces', '/etc/network/interfaces');
   };
 
   var writeHostsFile = (domainName)=> {
-    copyConfigFile(window.µdir + '/piFig/configFiles/hosts', '/etc/hosts', { DOMAIN_NAME: domainName });
+    copyConfigFile('./src/configFiles/hosts', '/etc/hosts', { DOMAIN_NAME: domainName });
   };
 
   var writeApdConfFile = (ssid, pass)=> {
-    copyConfigFile(window.µdir + '/piFig/configFiles/hostapd.conf', '/etc/hostapd/hostapd.conf', { SSID: ssid, PASSWORD: pass });
+    copyConfigFile('./src/configFiles/hostapd.conf', '/etc/hostapd/hostapd.conf', { SSID: ssid, PASSWORD: pass });
   };
 
   var writeApdDefaultsFile = ()=> {
-    copyConfigFile(window.µdir + '/piFig/configFiles/hostapd_defaults', '/etc/default/hostapd');
+    copyConfigFile('./src/configFiles/hostapd_defaults', '/etc/default/hostapd');
   };
 
   var writeDhcpcdConfFile = ()=> {
-    copyConfigFile(window.µdir + '/piFig/configFiles/dhcpcd.conf', '/etc/dhcpcd.conf');
+    copyConfigFile('./src/configFiles/dhcpcd.conf', '/etc/dhcpcd.conf');
   };
 
   var writeDnsmasqConfFile = (domainName)=> {
-    copyConfigFile(window.µdir + '/piFig/configFiles/dnsmasq.conf', '/etc/dnsmasq.conf', { DOMAIN_NAME: domainName });
+    copyConfigFile('./src/configFiles/dnsmasq.conf', '/etc/dnsmasq.conf', { DOMAIN_NAME: domainName });
   };
 
   exports.configure = (cfgObj)=> {

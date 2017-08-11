@@ -2,3 +2,4 @@ node_modules/*
 fonts/*
 audio/*
 .DS_Store
+piFig/currentConfig.json

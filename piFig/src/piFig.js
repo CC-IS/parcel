@@ -3,7 +3,7 @@ var obs = ['./src/hotspot.js', './src/wifi.js', './src/autostart.js', './config.
 obtain(obs, (hotspot, wifi, auto, { config }, fs)=> {
   var pfg = config.piFig;
   if (pfg) {
-    var confDir = '../currentConfig.json';
+    var confDir = './currentConfig.json';
     let curCfg = {};
     if (fs.existsSync(confDir)) {
       let data = fs.readFileSync(confDir); //file exists, get the contents

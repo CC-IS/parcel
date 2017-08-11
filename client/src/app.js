@@ -1,6 +1,6 @@
 'use strict';
 
-obtain(['µ/piFig/piFig.js'], (piFig)=> {
+obtain([], ()=> {
   exports.app = {};
 
   exports.app.start = ()=> {

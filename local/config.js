@@ -1,10 +1,10 @@
 exports.config = {
-  piFig: {
-    /*wifiHotspot: {
+  /*piFig: {
+    wifiHotspot: {
       ssid: 'SensorServer',
       password: 'newPass',
       domainName: 'swingsensors.net',
-    },*/
+    },
     smoothShutdown: {
       delayTime: 1000,
     },
@@ -12,5 +12,5 @@ exports.config = {
       ssid: 'SensorServer',
       password: 'defaultPass',
     },
-  },
+  },*/
 };

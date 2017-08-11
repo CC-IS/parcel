@@ -1,24 +1,25 @@
 {
-  "name": "SwingSensors",
+  "name": "TemplateProject",
   "version": "1.1.0",
-  "description": "Hammock swing position sensors",
+  "description": "Simple template for electron apps",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/heidgera/midiSynth.git"
+    "url": "git+https://github.com/heidgera/Electron_Template.git"
   },
   "author": "ajhg",
   "license": "CC0-1.0",
-  "homepage": "https://github.com/heidgera/midiSynth#readme",
+  "homepage": "http://re.trof.it",
   "devDependencies": {
-    "electron": "1.4.5"
+    "electron": "1.7.5"
   },
   "dependencies": {
+    "express": "^4.15.4",
     "path": "^0.12.7",
-    "pigpio": "^0.6.1",
-    "wiring-pi": "^2.2.1"
+    "serialport": "^5.0.0",
+    "ws": "^3.1.0"
   }
 }

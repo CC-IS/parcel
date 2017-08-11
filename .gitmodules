@@ -1,6 +1,3 @@
-[submodule "src/libraries/muse"]
-	path = src/libraries/muse
-	url = https://github.com/heidgera/Muse
-[submodule "common/muse"]
-	path = common/muse
+[submodule "common/src/muse"]
+	path = common/src/muse
 	url = https://github.com/heidgera/Muse

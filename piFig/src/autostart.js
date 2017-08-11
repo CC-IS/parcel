@@ -6,7 +6,8 @@ obtain(['./src/utils.js', 'child_process'], ({ copyConfigFile, call: Call }, { e
   console.log(startup);
 
   exports.remove = ()=> {
-    var command = 'sed -i".bak" "/node_modules\/.bin\/electron/d" /home/pi/.bashrc > /home/pi/.bashrc';
+    var command = 'sed -i".bak" "/node_modules\\/\\.bin\\/electron/d" /home/pi/.bashrc > /home/pi/.bashrc';
+    console.log(command)
     if (__dirname.indexOf('/home/pi') >= 0) execSync(command);
     else console.error('System not a pi, preventing uninstall');
   };

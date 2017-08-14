@@ -3,8 +3,6 @@
 obtain(['./src/server/express.js'], (hw)=> {
   exports.app = {};
 
-  piFig.setupAutostart();
-
   exports.app.start = ()=> {
     console.log('started');
 

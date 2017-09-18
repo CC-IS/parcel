@@ -8,6 +8,14 @@ obtain(['./src/server/express.js'], (hw)=> {
 
     document.onkeypress = (e)=> {
       if (e.key == ' ') console.log('Space pressed');
+      else if
+    };
+
+    document.onkeyup = (e)=> {
+      var electron = require('electron');
+      if (e.which == 27) {
+        electron.remote.process.exit();
+      }
     };
 
   };

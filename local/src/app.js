@@ -8,6 +8,7 @@ obtain(['./src/server/express.js'], (hw)=> {
 
     document.onkeypress = (e)=> {
       if (e.key == ' ') console.log('Space pressed');
+      else if
     };
 
     document.onkeyup = (e)=> {

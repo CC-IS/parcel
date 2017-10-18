@@ -1,6 +1,8 @@
 'use strict';
 
-obtain(['./src/server/express.js'], (hw)=> {
+var process = require('electron').remote.process;
+
+obtain([], ()=> {
   exports.app = {};
 
   exports.app.start = ()=> {
@@ -14,9 +16,13 @@ obtain(['./src/server/express.js'], (hw)=> {
     document.onkeyup = (e)=> {
       if (e.which == 27) {
         var electron = require('electron');
-        electron.remote.process.exit();
+        process.kill(process.pid, 'SIGINT');
       }
     };
+
+    process.on('SIGINT',()=>{
+      process.nextTick(function () { process.exit(0); });
+    });
   };
 
   provide(exports);

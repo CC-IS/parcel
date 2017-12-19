@@ -1,6 +1,10 @@
 'use strict';
 
-var process = require('electron').remote.process;
+var remote = require('electron').remote;
+
+var process = remote.process;
+
+//remote.getCurrentWindow().closeDevTools();
 
 obtain([], ()=> {
   exports.app = {};
@@ -10,17 +14,18 @@ obtain([], ()=> {
 
     document.onkeypress = (e)=> {
       if (e.key == ' ') console.log('Space pressed');
-      else if
     };
 
     document.onkeyup = (e)=> {
       if (e.which == 27) {
         var electron = require('electron');
         process.kill(process.pid, 'SIGINT');
+      } else if (e.which == 73 && e.getModifierState('Control') &&  e.getModifierState('Shift')) {
+        remote.getCurrentWindow().toggleDevTools();
       }
     };
 
-    process.on('SIGINT',()=>{
+    process.on('SIGINT', ()=> {
       process.nextTick(function () { process.exit(0); });
     });
   };

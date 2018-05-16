@@ -1,7 +1,11 @@
 'use strict';
 const electron = require('electron');
 
-var appDir = (require('os').platform() == 'linux') ? '/boot/appData/' : './ForBoot/appData';
+if (!window) var window = global;
+
+window.appDir = (process.platform != 'linux') ?  './ForBoot/appData' :
+                (process.arch == 'x64') ? '/usr/local/appData' :
+                '/boot/appData/';
 
 const config = require(appDir + '/config.js');
 

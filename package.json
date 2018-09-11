@@ -14,17 +14,19 @@
   "license": "CC0-1.0",
   "homepage": "http://re.trof.it",
   "devDependencies": {
-    "electron": "1.7.5"
+    "electron": "2.0.8"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
+    "drivelist": "^6.2.2",
     "express": "^4.15.4",
     "express-fileupload": "^0.4.0",
     "google-auth-library": "^1.2.1",
     "googleapis": "^25.0.0",
+    "usb-detection": "^1.0.2",
     "nodemailer": "^4.4.2",
     "path": "^0.12.7",
-    "serialport": "^5.0.0",
+    "serialport": "7.0.2",
     "ws": "^3.1.0"
   }
 }

@@ -13,10 +13,8 @@
   "author": "ajhg",
   "license": "CC0-1.0",
   "homepage": "http://re.trof.it",
-  "devDependencies": {
-    "electron": "2.0.8"
-  },
   "dependencies": {
+    "electron": "2.0.8",
     "body-parser": "^1.18.2",
     "drivelist": "^6.2.2",
     "express": "^4.15.4",

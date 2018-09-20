@@ -208,7 +208,7 @@ function makeWindows() {
       fullscreen: false,
       alwaysOnTop: false,
       //displayId: '69733248', //manually specify
-      file: 'local/index.html',
+      file: 'app/local/index.html',
     };
 
     createWindowForDisplay(display, wind);

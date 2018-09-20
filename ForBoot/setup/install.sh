@@ -11,7 +11,7 @@ sudo apt-get --assume-yes install xserver-xorg-video-fbturbo
 
 sudo apt-get --assume-yes install libgtk-3-0
 
-sudo apt-get --assume-yes install --no-install-recommends build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6
+sudo apt-get --assume-yes install --no-install-recommends git build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6
 
 sudo apt-get --assume-yes install libasound2
 

@@ -23,8 +23,6 @@
     "googleapis": "^25.0.0",
     "usb-detection": "3.2.0",
     "nodemailer": "^4.4.2",
-    "path": "^0.12.7",
-    "serialport": "7.0.2",
-    "ws": "^3.1.0"
+    "path": "^0.12.7"
   }
 }

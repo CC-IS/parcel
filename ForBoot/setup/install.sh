@@ -11,7 +11,9 @@ sudo apt-get --assume-yes install xserver-xorg-video-fbturbo
 
 sudo apt-get --assume-yes install libgtk-3-0
 
-sudo apt-get --assume-yes install --no-install-recommends git build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6
+sudo apt-get --assume-yes install git libudev-dev
+
+sudo apt-get --assume-yes install build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6
 
 sudo apt-get --assume-yes install libasound2
 
@@ -23,14 +25,20 @@ cd Parcel
 
 echo  -e "\nClone the application"
 
-git clone --recurse-submodules https://github.com/${ACCOUNT}/${REPO_NAME}
+git clone --recurse-submodules https://github.com/${ACCOUNT}/${REPO_NAME} app
+
+echo  -e "\nInstalling dependencies for Parcel:"
+
+npm i
 
 echo  -e "\nInstalling dependencies for application:"
+
+cd app
 
 npm i
 
 echo  -e "\nConfiguring"
 
-cd piFig
+cd ../piFig
 
 sudo node install.js

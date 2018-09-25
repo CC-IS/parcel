@@ -9,7 +9,7 @@ var ipcMain = electron.ipcMain;
 if (!window) var window = global;
 
 window.appDataDir = (process.platform != 'linux') ?  './ForBoot/appData' :
-                (process.arch == 'x64') ? '/usr/local/appData' :
+                (process.arch == 'x64') ? './ForBoot/appData' :
                 '/boot/appData';
 
 global.config = require(appDataDir + '/config.js');

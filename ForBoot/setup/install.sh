@@ -1,8 +1,4 @@
 #!/bin/bash
-
-REPO_NAME=MuseAppTemplate
-ACCOUNT=heidgera
-
 echo -e "\nInstalling node:"
 
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
@@ -23,17 +19,7 @@ git clone --recurse-submodules https://github.com/heidgera/Parcel.git
 
 cd Parcel
 
-echo  -e "\nClone the application"
-
-git clone --recurse-submodules https://github.com/${ACCOUNT}/${REPO_NAME} app
-
 echo  -e "\nInstalling dependencies for Parcel:"
-
-npm i
-
-echo  -e "\nInstalling dependencies for application:"
-
-cd app
 
 npm i
 

@@ -25,6 +25,6 @@ npm i
 
 echo  -e "\nConfiguring"
 
-cd ../piFig
+cd piFig
 
 sudo node install.js

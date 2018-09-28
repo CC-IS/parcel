@@ -175,7 +175,6 @@ obtain(['path', 'url', 'fs', 'child_process'], (path, url, fs, { execSync })=> {
       });
 
       ipcMain.on('window-select', (evt, arg)=> {
-        windows[evt.sender.label].close();
 
         var display = displays.find(disp=> disp.id == evt.sender.label);
         var wind = config.windows.find(wind=>wind.label == arg.window);
@@ -185,6 +184,8 @@ obtain(['path', 'url', 'fs', 'child_process'], (path, url, fs, { execSync })=> {
         fs.writeFileSync(DISPLAY_BINDING_PATH, JSON.stringify(binds));
 
         createWindowForDisplay(display, wind);
+
+        windows[evt.sender.label].close();
       });
 
       electron.screen.on('display-added', (evt, display)=> {

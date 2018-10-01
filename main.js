@@ -146,7 +146,7 @@ obtain(['path', 'url', 'fs', 'child_process'], (path, url, fs, { execSync })=> {
       };
 
       displays.forEach(display=> {
-        if (config.windows.find(wind=>wind.displayId && display.id == wind.displayId)) {
+        if (config.windows.find(wind=>wind.displayId !== undefined && display.id == wind.displayId)) {
           config.windows.forEach(wind=> {
             if (display.id == wind.displayId) createWindowForDisplay(display, wind);
           });

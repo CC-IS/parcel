@@ -8,15 +8,18 @@ var ipcMain = electron.ipcMain;
 
 if (!window) var window = global;
 
-window.appDataDir = (process.platform != 'linux') ?  './ForBoot/appData' :
-                (process.arch == 'x64') ? './ForBoot/appData' :
-                '/boot/appData';
+var baseDir = (process.platform != 'linux') ?  `${__dirname}/app/ForBoot/` :
+                (process.arch == 'x64') ? `${__dirname}/app/ForBoot/` :
+                '/boot/';
+
+window.appDataDir = baseDir + 'appData';
+window.setupDir = baseDir + 'setup';
 
 global.config = require(appDataDir + '/config.js');
 
 if (config.preventStartup) process.exit(0);
 
-obtain(['path', 'url', 'fs', 'child_process'], (path, url, fs, { execSync })=> {
+obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync }, os)=> {
 
   // Module to control application life.
   const app = electron.app;
@@ -31,6 +34,11 @@ obtain(['path', 'url', 'fs', 'child_process'], (path, url, fs, { execSync })=> {
     console.log('installing application.');
     execSync(`git clone  --recurse-submodules ${global.config.appRepo} app`, { cwd: appRoot });
     execSync(`npm install`, { cwd: appRoot + '/app' });
+
+    if (process.platform == 'linux') {
+      execSync(`ln -s ${window.setupDir} SetupFiles`, { cwd: os.homedir() });
+      execSync(`ln -s ${window.appDataDir} AppDataFiles`, { cwd: os.homedir() });
+    }
   }
 
   // Keep a global reference of the window object, if you don't, the window will

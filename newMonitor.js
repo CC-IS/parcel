@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     let newOpt = document.createElement('option');
     newOpt.textContent = wind.label;
     newOpt.value = wind.label;
-    µ('#windows').appendChild(newOpt);
+    µ('#windowOpts').appendChild(newOpt);
   });
 
   µ('#windows').onchange = ()=> {

@@ -34,16 +34,16 @@ obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync 
 
   global.appRoot = path.resolve(__dirname);
 
-  if (!fs.existsSync(appRoot + '/app') && global.config.appRepo) {
-    console.log('installing application.');
-    execSync(`git clone  --recurse-submodules ${global.config.appRepo} app`, { cwd: appRoot });
-    execSync(`npm install`, { cwd: appRoot + '/app' });
-
-    if (process.platform == 'linux') {
-      execSync(`ln -s ${window.setupDir} SetupFiles`, { cwd: os.homedir() });
-      execSync(`ln -s ${window.appDataDir} AppDataFiles`, { cwd: os.homedir() });
-    }
-  }
+  // if (!fs.existsSync(appRoot + '/app') && global.config.appRepo) {
+  //   console.log('installing application.');
+  //   execSync(`git clone  --recurse-submodules ${global.config.appRepo} app`, { cwd: appRoot });
+  //   execSync(`npm install`, { cwd: appRoot + '/app' });
+  //
+  //   if (process.platform == 'linux') {
+  //     execSync(`ln -s ${window.setupDir} SetupFiles`, { cwd: os.homedir() });
+  //     execSync(`ln -s ${window.appDataDir} AppDataFiles`, { cwd: os.homedir() });
+  //   }
+  // }
 
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
@@ -239,7 +239,18 @@ obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync 
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
-  app.on('ready', makeWindows);
+  app.on('ready', ()=> {
+    var launched = false;
+    if (fs.existsSync(appRoot + '/appReady')) {
+      makeWindows();
+      launched = true;
+    } else fs.watch(appRoot + '/appReady', (eventType, fname)=> {
+      if (!launched && eventType == 'changed') {
+        makeWindows();
+        launched = true;
+      }
+    });
+  });
 
   // Quit when all windows are closed.
   app.on('window-all-closed', function () {

@@ -80,8 +80,8 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       execSync(`runuser -l pi -c 'cd ${bundleRoot}/app; npm install'`);
 
       if (process.platform == 'linux') {
-        execSync(`ln -s ${window.setupDir} SetupFiles`, { cwd: os.homedir() });
-        execSync(`ln -s ${window.appDataDir} AppDataFiles`, { cwd: os.homedir() });
+        execSync(`runuser -l pi -c 'ln -s ${window.setupDir} ~/SetupFiles'`, { cwd: os.homedir() });
+        execSync(`runuser -l pi -c 'ln -s ${window.appDataDir} ~/AppDataFiles'`, { cwd: os.homedir() });
       }
 
       fs.closeSync(fs.openSync(bundleRoot + '/appReady', 'w'));

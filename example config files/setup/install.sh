@@ -13,6 +13,11 @@ sudo apt-get --assume-yes install build-essential hostapd dnsmasq network-manage
 
 sudo apt-get --assume-yes install libasound2
 
+while ! ping -c 1 -W 1 1.1.1.1; do
+    echo "Waiting for 1.1.1.1 - network interface might be down..."
+    sleep 1
+done
+
 echo  -e "\nClone the wrapper"
 
 mkdir /usr/local/src/

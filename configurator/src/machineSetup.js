@@ -10,7 +10,7 @@ if (!window.appDataDir)
                       (process.arch == 'x64') ? `${__dirname}/../app/config/appData/` :
                       '/boot/appData/';
 
-window.bundleRoot = __dirname.substring(0, __dirname.indexOf('/piFig/src'));
+window.bundleRoot = __dirname.substring(0, __dirname.indexOf('/configurator/src'));
 
 var obs = [
   `${__dirname}/hotspot.js`,
@@ -56,7 +56,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       }
     }
 
-    var serviceFolder = __dirname.substring(0, __dirname.indexOf('/src')) + '/services';
+    var serviceFolder = bundleRoot + '/configurator/services';
 
     if (!curCfg.serviceFolder) {
       curCfg.serviceFolder = serviceFolder;
@@ -167,9 +167,9 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     if (!curCfg.watchPiFig) {
       console.log('Setting up autowatch...');
       if (pfg.autostart) services.configure(
-        'piFig',
-        'Monitor piFig file on startup',
-        `/usr/bin/node ${bundleRoot}/piFig/install.js`
+        'configurator',
+        'Monitor machine config file on startup',
+        `/usr/bin/node ${bundleRoot}/configurator/install.js`
       );
 
       curCfg.watchPiFig = true;

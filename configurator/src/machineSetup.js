@@ -1,13 +1,13 @@
 if (!window) var window = global;
 
 if (!window.setupDir)
-  window.setupDir = (process.platform != 'linux') ?  `${__dirname}/../app/ForBoot/setup/` :
-                      (process.arch == 'x64') ? `${__dirname}/../app/ForBoot/setup/` :
+  window.setupDir = (process.platform != 'linux') ?  `${__dirname}/../app/config/setup/` :
+                      (process.arch == 'x64') ? `${__dirname}/../app/config/setup/` :
                       '/boot/setup/';
 
 if (!window.appDataDir)
-  window.appDataDir = (process.platform != 'linux') ?  `${__dirname}/../ForBoot/appData/` :
-                      (process.arch == 'x64') ? `${__dirname}/../app/ForBoot/appData/` :
+  window.appDataDir = (process.platform != 'linux') ?  `${__dirname}/../config/appData/` :
+                      (process.arch == 'x64') ? `${__dirname}/../app/config/appData/` :
                       '/boot/appData/';
 
 window.bundleRoot = __dirname.substring(0, __dirname.indexOf('/piFig/src'));

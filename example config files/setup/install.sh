@@ -15,11 +15,15 @@ sudo apt-get --assume-yes install libasound2
 
 echo  -e "\nClone the wrapper"
 
-mkdir ~/app
+mkdir /usr/local/src/
 
-cd ~/app
+sudo chmod 777 /usr/local/src
+
+cd /usr/local/src
 
 git clone --recurse-submodules https://github.com/scimusmn/stele-lite.git
+
+ln -s /usr/local/src/stele-lite ~/app
 
 cd stele-lite
 
@@ -30,7 +34,5 @@ npm i
 echo  -e "\nConfiguring"
 
 cd configurator
-
-npm i
 
 sudo node install.js

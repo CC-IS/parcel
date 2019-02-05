@@ -1,12 +1,12 @@
 obtain(['fs', `${__dirname}/utils.js`], (fs, utils)=> {
   var writeWPASupplicant = (ssid, pass)=> {
-    utils.copyConfigFile(`${__dirname}/../configFiles/wpa_supplicant_default.conf`,
+    utils.copyConfigFile(`${__dirname}/../templates/wpa_supplicant_default.conf`,
                           '/etc/wpa_supplicant/wpa_supplicant.conf',
                           { SSID: ssid, PASSWORD: pass });
   };
 
   var writeUserSupplicant = (ssid, user, pass)=> {
-    utils.copyConfigFile(`${__dirname}/../configFiles/wpa_supplicant_smm.conf`,
+    utils.copyConfigFile(`${__dirname}/../templates/wpa_supplicant_smm.conf`,
                           '/etc/wpa_supplicant/wpa_supplicant.conf',
                           { SSID: ssid, PASSWORD: pass, USERNAME: user });
   };

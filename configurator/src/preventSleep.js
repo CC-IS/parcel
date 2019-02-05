@@ -1,6 +1,6 @@
 obtain(['fs', `${__dirname}/utils.js`, 'os'], (fs, utils, os)=> {
   var writeXinit = (ip)=> {
-    utils.copyConfigFile(`${__dirname}/../configFiles/xserverrc`,
+    utils.copyConfigFile(`${__dirname}/../templates/xserverrc`,
                           `/etc/X11/xinit/xserverrc`);
   };
 

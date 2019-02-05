@@ -2,18 +2,14 @@
 
 const electron = require('electron');
 
-global.obtain = (addr, func)=> {
-  if (addr.length <= 0) func();
-  else func.apply(null, addr.map(adr=>require(adr)));
-
-};
+global.obtain = (addr, func)=> func.apply(null, addr.map(adr=>require(adr)));
 
 var ipcMain = electron.ipcMain;
 
 if (!window) var window = global;
 
-var baseDir = (process.platform != 'linux') ?  `${__dirname}/app/ForBoot/` :
-                (process.arch == 'x64') ? `${__dirname}/app/ForBoot/` :
+var baseDir = (process.platform != 'linux') ?  `${__dirname}/app/config/` :
+                (process.arch == 'x64') ? `${__dirname}/app/config/` :
                 '/boot/';
 
 window.appDataDir = baseDir + 'appData';
@@ -241,13 +237,16 @@ obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync 
   // Some APIs can only be used after this event occurs.
   app.on('ready', ()=> {
     var launched = false;
+    var watcher = null;
     if (fs.existsSync(appRoot + '/appReady')) {
       makeWindows();
       launched = true;
-    } else fs.watch(appRoot + '/appReady', (eventType, fname)=> {
-      if (!launched && eventType == 'changed') {
+    } else watcher = fs.watch(appRoot, (eventType, fname)=> {
+      console.log(eventType);
+      if (!launched && eventType == 'rename' && fname == 'appReady') {
         makeWindows();
         launched = true;
+        if (watcher) watcher.close();
       }
     });
   });

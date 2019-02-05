@@ -24,9 +24,10 @@ var obs = [
   `${__dirname}/keyLogger.js`,
   `${__dirname}/usbDriveMonitor.js`,
   'child_process',
+  'os',
 ];
 
-obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, fs, { keyboards }, usbDrive, { exec, execSync })=> {
+obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, fs, { keyboards }, usbDrive, { exec, execSync }, os)=> {
   var pfg = config.piFig;
   if (pfg) {
     var confDir = window.setupDir + '/.currentConfig.json';

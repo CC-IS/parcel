@@ -1,4 +1,32 @@
 #!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+waitForNetwork ()
+{
+  while ! ping -c 1 -W 1 1.1.1.1 > /dev/null; do
+     echo "Waiting for network..."
+     sleep 1
+  done
+}
+
+if [[ ( ! -f "${DIR}/WPA_COPIED") && (-f "${DIR}/wpa_supplicant.conf") ]]
+then
+  sudo echo "static domain_name_servers=1.1.1.1 1.0.0.1" >> /etc/dhcpcd.conf
+  echo -e "\nConnecting to Wifi..."
+
+  sudo cp "${DIR}/wpa_supplicant.conf" /etc/wpa_supplicant/wpa_supplicant.conf
+
+  sudo systemctl daemon-reload
+  sudo systemctl restart dhcpcd
+
+  waitForNetwork
+
+  sudo touch "${DIR}/WPA_COPIED"
+else
+  echo -e "Wifi won't be configured."
+fi
+
 echo -e "\nInstalling node:"
 
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
@@ -13,14 +41,9 @@ sudo apt-get --assume-yes install build-essential hostapd dnsmasq network-manage
 
 sudo apt-get --assume-yes install libasound2
 
-while ! ping -c 1 -W 1 1.1.1.1; do
-    echo "Waiting for 1.1.1.1 - network interface might be down..."
-    sleep 1
-done
+waitForNetwork
 
 echo  -e "\nClone the wrapper"
-
-mkdir /usr/local/src/
 
 sudo chmod 777 /usr/local/src
 
@@ -33,6 +56,8 @@ ln -s /usr/local/src/stele-lite ~/app
 cd stele-lite
 
 echo  -e "\nInstalling dependencies for stele-lite:"
+
+waitForNetwork
 
 npm i
 

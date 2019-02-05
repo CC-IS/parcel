@@ -44,6 +44,8 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
         curCfg = {};
       }
 
+    } else {
+      firstRun = true;
     }
 
     function configsMatch(cur, cfg) {

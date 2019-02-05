@@ -75,8 +75,8 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     if (!fs.existsSync(bundleRoot + '/app') && pfg.appRepo && !configsMatch(curCfg.appRepo, pfg.appRepo)) {
       console.log('installing application.');
       if (fs.existsSync(bundleRoot + '/app')) execSync(`rm -rf ${bundleRoot + '/app'}`);
-      execSync(`git clone  --recurse-submodules ${pfg.appRepo} app`, { cwd: bundleRoot });
-      execSync(`runuser -l pi 'npm install'`, { cwd: bundleRoot + '/app' });
+      execSync(`runuser -l pi 'git clone  --recurse-submodules ${pfg.appRepo} ${bundleRoot}/app'`);
+      execSync(`runuser -l pi 'cd ${bundleRoot}/app; npm install'`);
 
       if (process.platform == 'linux') {
         execSync(`ln -s ${window.setupDir} SetupFiles`, { cwd: os.homedir() });

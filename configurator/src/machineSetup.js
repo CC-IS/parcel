@@ -12,6 +12,8 @@ if (!window.appDataDir)
 
 window.bundleRoot = __dirname.substring(0, __dirname.indexOf('/configurator/src'));
 
+var firstRun = false;
+
 var obs = [
   `${__dirname}/hotspot.js`,
   `${__dirname}/wifi.js`,
@@ -38,6 +40,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
         curCfg = JSON.parse(data);
       } catch (e) {
         console.log(e);
+        firstRun = true;
         curCfg = {};
       }
 
@@ -182,5 +185,14 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
   keyboards.on('keydown', (code, states)=> {
     if (states[1] && states[29]) services.stop('electron');
   });
+
+  console.log('System configuration complete.');
+
+  if (firstRun) {
+    console.log('Going for system reboot in 10 seconds.');
+    setTimeout(()=> {
+      execSync('reboot');
+    }, 10000);
+  }
 
 });

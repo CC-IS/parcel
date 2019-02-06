@@ -82,7 +82,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       console.log('installing application.');
       if (fs.existsSync(bundleRoot + '/app')) execSync(`rm -rf ${bundleRoot + '/app'}`);
       execSync(`runuser -l pi -c 'git clone  --recurse-submodules ${pfg.appRepo} ${bundleRoot}/app'`);
-      execSync(`runuser -l pi -c 'cd ${bundleRoot}/app; npm install'`);
+      execSync(`runuser -l pi -c 'cd ${bundleRoot}/app; npm install > /dev/null'`);
 
       if (process.platform == 'linux') {
         execSync(`runuser -l pi -c 'ln -s ${window.setupDir} ~/SetupFiles'`, { cwd: os.homedir() });

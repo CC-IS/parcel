@@ -107,8 +107,6 @@ sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libasound2 > stele_inst
 
 doneWorking
 
-echo -e "\nDone."
-
 echo  -e "\n** Checking directory structure..."
 
 sudo mkdir -p /usr/local/src

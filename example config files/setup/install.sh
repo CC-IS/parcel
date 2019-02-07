@@ -2,14 +2,14 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-set -e
+cat /dev/null > stele_install.log
 
 waitForNetwork ()
 {
-  if ! $(ping -c 1 -W 1 google.com > /dev/null 2>&1)
+  if ! $(ping -c 1 -W 1 registry.nodejs.org > /dev/null 2>&1)
   then
     echo -e "\n** Waiting for network..."
-    while ! $(ping -c 1 -W 1 google.com > /dev/null 2>&1); do
+    while ! $(ping -c 1 -W 1 registry.nodejs.org > /dev/null 2>&1); do
        echo "Still waiting..."
        sleep 1
     done
@@ -17,28 +17,52 @@ waitForNetwork ()
   fi
 }
 
+startWorking()
+{
+  workingText 2> /dev/null &
+  FEEDBACK_PID=$!
+}
+
+doneWorking()
+{
+  kill -1 $FEEDBACK_PID > /dev/null 2>/dev/null
+  sleep .5 &
+  wait $!
+}
+
+workingText()
+{
+  trap "echo -n $'\r''Working.... Done!'$'\n'; exit" SIGHUP
+
+  while [ 1 ]; do
+    for i in {0..4} ; do
+        echo -n $'\r''Working'
+        for ((j=0; j<i; j++)) ; do echo -n '.'; done
+        for ((j=0; j<4-i; j++)) ; do echo -n ' '; done
+        sleep .5 &
+        wait $!
+    done
+  done
+}
+
 handleError ()
 {
   echo -e "\n**********************************************************"
   echo -e "Error at line $1"
   echo -e "\nCheck network connections and restart the install script."
-  kill $FEEDBACK_PID > /dev/null 2>&1
+  echo -e "Also check stele_install.log for error information."
+  doneWorking
 }
 
-workingText()
+onExit()
 {
-  while [ 1 ]; do
-    for i in {0..4} ; do
-        echo -n 'Working'
-        for ((j=0; j<i; j++)) ; do echo -n '.'; done
-        echo -n $'\r'
-        sleep .5
-        echo -n '            '$'\r'
-    done
-  done
+  doneWorking
 }
+
 
 trap 'handleError $LINENO' ERR
+
+trap 'onExit' EXIT
 
 echo -e "\n* Starting stele-lite installation"
 
@@ -66,24 +90,23 @@ fi
 
 echo -e "\n** Installing node and system dependencies..."
 
-workingText &
-FEEDBACK_PID=$!
+startWorking
 
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - > /dev/null 2>&1
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - > stele_install.log 2>&1
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo > /dev/null 2>&1
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo > stele_install.log 2>&1
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libgtk-3-0 > /dev/null 2>&1
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libgtk-3-0 > stele_install.log 2>&1
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install git libudev-dev > /dev/null 2>&1
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install git libudev-dev > stele_install.log 2>&1
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6  > /dev/null 2>&1
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6  > stele_install.log 2>&1
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libasound2 > /dev/null 2>&1
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libasound2 > stele_install.log 2>&1
 
-kill $FEEDBACK_PID > /dev/null 2>&1
+doneWorking
 
-echo -e "Done."
+echo -e "\nDone."
 
 echo  -e "\n** Checking directory structure..."
 
@@ -96,7 +119,6 @@ cd /usr/local/src
 if [[ ! -d "stele-lite" ]]; then
   waitForNetwork
   echo  -e "\n** Cloning the repository..."
-  ## sometimes this call fails because it fails to dns registry.nodejs.org, retrying usually works
   git clone --recurse-submodules https://github.com/scimusmn/stele-lite.git
   ln -s /usr/local/src/stele-lite ~/Application
 fi
@@ -105,11 +127,15 @@ cd stele-lite
 
 echo  -e "\n** Installing node dependencies for stele-lite:"
 
-sleep 10
+startWorking
 
-waitForNetwork
+## sometimes this call fails because it fails to dns registry.nodejs.org, retrying usually works
+while [ $(npm i 2> >( tee -a ~/stele_install.log | grep -o -i EAI_AGAIN) = 'EAI_AGAIN') ]; do
+  echo -e "\nDNS error while trying to install packages, retrying..."
+  waitForNetwork
+done
 
-npm i > /dev/null
+doneWorking
 
 echo  -e "\n** Configuring machine..."
 

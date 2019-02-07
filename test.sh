@@ -36,20 +36,17 @@ workingText()
   done
 }
 
-
-trap "doneWorking" EXIT
-
 startWorking
 
 #ping -c 3 -W 1 1.1.1.1 > /dev/null 2>&1
-while [ $(npm i 2> >( tee -a ~/stele_install.log | grep -o -i EJSONPARSE) = 'EJSONPARSE') ]; do
+while [[ $(npm i 2> >( tee -a ~/stele_install.log | grep -o -i EJSONPARSE)) = 'EJSONPARSE' ]]; do
   echo -e "\nDNS error while trying to install packages, retrying..."
+  waitForNetwork
 done
 
 doneWorking
 
 trap "handleError" ERR
-
 
 echo 'this is a test'
 

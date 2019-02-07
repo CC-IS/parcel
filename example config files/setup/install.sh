@@ -64,6 +64,10 @@ trap 'handleError $LINENO' ERR
 
 trap 'onExit' EXIT
 
+#########################################################
+#########################################################
+#########################################################
+
 echo -e "\n* Starting stele-lite installation"
 
 if [ ! -f "${DIR}/passwordChanged" ]
@@ -140,4 +144,10 @@ echo  -e "\n** Configuring machine..."
 
 cd configurator
 
-sudo node install.js
+sudo node install.js --config-only
+
+echo -e "\n**********************************************************"
+echo -e 'Going for system reboot in 10 seconds.'
+sleep 10
+
+sudo reboot

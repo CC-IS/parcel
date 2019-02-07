@@ -190,11 +190,8 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
 
   console.log('System configuration complete.');
 
-  if (firstRun) {
-    console.log('Going for system reboot in 10 seconds.');
-    setTimeout(()=> {
-      execSync('reboot');
-    }, 10000);
+  if (~process.argv.indexOf('--config-only')) {
+    process.exit();
   }
 
 });

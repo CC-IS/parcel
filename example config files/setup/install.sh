@@ -1,9 +1,12 @@
 #!/bin/bash
 
+# save the directory of the shell script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+#clear the log file
 cat /dev/null > stele_install.log
 
+# function to hold the program until network connections are available
 waitForNetwork ()
 {
   if ! $(ping -c 1 -W 1 registry.nodejs.org > /dev/null 2>&1)
@@ -17,12 +20,14 @@ waitForNetwork ()
   fi
 }
 
+# start the working indicator and store the process number
 startWorking()
 {
   workingText 2> /dev/null &
   FEEDBACK_PID=$!
 }
 
+# kill the process of the working indicator
 doneWorking()
 {
   kill -1 $FEEDBACK_PID > /dev/null 2>/dev/null
@@ -30,6 +35,7 @@ doneWorking()
   wait $!
 }
 
+# function to print a working indicator
 workingText()
 {
   trap "echo -n $'\r''Working.... Done!'$'\n'; exit" SIGHUP
@@ -45,6 +51,7 @@ workingText()
   done
 }
 
+# function to handle error output, and give a line number.
 handleError ()
 {
   echo -e "\n**********************************************************"
@@ -54,18 +61,25 @@ handleError ()
   doneWorking
 }
 
+# function called on script end.
 onExit()
 {
   doneWorking
 }
 
-
+# set handler for error messages
 trap 'handleError $LINENO' ERR
 
+# set exit handler.
 trap 'onExit' EXIT
+
+################################################
+################################################
+# beginning of install script
 
 echo -e "\n* Starting stele-lite installation"
 
+# if the password hasn't yet been changed, prompt the user to change it.
 if [ ! -f "${DIR}/passwordChanged" ]
 then
   echo -e "\n** Set new password for user 'pi':"
@@ -73,6 +87,8 @@ then
   sudo touch "${DIR}/passwordChanged"
 fi
 
+# if there is a wpa_supplicant.conf file in the setup directory, install it,
+# and restart networking.
 if [ -f "${DIR}/wpa_supplicant.conf" ]
 then
   sudo echo "static domain_name_servers=1.1.1.1 1.0.0.1" >> /etc/dhcpcd.conf
@@ -116,6 +132,9 @@ sudo chmod 777 /usr/local/src
 
 cd /usr/local/src
 
+
+# if the stele-lite directory does not exist, clone it from github, and create
+# a link in the home directory
 if [[ ! -d "stele-lite" ]]; then
   waitForNetwork
   echo  -e "\n** Cloning the repository..."
@@ -129,6 +148,7 @@ echo  -e "\n** Installing node dependencies for stele-lite:"
 
 startWorking
 
+# Try installing the node dependencies via npm.
 ## sometimes this call fails because it fails to dns registry.nodejs.org, retrying usually works
 while [[ $(npm i 2> >( tee -a ~/stele_install.log | grep -o -i ERR!)) = 'ERR!' ]]; do
   echo -e "\nErrors while trying to install packages, retrying..."
@@ -141,8 +161,11 @@ echo  -e "\n** Configuring machine..."
 
 cd configurator
 
+# Run the configurator in config-only mode, so that it exits once it completes.
+
 sudo node install.js --config-only
 
+# Restart the computer after the script finishes.
 echo -e "\n**********************************************************"
 echo -e 'Going for system reboot in 10 seconds.'
 sleep 10

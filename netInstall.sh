@@ -57,9 +57,9 @@ chmod 777 /usr/local/src/setup
 
 cd /usr/local/src/setup
 
-curl "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/setup/machineConfig.js" -o machineConfig.js
+curl "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/setup/machineConfig.js" -o machineConfig.js > /dev/null
 
-curl "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/setup/install.sh" -o install.sh
+curl "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/setup/install.sh" -o install.sh > /dev/null
 
 chmod 777 ./install.sh
 

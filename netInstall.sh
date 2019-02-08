@@ -43,10 +43,12 @@ done
 
 if [ ! -z "${flags["u"]}" ]; then
   USER=${flags["u"]}
+  echo "User is $USER"
 fi
 
 if [ ! -z "${flags["r"]}" ]; then
   REPO=${flags["r"]}
+  echo "Repo is $REPO"
 fi
 
 mkdir -p /usr/local/src/setup

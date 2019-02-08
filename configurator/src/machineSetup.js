@@ -10,6 +10,16 @@ if (!window.appDataDir)
                       (process.arch == 'x64') ? `${__dirname}/../app/config/appData/` :
                       '/boot/appData/';
 
+if (~process.argv.indexOf('--setup-dir')) {
+  var ind = process.argv.indexOf('--setup-dir');
+  window.setupDir = process.argv[ind + 1];
+}
+
+if (~process.argv.indexOf('--data-dir')) {
+  var ind = process.argv.indexOf('--data-dir');
+  window.appDataDir = process.argv[ind + 1];
+}
+
 window.bundleRoot = __dirname.substring(0, __dirname.indexOf('/configurator/src'));
 
 var firstRun = false;
@@ -72,6 +82,12 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       bundleRoot = curCfg.bundleRoot;
     }
 
+    if (curCfg.appDataDir) window.appDataDir = curCfg.appDataDir;
+    else curCfg.appDataDir = window.appDataDir;
+
+    if (curCfg.setupDir) window.setupDir = curCfg.setupDir;
+    else curCfg.setupDir = window.setupDir;
+
     usbDrive.startWatch({
       appData: appDataDir,
       app: bundleRoot + '/app/',
@@ -79,10 +95,14 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     });
 
     if (!fs.existsSync(bundleRoot + '/app') && pfg.appRepo && !configsMatch(curCfg.appRepo, pfg.appRepo)) {
-      console.log('installing application.');
+      console.log(`Installing application ${pfg.appRepo}...`);
       if (fs.existsSync(bundleRoot + '/app')) execSync(`rm -rf ${bundleRoot + '/app'}`);
       execSync(`runuser -l pi -c 'git clone  --recurse-submodules ${pfg.appRepo} ${bundleRoot}/app'`);
-      execSync(`runuser -l pi -c 'cd ${bundleRoot}/app; npm install > /dev/null'`);
+      console.log('Done!');
+
+      console.log(`Running npm install for ${pfg.appRepo}...`);
+      execSync(`runuser -l pi -c 'cd ${bundleRoot}/app; npm install > /dev/null 2>>~/stele_install.log'`);
+      console.log('Done!');
 
       if (process.platform == 'linux') {
         execSync(`runuser -l pi -c 'ln -s ${window.setupDir} ~/SetupFiles'`, { cwd: os.homedir() });
@@ -123,7 +143,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     }
 
     if (!configsMatch(curCfg.autostart, pfg.autostart)) {
-      console.log('Configuring autostart...');
+      console.log('Configuring electron autostart...');
       if (pfg.autostart) services.configure(
         'electron',
         'Autostart main application',
@@ -145,6 +165,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     }
 
     if (!configsMatch(curCfg.softShutdown, pfg.softShutdown)) {
+      console.log('Configuring soft shutdown...');
       if (pfg.softShutdown) {
         var shtd = pfg.softShutdown;
         soft.configure(shtd.controlPin);
@@ -160,6 +181,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     }
 
     if (!configsMatch(curCfg.gitWatch, pfg.gitWatch)) {
+      console.log('Configuring git repo autowatch...');
       if (pfg.gitWatch) services.configure(
         'gitTrack',
         'Autotrack git repo',
@@ -171,7 +193,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     }
 
     if (!curCfg.watchPiFig) {
-      console.log('Setting up autowatch...');
+      console.log('Setting up config auto launch...');
       if (pfg.autostart) services.configure(
         'configurator',
         'Monitor machine config file on startup',
@@ -188,7 +210,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     if (states[1] && states[29]) services.stop('electron');
   });
 
-  console.log('System configuration complete.');
+  console.log('* System configuration complete.');
 
   if (~process.argv.indexOf('--config-only')) {
     process.exit();

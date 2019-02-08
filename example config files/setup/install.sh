@@ -64,10 +64,6 @@ trap 'handleError $LINENO' ERR
 
 trap 'onExit' EXIT
 
-#########################################################
-#########################################################
-#########################################################
-
 echo -e "\n* Starting stele-lite installation"
 
 if [ ! -f "${DIR}/passwordChanged" ]
@@ -88,7 +84,8 @@ then
   sudo systemctl restart dhcpcd
 
   waitForNetwork
-  echo -e "\nConnected."
+
+  echo -e "\n** Wifi connected."
 else
   echo -e "\n** Wifi won't be configured."
 fi
@@ -133,8 +130,8 @@ echo  -e "\n** Installing node dependencies for stele-lite:"
 startWorking
 
 ## sometimes this call fails because it fails to dns registry.nodejs.org, retrying usually works
-while [[ $(npm i 2> >( tee -a ~/stele_install.log | grep -o -i EAI_AGAIN)) = 'EAI_AGAIN' ]]; do
-  echo -e "\nDNS error while trying to install packages, retrying..."
+while [[ $(npm i 2> >( tee -a ~/stele_install.log | grep -o -i ERR!)) = 'ERR!' ]]; do
+  echo -e "\nErrors while trying to install packages, retrying..."
   waitForNetwork
 done
 

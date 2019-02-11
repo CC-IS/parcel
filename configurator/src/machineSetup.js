@@ -1,14 +1,14 @@
 if (!window) var window = global;
 
-if (!window.setupDir) window.setupDir = `${__dirname}/../app/config/`;
+window.bundleRoot = __dirname.substring(0, __dirname.indexOf('/configurator/src'));
+
+if (!window.setupDir) window.setupDir = `${window.bundleRoot}/app/config/`;
 
 if (~process.argv.indexOf('--setup-dir')) {
   var ind = process.argv.indexOf('--setup-dir');
   window.setupDir = process.argv[ind + 1];
   console.log(`setup dir is ${window.setupDir}`);
 }
-
-window.bundleRoot = __dirname.substring(0, __dirname.indexOf('/configurator/src'));
 
 var firstRun = false;
 

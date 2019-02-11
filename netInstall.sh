@@ -32,7 +32,6 @@ do
         value=$1
         flags[${arg:1}]=$value
         shift
-        echo \"$arg\" is flag with value \"$value\"
       fi
     else
       args+=("$arg")
@@ -57,9 +56,9 @@ sudo chmod 777 /usr/local/src/setup
 
 cd /usr/local/src/setup
 
-curl "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/setup/machineConfig.js" -o machineConfig.js > /dev/null
+curl -sL "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/setup/machineConfig.js" -o machineConfig.js > /dev/null
 
-curl "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/setup/install.sh" -o install.sh > /dev/null
+curl -sL "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/setup/install.sh" -o install.sh > /dev/null
 
 chmod 777 ./install.sh
 

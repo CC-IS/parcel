@@ -12,7 +12,7 @@ if (!window) var window = global;
 
 global.config = require(`${__dirname}/app/config/app.js`);
 
-if (process.platform != 'linux' && fs.existsSync('/boot/SAFEMODE')) process.exit(0);
+if (process.platform == 'linux' && fs.existsSync('/boot/SAFEMODE')) process.exit(0);
 
 obtain(['path', 'url', 'child_process', 'os'], (path, url, { execSync }, os)=> {
 

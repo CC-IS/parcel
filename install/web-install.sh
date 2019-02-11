@@ -89,7 +89,9 @@ sudo chmod 777 /usr/local/src/setup
 
 cd /usr/local/src/setup
 
-echo "Downloading machine.js from ${REPO}"
+if [[ -f "machine.js" ]]; then
+  rm -f machine.js
+fi
 
 curl -sL "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/machine.js" -o machine.js
 

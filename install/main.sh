@@ -184,7 +184,7 @@ startWorking
 
 # Try installing the node dependencies via npm.
 ## sometimes this call fails because it fails to dns registry.nodejs.org, retrying usually works
-while [[ $(npm i 2> >( tee -a ~/stele_install.log | grep -o -i ERR!)) = 'ERR!' ]]; do
+while [[ $(npm i 2> >( tee -a ~/stele_install.log | grep -o -i 'ERR!')) = 'ERR!' ]]; do
   echo -e "\nErrors while trying to install packages, retrying..."
   waitForNetwork
 done
@@ -198,7 +198,7 @@ cd configurator
 # Run the configurator in config-only mode, so that it exits once it completes.
 
 if [[ -z "${flags["s"]}" ]]; then
-  sudo node install.js --config-only
+  sudo node install.js --config-only --setup-dir "/boot/setup"
 else
   sudo node install.js --config-only --setup-dir "${flags["s"]}"
 fi

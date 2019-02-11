@@ -197,10 +197,10 @@ cd configurator
 
 # Run the configurator in config-only mode, so that it exits once it completes.
 
-if [[ -z "${flags["setup-dir"]}" ]]; then
+if [[ -z "${flags["s"]}" ]]; then
   sudo node install.js --config-only
 else
-  sudo node install.js --config-only --setup-dir "${flags["setup-dir"]}"
+  sudo node install.js --config-only --setup-dir "${flags["s"]}"
 fi
 
 

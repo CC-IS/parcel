@@ -166,6 +166,11 @@ sudo chmod 777 /usr/local/src
 
 cd /usr/local/src
 
+if [[ -d "stele-lite" ]]; then
+  sudo rm -rf stele-lite
+fi
+
+
 # if the stele-lite directory does not exist, clone it from github, and create
 # a link in the home directory
 if [[ ! -d "stele-lite" ]]; then

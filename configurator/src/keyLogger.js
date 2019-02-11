@@ -194,7 +194,7 @@ class Keyboards extends EventEmitter {
           device[spl[i]] = (spl[i + 1] ? spl[i + 1] : '');
         }
       } else {
-        if (device.EV && (device.EV == '120013' || device.EV == '120013')) { //'120013'
+        if (device.EV && (device.EV == '120013' || device.EV == '12001f')) { //'120013'
           let pat = /event\d+/g;
           let which = pat.exec(device.Handlers);
           device.path = `/dev/input/${which}`;

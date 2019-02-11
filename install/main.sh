@@ -166,7 +166,6 @@ sudo chmod 777 /usr/local/src
 
 cd /usr/local/src
 
-
 # if the stele-lite directory does not exist, clone it from github, and create
 # a link in the home directory
 if [[ ! -d "stele-lite" ]]; then

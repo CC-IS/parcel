@@ -2,6 +2,8 @@
 
 const electron = require('electron');
 
+var fs = require('fs');
+
 global.obtain = (addr, func)=> func.apply(null, addr.map(adr=>require(adr)));
 
 var ipcMain = electron.ipcMain;
@@ -12,7 +14,7 @@ global.config = require(`${__dirname}/app/config/app.js`);
 
 if (process.platform != 'linux' && fs.existsSync('/boot/SAFEMODE')) process.exit(0);
 
-obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync }, os)=> {
+obtain(['path', 'url', 'child_process', 'os'], (path, url, { execSync }, os)=> {
 
   // Module to control application life.
   const app = electron.app;

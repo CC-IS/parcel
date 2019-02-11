@@ -56,9 +56,9 @@ sudo chmod 777 /usr/local/src/setup
 
 cd /usr/local/src/setup
 
-curl -sL "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/setup/machineConfig.js" -o machineConfig.js > /dev/null
+curl -sL "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/machine.js" -o machineConfig.js > /dev/null
 
-curl -sL "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/setup/install.sh" -o install.sh > /dev/null
+curl -sL "https://raw.githubusercontent.com/scimusmn/stele-lite/master/install/main.sh" -o install.sh > /dev/null
 
 chmod 777 ./install.sh
 

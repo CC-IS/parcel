@@ -22,7 +22,7 @@ obtain(obs, (fs, { monitor }, { exec, execSync })=> {
 
         for (var key in update) {
           if (update.hasOwnProperty(key)) {
-            if (key == 'app' || key == 'appData' || key == 'setup') {
+            if (key == 'app') {
               if (update[key].length) {
                 var base = `${which.mountpoints[0].path}/update/${key}/`;
                 update[key].forEach(path=> {

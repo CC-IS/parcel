@@ -1,25 +1,11 @@
 if (!window) var window = global;
 
-if (!window.setupDir)
-  window.setupDir = (process.platform != 'linux') ?  `${__dirname}/../app/config/setup/` :
-                      (process.arch == 'x64') ? `${__dirname}/../app/config/setup/` :
-                      '/boot/setup/';
-
-/*if (!window.appDataDir)
-  window.appDataDir = (process.platform != 'linux') ?  `${__dirname}/../config/appData/` :
-                      (process.arch == 'x64') ? `${__dirname}/../app/config/appData/` :
-                      '/boot/appData/';*/
-
-window.appDataDir = `${__dirname}/../app/config/appData/`;
+if (!window.setupDir) window.setupDir = `${__dirname}/../app/config/`;
 
 if (~process.argv.indexOf('--setup-dir')) {
   var ind = process.argv.indexOf('--setup-dir');
   window.setupDir = process.argv[ind + 1];
-}
-
-if (~process.argv.indexOf('--data-dir')) {
-  var ind = process.argv.indexOf('--data-dir');
-  window.appDataDir = process.argv[ind + 1];
+  console.log(`setup dir is ${window.setupDir}`);
 }
 
 window.bundleRoot = __dirname.substring(0, __dirname.indexOf('/configurator/src'));
@@ -32,7 +18,7 @@ var obs = [
   `${__dirname}/staticIP.js`,
   `${__dirname}/preventSleep.js`,
   `${__dirname}/softShutdown.js`,
-  `${window.setupDir}/machineConfig.js`,
+  `${window.setupDir}/machine.js`,
   `${__dirname}/createService.js`,
   'fs',
   `${__dirname}/keyLogger.js`,
@@ -44,7 +30,7 @@ var obs = [
 obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, fs, { keyboards }, usbDrive, { exec, execSync }, os)=> {
   var pfg = config.piFig;
   if (pfg) {
-    var confDir = window.setupDir + '/.currentConfig.json';
+    var confDir = window.bundleRoot + '/current/machine.json';
     let curCfg = {};
     if (fs.existsSync(confDir)) {
       let data = fs.readFileSync(confDir); //file exists, get the contents
@@ -84,16 +70,8 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       bundleRoot = curCfg.bundleRoot;
     }
 
-    if (curCfg.appDataDir) window.appDataDir = curCfg.appDataDir;
-    else curCfg.appDataDir = window.appDataDir;
-
-    if (curCfg.setupDir) window.setupDir = curCfg.setupDir;
-    else curCfg.setupDir = window.setupDir;
-
     usbDrive.startWatch({
-      appData: appDataDir,
       app: bundleRoot + '/app/',
-      setup: setupDir,
     });
 
     if (!fs.existsSync(bundleRoot + '/app') && pfg.appRepo && !configsMatch(curCfg.appRepo, pfg.appRepo)) {
@@ -106,12 +84,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       execSync(`runuser -l pi -c 'cd ${bundleRoot}/app; npm install > /dev/null 2>>~/stele_install.log'`);
       console.log('Done!');
 
-      if (process.platform == 'linux') {
-        execSync(`runuser -l pi -c 'ln -s ${window.setupDir} ~/SetupFiles'`, { cwd: os.homedir() });
-        execSync(`runuser -l pi -c 'ln -s ${window.appDataDir} ~/AppDataFiles'`, { cwd: os.homedir() });
-      }
-
-      fs.closeSync(fs.openSync(bundleRoot + '/appReady', 'w'));
+      fs.closeSync(fs.openSync(bundleRoot + '/current/appReady', 'w'));
     }
 
     if (pfg.wifiHotspot && !configsMatch(curCfg.wifiHotspot, pfg.wifiHotspot)) {

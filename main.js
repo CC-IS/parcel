@@ -8,16 +8,9 @@ var ipcMain = electron.ipcMain;
 
 if (!window) var window = global;
 
-var baseDir = (process.platform != 'linux') ?  `${__dirname}/app/config/` :
-                (process.arch == 'x64') ? `${__dirname}/app/config/` :
-                '/boot/';
+global.config = require(`${__dirname}/app/config/app.js`);
 
-window.appDataDir = baseDir + 'appData';
-window.setupDir = baseDir + 'setup';
-
-global.config = require(appDataDir + '/config.js');
-
-if (config.preventStartup) process.exit(0);
+if (process.platform != 'linux' && fs.existsSync('/boot/SAFEMODE')) process.exit(0);
 
 obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync }, os)=> {
 
@@ -29,17 +22,6 @@ obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync 
   const BrowserWindow = electron.BrowserWindow;
 
   global.appRoot = path.resolve(__dirname);
-
-  // if (!fs.existsSync(appRoot + '/app') && global.config.appRepo) {
-  //   console.log('installing application.');
-  //   execSync(`git clone  --recurse-submodules ${global.config.appRepo} app`, { cwd: appRoot });
-  //   execSync(`npm install`, { cwd: appRoot + '/app' });
-  //
-  //   if (process.platform == 'linux') {
-  //     execSync(`ln -s ${window.setupDir} SetupFiles`, { cwd: os.homedir() });
-  //     execSync(`ln -s ${window.appDataDir} AppDataFiles`, { cwd: os.homedir() });
-  //   }
-  // }
 
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
@@ -111,7 +93,7 @@ obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync 
     });
   };
 
-  var DISPLAY_BINDING_PATH = appDataDir + '/windowBindings.json';
+  var DISPLAY_BINDING_PATH = appRoot + '/current/windowBindings.json';
 
   function makeWindows() {
 
@@ -238,10 +220,10 @@ obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync 
   app.on('ready', ()=> {
     var launched = false;
     var watcher = null;
-    if (fs.existsSync(appRoot + '/appReady')) {
+    if (fs.existsSync(appRoot + '/current/appReady')) {
       makeWindows();
       launched = true;
-    } else watcher = fs.watch(appRoot, (eventType, fname)=> {
+    } else watcher = fs.watch(appRoot + '/current', (eventType, fname)=> {
       console.log(eventType);
       if (!launched && eventType == 'rename' && fname == 'appReady') {
         makeWindows();

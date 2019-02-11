@@ -89,6 +89,8 @@ sudo chmod 777 /usr/local/src/setup
 
 cd /usr/local/src/setup
 
+echo "Downloading machine.js from ${REPO}"
+
 curl -sL "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/machine.js" -o machine.js
 
 curl -sL "https://raw.githubusercontent.com/scimusmn/stele-lite/master/install/main.sh" -o install.sh

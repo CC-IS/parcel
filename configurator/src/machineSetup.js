@@ -5,10 +5,12 @@ if (!window.setupDir)
                       (process.arch == 'x64') ? `${__dirname}/../app/config/setup/` :
                       '/boot/setup/';
 
-if (!window.appDataDir)
+/*if (!window.appDataDir)
   window.appDataDir = (process.platform != 'linux') ?  `${__dirname}/../config/appData/` :
                       (process.arch == 'x64') ? `${__dirname}/../app/config/appData/` :
-                      '/boot/appData/';
+                      '/boot/appData/';*/
+
+window.appDataDir = `${__dirname}/../app/config/appData/`;
 
 if (~process.argv.indexOf('--setup-dir')) {
   var ind = process.argv.indexOf('--setup-dir');

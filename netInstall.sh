@@ -51,9 +51,9 @@ if [ ! -z "${flags["r"]}" ]; then
   echo "Repo is $REPO"
 fi
 
-mkdir -p /usr/local/src/setup
+sudo mkdir -p /usr/local/src/setup
 
-chmod 777 /usr/local/src/setup
+sudo chmod 777 /usr/local/src/setup
 
 cd /usr/local/src/setup
 
@@ -63,4 +63,4 @@ curl "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/setup/inst
 
 chmod 777 ./install.sh
 
-./install.sh --setup-dir "${DIR}"
+./install.sh --setup-dir /usr/local/src/setup

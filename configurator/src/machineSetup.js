@@ -31,7 +31,10 @@ var obs = [
 
 obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, fs, { keyboards }, usbDrive, { exec, execSync }, os)=> {
 
-  if (process.platform == 'linux' && fs.existsSync('/boot/SAFEMODE')) process.exit(0);
+  if (process.platform == 'linux' && fs.existsSync('/boot/SAFEMODE')) {
+    console.log('Starting in safemode; exiting application.');
+    process.exit(0);
+  }
 
   var pfg = config.piFig;
   if (pfg) {

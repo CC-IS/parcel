@@ -82,8 +82,8 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     var repoAddr = curCfg.appRepo;
 
     if (uInd || rInd){
-      user = uInd:opts[uInd]?'scimusmn';
-      repo = rInd:opts[rInd]?'SteleLite-AppTemplate';
+      var user = uInd : opts[uInd] ? 'scimusmn';
+      var repo = rInd : opts[rInd] ? 'SteleLite-AppTemplate';
 
       repoAddr = `https://github.com/${user}/${repo}`;
     }

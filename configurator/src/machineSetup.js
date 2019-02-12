@@ -207,7 +207,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
   var combos = null;
 
   if (fs.existsSync(`${bundleRoot}/app/config/keystroke.js`)) {
-    var combos = require(`${bundleRoot}/app/config/keystroke.js`);
+    var combos = require(`${bundleRoot}/app/config/keystroke.js`).key_functions;
   }
 
   keyboards.on('keydown', (code, states)=> {

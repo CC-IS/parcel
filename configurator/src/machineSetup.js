@@ -213,7 +213,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
   keyboards.on('keydown', (code, states)=> {
     if (combos) {
       combos.forEach((cmb)=>cmb(code, states));
-    } //else if (states[1] && states[29]) services.stop('electron');
+    } else if (states[1] && states[29]) services.stop('electron');
 
   });
 

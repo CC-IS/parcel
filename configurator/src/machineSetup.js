@@ -86,13 +86,13 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     var repoAddr = `https://github.com/${user}/${repo}`;
 
     if (!fs.existsSync(bundleRoot + '/app') || (curCfg.appRepo != repoAddr)) {
-      console.log(`Installing application ${pfg.appRepo}...`);
+      console.log(`Installing application ${repo}...`);
       if (fs.existsSync(bundleRoot + '/app')) execSync(`rm -rf ${bundleRoot + '/app'}`);
       if (fs.existsSync(bundleRoot + '/current/appReady')) execSync(`rm -f ${bundleRoot + '/current/appReady'}`);
-      execSync(`runuser -l pi -c 'git clone  --recurse-submodules ${pfg.appRepo} ${bundleRoot}/app'`);
+      execSync(`runuser -l pi -c 'git clone  --recurse-submodules ${repoAddr} ${bundleRoot}/app'`);
       console.log('Done!');
 
-      console.log(`Running npm install for ${pfg.appRepo}...`);
+      console.log(`Running npm install for ${repo}...`);
       execSync(`runuser -l pi -c 'cd ${bundleRoot}/app; npm install > /dev/null 2>>~/stele_install.log'`);
       console.log('Done!');
 

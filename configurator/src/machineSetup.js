@@ -183,7 +183,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       if (pfg.gitWatch) services.configure(
         'gitTrack',
         'Autotrack git repo',
-        `/usr/bin/node ${serviceFolder}/gitCheck.js ${bundleRoot}`
+        `/usr/bin/node ${serviceFolder}/gitCheck.js ${bundleRoot}/app`
       );
       else services.disable('gitTrack');
 
@@ -204,8 +204,17 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     fs.writeFileSync(confDir, JSON.stringify(curCfg));
   }
 
+  var combos = null;
+
+  if (fs.existsSync(`${bundleRoot}/app/config/keystroke.js`)) {
+    var combos = require(`${bundleRoot}/app/config/keystroke.js`);
+  }
+
   keyboards.on('keydown', (code, states)=> {
-    if (states[1] && states[29]) services.stop('electron');
+    if (combos) {
+      combos.forEach((cmb)=>cmb(code, states));
+    } //else if (states[1] && states[29]) services.stop('electron');
+
   });
 
   console.log('* System configuration complete.');

@@ -5,7 +5,7 @@ var { exec, execSync } = require('child_process');
 console.log(__dirname);
 
 var opts = {
-  cwd: process.argv[2] + '/app',
+  cwd: process.argv[2],
 };
 
 var call = command => {

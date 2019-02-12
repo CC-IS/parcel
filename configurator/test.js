@@ -31,7 +31,7 @@ obtain(obtains, ({ monitor }, { execSync, exec }, fs)=> {
 
       var paths = {
         appData: appDataDir,
-        app: __dirname.substring(0, __dirname.indexOf('/piFig')) + '/',
+        app: __dirname.substring(0, __dirname.indexOf('/configurator')) + '/',
         setup: setupDir,
       };
 

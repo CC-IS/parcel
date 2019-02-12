@@ -36,7 +36,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     process.exit(0);
   }
 
-  var pfg = config.piFig;
+  var pfg = config.machine;
   if (pfg) {
     var confDir = window.bundleRoot + '/current/machine.json';
     let curCfg = {};
@@ -190,7 +190,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       curCfg.gitWatch = pfg.gitWatch;
     }
 
-    if (!curCfg.watchPiFig) {
+    if (!curCfg.monitorConfig) {
       console.log('Setting up config auto launch...');
       if (pfg.autostart) services.configure(
         'configurator',
@@ -198,7 +198,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
         `/usr/bin/node ${bundleRoot}/configurator/install.js`
       );
 
-      curCfg.watchPiFig = true;
+      curCfg.monitorConfig = true;
     }
 
     fs.writeFileSync(confDir, JSON.stringify(curCfg));

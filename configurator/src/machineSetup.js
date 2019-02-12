@@ -88,6 +88,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     if (!fs.existsSync(bundleRoot + '/app') || (curCfg.appRepo != repoAddr)) {
       console.log(`Installing application ${pfg.appRepo}...`);
       if (fs.existsSync(bundleRoot + '/app')) execSync(`rm -rf ${bundleRoot + '/app'}`);
+      if (fs.existsSync(bundleRoot + '/current/appReady')) execSync(`rm -f ${bundleRoot + '/current/appReady'}`);
       execSync(`runuser -l pi -c 'git clone  --recurse-submodules ${pfg.appRepo} ${bundleRoot}/app'`);
       console.log('Done!');
 
@@ -96,6 +97,8 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       console.log('Done!');
 
       fs.closeSync(fs.openSync(bundleRoot + '/current/appReady', 'w'));
+
+      curCfg.appRepo = repoAddr;
     }
 
     if (pfg.wifiHotspot && !configsMatch(curCfg.wifiHotspot, pfg.wifiHotspot)) {

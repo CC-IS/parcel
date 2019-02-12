@@ -82,6 +82,9 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       app: bundleRoot + '/app/',
     });
 
+    var uInd = opts.indexOf('--user') + 1;
+    var rInd = opts.indexOf('--repo') + 1;
+
     var repoAddr = curCfg.appRepo;
 
     if (uInd || rInd || !repoAddr) {

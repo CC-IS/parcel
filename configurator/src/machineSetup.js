@@ -81,12 +81,12 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
 
     var repoAddr = curCfg.appRepo;
 
-    if (uInd || rInd){
-      var user = uInd : opts[uInd] ? 'scimusmn';
-      var repo = rInd : opts[rInd] ? 'SteleLite-AppTemplate';
+    if (uInd || rInd || !repoAddr) {
+      var user = uInd ? opts[uInd] : 'scimusmn';
+      var repo = rInd ? opts[rInd] : 'SteleLite-AppTemplate';
 
       repoAddr = `https://github.com/${user}/${repo}`;
-    }
+    } else repoAddr = curCfg.appRepo;
 
     if (!fs.existsSync(bundleRoot + '/app') || (curCfg.appRepo != repoAddr)) {
       console.log(`Installing application ${repo}...`);

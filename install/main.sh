@@ -166,11 +166,6 @@ sudo chmod 777 /usr/local/src
 
 cd /usr/local/src
 
-if [[ -d "stele-lite" ]]; then
-  sudo rm -rf stele-lite
-fi
-
-
 # if the stele-lite directory does not exist, clone it from github, and create
 # a link in the home directory
 if [[ ! -d "stele-lite" ]]; then
@@ -204,9 +199,9 @@ cd configurator
 # Run the configurator in config-only mode, so that it exits once it completes.
 
 if [[ -z "${flags["s"]}" ]]; then
-  sudo node install.js --config-only --setup-dir "/boot/setup"
+  sudo node install.js --config-only --setup-dir "/boot/setup" --repo "${flags["r"]}" --user "${flags["u"]}"
 else
-  sudo node install.js --config-only --setup-dir "${flags["s"]}"
+  sudo node install.js --config-only --setup-dir "${flags["s"]}" --repo "${flags["r"]}" --user "${flags["u"]}"
 fi
 
 

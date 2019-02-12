@@ -4,9 +4,11 @@ window.bundleRoot = __dirname.substring(0, __dirname.indexOf('/configurator/src'
 
 if (!window.setupDir) window.setupDir = `${window.bundleRoot}/app/config/`;
 
-if (~process.argv.indexOf('--setup-dir')) {
-  var ind = process.argv.indexOf('--setup-dir');
-  window.setupDir = process.argv[ind + 1];
+var opts = process.argv;
+
+if (~opts.indexOf('--setup-dir')) {
+  var ind = opts.indexOf('--setup-dir');
+  window.setupDir = opts[ind + 1];
   console.log(`setup dir is ${window.setupDir}`);
 }
 
@@ -74,7 +76,16 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       app: bundleRoot + '/app/',
     });
 
-    if (!fs.existsSync(bundleRoot + '/app') && pfg.appRepo && !configsMatch(curCfg.appRepo, pfg.appRepo)) {
+    var repo = 'SteleLite-AppTemplate';
+    var user = 'scimusmn';
+
+    if (~opts.indexOf('--user')) user = opts[opts.indexOf('--user') + 1];
+
+    if (~opts.indexOf('--repo')) repo = opts[opts.indexOf('--repo') + 1];
+
+    var repoAddr = `https://github.com/${user}/${repo}`;
+
+    if (!fs.existsSync(bundleRoot + '/app') || (curCfg.appRepo != repoAddr)) {
       console.log(`Installing application ${pfg.appRepo}...`);
       if (fs.existsSync(bundleRoot + '/app')) execSync(`rm -rf ${bundleRoot + '/app'}`);
       execSync(`runuser -l pi -c 'git clone  --recurse-submodules ${pfg.appRepo} ${bundleRoot}/app'`);

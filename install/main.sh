@@ -186,8 +186,12 @@ startWorking
 # Try installing the node dependencies via npm.
 ## sometimes this call fails because it fails to dns registry.nodejs.org, retrying usually works
 while [[ $(npm i 2> >( tee -a ~/stele_install.log | grep -o -i -m 1 'ERR!')) = 'ERR!' ]]; do
+  doneWorking
+  echo -e "\033[0;33m"
   echo -e "\nErrors while trying to install packages, retrying..."
   waitForNetwork
+  echo -e "\033[0m"
+  startWorking
 done
 
 doneWorking

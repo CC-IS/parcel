@@ -3,7 +3,7 @@
 # save the directory of the shell script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-OUTPUT="> ${HOME}/stele_install.log 2>&1"
+OUTPUT=">${HOME}/stele_install.log 2>&1"
 
 declare -A flags
 declare -A booleans
@@ -41,7 +41,7 @@ done
 
 if [[  "${booleans["-debug"]}" = true ]]; then
   echo -e "\nRunning in debug mode."
-  OUTPUT=">"
+  OUTPUT=""
 fi
 
 #clear the log file

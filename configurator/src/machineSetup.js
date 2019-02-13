@@ -36,7 +36,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     process.exit(0);
   }
 
-  console.log(execSync('echo $USER'));
+  console.log(execSync('echo $USER').toString());
 
   var pfg = config.machine;
   if (pfg) {

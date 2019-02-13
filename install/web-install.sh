@@ -85,7 +85,7 @@ fi
 
 DEBUG=""
 
-if [[ $booleans["-debug"] ]]; then
+if [[ "${booleans["-debug"]}" = true ]]; then
   echo -e "\nStarting debug mode."
   DEBUG=" --debug"
 fi

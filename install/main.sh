@@ -39,7 +39,7 @@ do
     fi
 done
 
-if [[  $booleans["-debug"] ]]; then
+if [[  "${booleans["-debug"]}" = true ]]; then
   echo -e "\nRunning in debug mode."
   OUTPUT=""
 fi

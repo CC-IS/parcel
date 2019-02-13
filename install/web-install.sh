@@ -35,7 +35,7 @@ echo -e "\033[0;34m                                  %######################%
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-USER="scimusmn"
+ACCOUNT="scimusmn"
 REPO="SteleLite-AppTemplate"
 
 # special thanks to jozsef morrissey: https://stackoverflow.com/questions/14447406/
@@ -74,8 +74,8 @@ do
 done
 
 if [ ! -z "${flags["u"]}" ]; then
-  USER=${flags["u"]}
-  echo "User is $USER"
+  ACCOUNT=${flags["u"]}
+  echo "Account is $ACCOUNT"
 fi
 
 if [ ! -z "${flags["r"]}" ]; then
@@ -89,10 +89,10 @@ sudo chmod 777 /usr/local/src/setup
 
 cd /usr/local/src/setup
 
-curl -sL "https://raw.githubusercontent.com/${USER}/${REPO}/master/config/machine.js" -o machine.js
+curl -sL "https://raw.githubusercontent.com/${ACCOUNT}/${REPO}/master/config/machine.js" -o machine.js
 
 curl -sL "https://raw.githubusercontent.com/scimusmn/stele-lite/master/install/main.sh" -o install.sh
 
 chmod 777 ./install.sh
 
-./install.sh -s /usr/local/src/setup -u "$USER" -r "$REPO"
+./install.sh -s /usr/local/src/setup -u "$ACCOUNT" -r "$REPO"

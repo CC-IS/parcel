@@ -151,17 +151,17 @@ echo -e "\n** Installing node and system dependencies..."
 
 startWorking
 
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - ${OUTPUT}
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - ${!OUTPUT}
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo ${OUTPUT}
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo ${!OUTPUT}
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libgtk-3-0 ${OUTPUT}
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libgtk-3-0 ${!OUTPUT}
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install git libudev-dev ${OUTPUT}
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install git libudev-dev ${!OUTPUT}
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6  ${OUTPUT}
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6  ${!OUTPUT}
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libasound2 ${OUTPUT}
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libasound2 ${!OUTPUT}
 
 doneWorking
 

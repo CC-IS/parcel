@@ -36,6 +36,8 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     process.exit(0);
   }
 
+  console.log(execSync('echo $USER'));
+
   var pfg = config.machine;
   if (pfg) {
     var confDir = window.bundleRoot + '/current/machine.json';

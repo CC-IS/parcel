@@ -41,7 +41,7 @@ done
 
 if [[  "${booleans["-debug"]}" = true ]]; then
   echo -e "\nRunning in debug mode."
-  OUTPUT=""
+  OUTPUT=">"
 fi
 
 #clear the log file

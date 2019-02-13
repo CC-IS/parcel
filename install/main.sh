@@ -3,7 +3,7 @@
 # save the directory of the shell script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-OUTPUT=">${HOME}/stele_install.log 2>&1"
+OUTPUT="${HOME}/stele_install.log"
 
 declare -A flags
 declare -A booleans
@@ -41,7 +41,7 @@ done
 
 if [[  "${booleans["-debug"]}" = true ]]; then
   echo -e "\nRunning in debug mode."
-  OUTPUT=""
+  OUTPUT="/dev/stdout"
 fi
 
 #clear the log file
@@ -151,17 +151,17 @@ echo -e "\n** Installing node and system dependencies..."
 
 startWorking
 
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - ${!OUTPUT}
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - > ${OUTPUT} 2>&1
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo ${!OUTPUT}
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo > ${OUTPUT} 2>&1
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libgtk-3-0 ${!OUTPUT}
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libgtk-3-0 > ${OUTPUT} 2>&1
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install git libudev-dev ${!OUTPUT}
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install git libudev-dev > ${OUTPUT} 2>&1
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6  ${!OUTPUT}
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6  > ${OUTPUT} 2>&1
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libasound2 ${!OUTPUT}
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libasound2 > ${OUTPUT} 2>&1
 
 doneWorking
 
@@ -192,7 +192,7 @@ startWorking
 
 # Try installing the node dependencies via npm.
 ## sometimes this call fails because it fails to dns registry.nodejs.org, retrying usually works
-while [[ $(npm i 2> >( tee -a ~/stele_install.log | grep -o -i -m 1 'ERR!')) = 'ERR!' ]]; do
+while [[ $(npm i 2> >( tee -a ${OUTPUT} | grep -o -i -m 1 'ERR!')) = 'ERR!' ]]; do
   doneWorking
   echo -e "\033[0;33m"
   echo -e "\nErrors while trying to install packages, retrying..."

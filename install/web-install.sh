@@ -83,6 +83,13 @@ if [ ! -z "${flags["r"]}" ]; then
   echo "Repo is $REPO"
 fi
 
+DEBUG=""
+
+if [[ $booleans["-debug"] ]]; then
+  echo -e "\nStarting debug mode."
+  DEBUG=" --debug"
+fi
+
 sudo mkdir -p /usr/local/src/setup
 
 sudo chmod 777 /usr/local/src/setup
@@ -95,4 +102,4 @@ curl -sL "https://raw.githubusercontent.com/scimusmn/stele-lite/master/install/m
 
 chmod 777 ./install.sh
 
-./install.sh -s /usr/local/src/setup -u "$ACCOUNT" -r "$REPO"
+./install.sh -s /usr/local/src/setup -u "$ACCOUNT" -r "$REPO" $DEBUG

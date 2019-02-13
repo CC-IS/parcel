@@ -39,7 +39,8 @@ do
     fi
 done
 
-if [[ -z "${flags["-debug"]}" ]]; then
+if [[  $booleans["-debug"] ]]; then
+  echo -e "\nRunning in debug mode."
   OUTPUT=""
 fi
 

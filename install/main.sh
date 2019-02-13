@@ -3,6 +3,8 @@
 # save the directory of the shell script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+OUTPUT='> stele_install.log 2>&1'
+
 declare -A flags
 declare -A booleans
 args=()
@@ -36,6 +38,10 @@ do
       #echo \"$arg\" is an arg
     fi
 done
+
+if [[ ! -z "${flags["-debug"]}" ]]; then
+  OUTPUT=""
+fi
 
 #clear the log file
 cat /dev/null > stele_install.log
@@ -144,17 +150,17 @@ echo -e "\n** Installing node and system dependencies..."
 
 startWorking
 
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - > stele_install.log 2>&1
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - ${OUTPUT}
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo > stele_install.log 2>&1
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo ${OUTPUT}
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libgtk-3-0 > stele_install.log 2>&1
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libgtk-3-0 ${OUTPUT}
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install git libudev-dev > stele_install.log 2>&1
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install git libudev-dev ${OUTPUT}
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6  > stele_install.log 2>&1
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6  ${OUTPUT}
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libasound2 > stele_install.log 2>&1
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libasound2 ${OUTPUT}
 
 doneWorking
 

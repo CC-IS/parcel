@@ -40,7 +40,7 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
     process.exit(0);
   }
 
-  console.log(user);
+  console.log(`Current user is ${user}`);
 
   var pfg = config.machine;
   if (pfg) {

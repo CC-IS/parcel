@@ -208,12 +208,12 @@ cd configurator
 
 # Run the configurator in config-only mode, so that it exits once it completes.
 
-if [[ -z "${flags["s"]}" ]]; then
-  sudo node install.js --config-only --setup-dir "/boot/setup" --repo "${flags["r"]}" --user "${flags["u"]}"
-else
-  sudo node install.js --config-only --setup-dir "${flags["s"]}" --repo "${flags["r"]}" --user "${flags["u"]}"
+SETUP_DIR="/boot/setup"
+if [[ ! -z "${flags["s"]}" ]]; then
+  SETUP_DIR="${flags["s"]}"
 fi
 
+sudo node install.js --config-only --setup-dir "${SETUP_DIR}" --repo "${flags["r"]}" --account "${flags["u"]}" --user "$USER"
 
 # Restart the computer after the script finishes.
 echo -e "\n**********************************************************"

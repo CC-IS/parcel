@@ -203,13 +203,17 @@ done
 
 doneWorking
 
+echo  -e "\n** Checking if ${flags['r']} is installed..."
+
+
 if [ -d "app" ] && [[ ! $(cd app; git remote -v) =~ "https://github.com/${flags['u']}/${flags['r']}" ]]; then
   sudo rm -rf app
 fi
 
 if [[ ! -d "app" ]]; then
+  echo  -e "\n** Installing ${flags['r']}..."
   waitForNetwork
-  git clone  --recurse-submodules "https://github.com/${flags['u']}/${flags['r']}" app
+  git clone  --recurse-submodules "https://github.com/${flags['u']}/${flags['r']}" app > /dev/null 2>&1
   if [[ -f "app/aux_install.sh" ]]; then
     bash app/aux_install.sh
   fi

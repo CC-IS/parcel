@@ -179,7 +179,7 @@ if [[ ! -d "stele-lite" ]]; then
   waitForNetwork
   echo  -e "\n** Cloning the repository..."
   git clone --recurse-submodules https://github.com/scimusmn/stele-lite.git
-  ln -s /usr/local/src/stele-lite ~/Application
+  ln -s /usr/local/src/stele-lite ~/application
 fi
 
 cd stele-lite
@@ -202,6 +202,32 @@ while [[ $(npm i 2> >( tee -a ${OUTPUT} | grep -o -i -m 1 'ERR!')) = 'ERR!' ]]; 
 done
 
 doneWorking
+
+if [ -d "app" ] && [[ ! $(git remote -v) =~ "https://github.com/${flags['u']}/${flags['r']}" ]]; then
+  sudo rm -rf app
+fi
+
+if [[ ! -d "app" ]]; then
+  waitForNetwork
+  git clone  --recurse-submodules "https://github.com/${flags['u']}/${flags['r']}" app
+  if [[ ! -f "app/aux_install.sh" ]]; then
+    bash app/aux_install.sh
+  fi
+  cd app
+
+  echo  -e "\n** Installing node dependencies for ${flags['r']}:"
+
+  startWorking
+  while [[ $(npm i 2> >( tee -a ${OUTPUT} | grep -o -i -m 1 'ERR!')) = 'ERR!' ]]; do
+    doneWorking
+    echo -e "\033[0;33m"
+    echo -e "\nErrors while trying to install packages, retrying..."
+    waitForNetwork
+    echo -e "\033[0m"
+    startWorking
+  done
+  doneWorking
+fi
 
 echo  -e "\n** Configuring machine..."
 

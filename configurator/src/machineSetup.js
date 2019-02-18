@@ -88,33 +88,33 @@ obtain(obs, (hotspot, wifi, staticIP, preventSleep, soft, { config }, services, 
       app: bundleRoot + '/app/',
     });
 
-    var acInd = opts.indexOf('--account') + 1;
-    var rInd = opts.indexOf('--repo') + 1;
-
-    var repoAddr = curCfg.appRepo;
-
-    if (acInd || rInd || !repoAddr) {
-      var account = acInd ? opts[acInd] : 'scimusmn';
-      var repo = rInd ? opts[rInd] : 'SteleLite-AppTemplate';
-
-      repoAddr = `https://github.com/${account}/${repo}`;
-    } else repoAddr = curCfg.appRepo;
-
-    if (!fs.existsSync(bundleRoot + '/app') || (curCfg.appRepo != repoAddr)) {
-      console.log(`Installing application ${repo}...`);
-      if (fs.existsSync(bundleRoot + '/app')) execSync(`rm -rf ${bundleRoot + '/app'}`);
-      if (fs.existsSync(bundleRoot + '/current/appReady')) execSync(`rm -f ${bundleRoot + '/current/appReady'}`);
-      execSync(`runuser -l ${user} -c 'git clone  --recurse-submodules ${repoAddr} ${bundleRoot}/app'`);
-      console.log('Done!');
-
-      console.log(`Running npm install for ${repo}...`);
-      execSync(`runuser -l ${user} -c 'cd ${bundleRoot}/app; npm install > /dev/null 2>>~/stele_install.log'`);
-      console.log('Done!');
-
-      fs.closeSync(fs.openSync(bundleRoot + '/current/appReady', 'w'));
-
-      curCfg.appRepo = repoAddr;
-    }
+    // var acInd = opts.indexOf('--account') + 1;
+    // var rInd = opts.indexOf('--repo') + 1;
+    //
+    // var repoAddr = curCfg.appRepo;
+    //
+    // if (acInd || rInd || !repoAddr) {
+    //   var account = acInd ? opts[acInd] : 'scimusmn';
+    //   var repo = rInd ? opts[rInd] : 'SteleLite-AppTemplate';
+    //
+    //   repoAddr = `https://github.com/${account}/${repo}`;
+    // } else repoAddr = curCfg.appRepo;
+    //
+    // if (!fs.existsSync(bundleRoot + '/app') || (curCfg.appRepo != repoAddr)) {
+    //   console.log(`Installing application ${repo}...`);
+    //   if (fs.existsSync(bundleRoot + '/app')) execSync(`rm -rf ${bundleRoot + '/app'}`);
+    //   if (fs.existsSync(bundleRoot + '/current/appReady')) execSync(`rm -f ${bundleRoot + '/current/appReady'}`);
+    //   execSync(`runuser -l ${user} -c 'git clone  --recurse-submodules ${repoAddr} ${bundleRoot}/app'`);
+    //   console.log('Done!');
+    //
+    //   console.log(`Running npm install for ${repo}...`);
+    //   execSync(`runuser -l ${user} -c 'cd ${bundleRoot}/app; npm install > /dev/null 2>>~/stele_install.log'`);
+    //   console.log('Done!');
+    //
+    //   fs.closeSync(fs.openSync(bundleRoot + '/current/appReady', 'w'));
+    //
+    //   curCfg.appRepo = repoAddr;
+    // }
 
     if (pfg.wifiHotspot && !configsMatch(curCfg.wifiHotspot, pfg.wifiHotspot)) {
       console.log('Configuring wifi hotspot...');

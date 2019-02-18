@@ -203,7 +203,7 @@ done
 
 doneWorking
 
-if [ -d "app" ] && [[ ! $(git remote -v) =~ "https://github.com/${flags['u']}/${flags['r']}" ]]; then
+if [ -d "app" ] && [[ ! $(cd app; git remote -v) =~ "https://github.com/${flags['u']}/${flags['r']}" ]]; then
   sudo rm -rf app
 fi
 

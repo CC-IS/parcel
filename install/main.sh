@@ -210,7 +210,7 @@ fi
 if [[ ! -d "app" ]]; then
   waitForNetwork
   git clone  --recurse-submodules "https://github.com/${flags['u']}/${flags['r']}" app
-  if [[ ! -f "app/aux_install.sh" ]]; then
+  if [[ -f "app/aux_install.sh" ]]; then
     bash app/aux_install.sh
   fi
   cd app
@@ -227,6 +227,8 @@ if [[ ! -d "app" ]]; then
     startWorking
   done
   doneWorking
+
+  cd ../
 fi
 
 echo  -e "\n** Configuring machine..."

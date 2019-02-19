@@ -121,8 +121,7 @@ trap 'onExit' EXIT
 echo -e "\n* Starting stele-lite installation"
 
 # if the password hasn't yet been changed, prompt the user to change it.
-if [ ! -f "${DIR}/passwordChanged" ] && [ $USER = 'pi']
-then
+if [ ! -f "${DIR}/passwordChanged" ] && [[ $USER = 'pi' ]]; then
   echo -e "\n** Set new password for user 'pi':"
   passwd
   sudo touch "${DIR}/passwordChanged"

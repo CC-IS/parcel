@@ -121,7 +121,7 @@ trap 'onExit' EXIT
 echo -e "\n* Starting stele-lite installation"
 
 # if the password hasn't yet been changed, prompt the user to change it.
-if [ ! -f "${DIR}/passwordChanged" ]
+if [ ! -f "${DIR}/passwordChanged" ] && [ $USER = 'pi']
 then
   echo -e "\n** Set new password for user 'pi':"
   passwd
@@ -212,8 +212,15 @@ fi
 
 if [[ ! -d "app" ]]; then
   echo  -e "\n** Installing ${flags['r']}..."
+
+  startWorking
+
   waitForNetwork
+
   git clone  --recurse-submodules "https://github.com/${flags['u']}/${flags['r']}" app > /dev/null 2>&1
+
+  doneWorking
+
   if [[ -f "app/aux_install.sh" ]]; then
     bash app/aux_install.sh
   fi
@@ -233,6 +240,8 @@ if [[ ! -d "app" ]]; then
   doneWorking
 
   cd ../
+
+  touch current/appReady
 fi
 
 echo  -e "\n** Configuring machine..."

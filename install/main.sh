@@ -184,7 +184,7 @@ fi
 
 cd stele-lite
 
-sudo mkdir -p /usr/local/src/stele-lite/current
+mkdir -p /usr/local/src/stele-lite/current
 
 echo  -e "\n** Installing node dependencies for stele-lite:"
 

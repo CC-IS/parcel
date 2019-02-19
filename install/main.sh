@@ -222,7 +222,7 @@ if [[ ! -d "app" ]]; then
   doneWorking
 
   if [[ -f "app/aux_install.sh" ]]; then
-    bash app/aux_install.sh
+    bash app/aux_install.sh $OUTPUT
   fi
   cd app
 

@@ -2,28 +2,19 @@
 
 const electron = require('electron');
 
-global.obtain = (addr, func)=> {
-  if (addr.length <= 0) func();
-  else func.apply(null, addr.map(adr=>require(adr)));
+var fs = require('fs');
 
-};
+global.obtain = (addr, func)=> func.apply(null, addr.map(adr=>require(adr)));
 
 var ipcMain = electron.ipcMain;
 
 if (!window) var window = global;
 
-var baseDir = (process.platform != 'linux') ?  `${__dirname}/app/ForBoot/` :
-                (process.arch == 'x64') ? `${__dirname}/app/ForBoot/` :
-                '/boot/';
+global.config = require(`${__dirname}/app/config/app.js`);
 
-window.appDataDir = baseDir + 'appData';
-window.setupDir = baseDir + 'setup';
+if (process.platform == 'linux' && fs.existsSync('/boot/SAFEMODE')) process.exit(0);
 
-global.config = require(appDataDir + '/config.js');
-
-if (config.preventStartup) process.exit(0);
-
-obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync }, os)=> {
+obtain(['path', 'url', 'child_process', 'os'], (path, url, { execSync }, os)=> {
 
   // Module to control application life.
   const app = electron.app;
@@ -33,17 +24,6 @@ obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync 
   const BrowserWindow = electron.BrowserWindow;
 
   global.appRoot = path.resolve(__dirname);
-
-  if (!fs.existsSync(appRoot + '/app') && global.config.appRepo) {
-    console.log('installing application.');
-    execSync(`git clone  --recurse-submodules ${global.config.appRepo} app`, { cwd: appRoot });
-    execSync(`npm install`, { cwd: appRoot + '/app' });
-
-    if (process.platform == 'linux') {
-      execSync(`ln -s ${window.setupDir} SetupFiles`, { cwd: os.homedir() });
-      execSync(`ln -s ${window.appDataDir} AppDataFiles`, { cwd: os.homedir() });
-    }
-  }
 
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
@@ -115,7 +95,7 @@ obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync 
     });
   };
 
-  var DISPLAY_BINDING_PATH = appDataDir + '/windowBindings.json';
+  var DISPLAY_BINDING_PATH = appRoot + '/current/windowBindings.json';
 
   function makeWindows() {
 
@@ -239,7 +219,21 @@ obtain(['path', 'url', 'fs', 'child_process', 'os'], (path, url, fs, { execSync 
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
-  app.on('ready', makeWindows);
+  app.on('ready', ()=> {
+    var launched = false;
+    var watcher = null;
+    if (fs.existsSync(appRoot + '/current/appReady')) {
+      makeWindows();
+      launched = true;
+    } else watcher = fs.watch(appRoot + '/current', (eventType, fname)=> {
+      console.log(eventType);
+      if (!launched && eventType == 'rename' && fname == 'appReady') {
+        makeWindows();
+        launched = true;
+        if (watcher) watcher.close();
+      }
+    });
+  });
 
   // Quit when all windows are closed.
   app.on('window-all-closed', function () {

@@ -1,4 +1,4 @@
-# stele-lite
+# parcel
 Electron kiosk application wrapper and machine configuration suite for minimal linux machines.
 
 

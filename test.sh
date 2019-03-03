@@ -72,7 +72,7 @@ echo -e "\033[1;34m                                  %######################%
 startWorking
 
 #ping -c 3 -W 1 1.1.1.1 > /dev/null 2>&1
-while [[ "$(npm i 2> >( tee -a ~/stele_install.log | grep -o -i -m 1 "EAI_AGAIN"))" = 'EAI_AGAIN' ]]; do
+while [[ "$(npm i 2> >( tee -a ~/parcel_install.log | grep -o -i -m 1 "EAI_AGAIN"))" = 'EAI_AGAIN' ]]; do
   echo -e "\nDNS error while trying to install packages, retrying..."
   waitForNetwork
 done

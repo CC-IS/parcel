@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"></meta>
+  <head>
+    <title>Fly Rig Video Controller</title>
+    <script src="../common/src/muse/main.js" main="./src/app.js"></script>
+  	<link rel="stylesheet" href="css/style.css"></link>
+  	<link rel="stylesheet" href="css/animStyles.css"></link>
+  </head>
+  <body>
+    <div class="content">
+      <div class="topBar">
+        <img class='logo' src='img/logo.png'></img>Fly Rig Video Control
+      </div>
+      <div class='vid-div'>
+        <div class='innerVid'>
+          <cam-era></cam-era>
+          <div id='indicator'><div class='dot'></div>RECORDING</div>
+        </div>
+      </div>
+      <div class='controls'>
+        <div class='section'>
+          <div class='title'>Camera Options</div>
+          <div class='sub'><label>Source:</label><select id="cameraSource">
+            <option value='0' disabled selected>Select a camera</option>
+          </select></div>
+          <div class='sub'><label>Framerate:</label><input id='rateSelect' type="number" value='24' min='1' max='33'></input></div>
+          <div class='sub'><input id='camApply' type='button' value='Apply'></input></div>
+        </div>
+        <div class='section'>
+          <div class='title'>Light Controller Options</div>
+          <div class='sub'><label>Frequency:</label><input id='freqSelect' type="number" value='20' min='0' max='800'></input></div>
+          <div class='sub'><label>Amplitude (%):</label><input id='ampSelect' type="number" value='50' min='0' max='100'></input></div>
+          <div class='sub'><label>Pulse Length (ms):</label><input id='lenSelect' type="number" value='5' min='0' max='100'></input></div>
+          <div class='sub'><input id='lightApply' type='button' value='Apply'></input></div>
+        </div>
+        <div class='section'>
+          <div class='title'>Recording Options</div>
+          <div class='sub'><label>Time (seconds):</label><input id='durationSelect' type="number" value='10' min='0' max='360'></input></div>
+          <div class='sub'>
+            <progress-ring></progress-ring>
+            <input id='stop' type='button' value='Stop'></input>
+            <input id='record' type='button' value='Record'></input>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- s<input type='range' id='color'></input> -->
+  </body>
+</html>

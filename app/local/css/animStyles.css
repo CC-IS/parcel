@@ -1,0 +1,17 @@
+body {
+  --half-time: all .5s linear .5s;
+  --start-time: all .5s linear 0s;
+}
+
+@keyframes fadeCycle {
+  0%   {
+    box-shadow: 0em 0em .25em .25em rgba(0,0,0,.5) inset;
+  }
+  100% {
+    box-shadow: 0em 0em 0em 0em rgba(0,0,0,75) inset;
+  }
+}
+
+.dot {
+  animation: fadeCycle 2s linear infinite alternate;
+}

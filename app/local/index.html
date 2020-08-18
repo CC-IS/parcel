@@ -13,37 +13,146 @@
         <img class='logo' src='img/logo.png'></img>Fly Rig Video Control
       </div>
       <div class='vid-div'>
-        <div class='innerVid'>
           <cam-era></cam-era>
           <div id='indicator'><div class='dot'></div>RECORDING</div>
-        </div>
+          <div id='timeStamp'>00:00:00.00</div>
+      </div>
+      <div class='feedback'>
+        <div class='frfb'>Framerate: <span id='FR_note'>30</span></div>
       </div>
       <div class='controls'>
-        <div class='section'>
-          <div class='title'>Camera Options</div>
-          <div class='sub'><label>Source:</label><select id="cameraSource">
-            <option value='0' disabled selected>Select a camera</option>
-          </select></div>
-          <div class='sub'><label>Framerate:</label><input id='rateSelect' type="number" value='24' min='1' max='33'></input></div>
-          <div class='sub'><input id='camApply' type='button' value='Apply'></input></div>
+        <div class='section simple'>
+          <div class='title'><span class='reveal'>▲</span> Camera Options</div>
+          <div class='opts'>
+            <div class='sub'><label>Source:</label><select id="cameraSource">
+              <option value='0' disabled selected>Select a camera</option>
+            </select></div>
+            <div class='sub'><label>Framerate:</label><input id='rateSelect' type="number" value='30' min='1' max='40'></input></div>
+            <div class='sub'><label>Width (pixels):</label><input id='widthSelect' type="number" value='3840' min='1' max='3840'></input></div>
+            <div class='sub'><label>Height (pixels):</label><input id='heightSelect' type="number" value='2160' min='1' max='2160'></input></div>
+            <div class='controlButtons'><input id='camApply' type='button' value='Apply'></input></div>
+          </div>
         </div>
-        <div class='section'>
-          <div class='title'>Light Controller Options</div>
-          <div class='sub'><label>Frequency:</label><input id='freqSelect' type="number" value='20' min='0' max='800'></input></div>
-          <div class='sub'><label>Amplitude (%):</label><input id='ampSelect' type="number" value='50' min='0' max='100'></input></div>
-          <div class='sub'><label>Pulse Length (ms):</label><input id='lenSelect' type="number" value='5' min='0' max='100'></input></div>
-          <div class='sub'><input id='lightApply' type='button' value='Apply'></input></div>
+        <div class='section simple' id='manual'>
+          <div class='title'><span class='reveal'>▲</span> Manual Control</div>
+          <div class='opts'>
+            <div class='sub'><label>Frequency:</label><input id='freqSelect' type="number" value='20' min='0' max='800'></input></div>
+            <div class='sub'><label>Amplitude (%):</label><input id='ampSelect' type="number" value='50' min='0' max='100'></input></div>
+            <div class='sub'><label>Pulse Length (ms):</label><input id='lenSelect' type="number" value='10' min='0' max='100'></input></div>
+            <div class='sub'><label>Quadrants:</label>
+              <input type="checkbox" id="quad4" value="3">
+              <input type="checkbox" id="quad3" value="2">
+              <input type="checkbox" id="quad2" value="1">
+              <input type="checkbox" id="quad1" value="0">
+            </div>
+            <div class='sub'>
+              <label>Left Odor:</label><select id='leftOdor'>
+                <option value='0' selected>None</option>
+                <option value='1'>Odor 1</option>
+                <option value='2'>Odor 2</option>
+                <option value='4'>Odor 3</option>
+                <option value='8'>Air</option>
+              </select>
+            </div>
+            <div class='sub'>
+              <label>Right Odor:</label><select id='rightOdor'>
+                <option value='0' selected>None</option>
+                <option value='16'>Odor 1</option>
+                <option value='32'>Odor 2</option>
+                <option value='64'>Odor 3</option>
+                <option value='128'>Air</option>
+              </select>
+            </div>
+            <div class='sub'>
+              <label>Backlight:</label><input id='backlight' type="number" value='64' min='0' max='127'></input>
+              <input id='blRange' type="range" min="0" max="127" value="64"></input>
+            </div>
+            <div class='sub'><label>Time (s):</label><input id='stimTime' type="number" min='0' max='360' placeholder='optional'></input></div>
+
+            <!-- <div class='sub'><input id='lightApply' type='button' value='Apply'></input></div> -->
+            <div class='controlButtons manual'>
+              <input id='Set' type='button' value='Set'></input>
+              <input id='Off' type='button' value='Off'></input>
+              <input id='Mom' type='button' value='Momentary'></input>
+            </div>
+          </div>
         </div>
-        <div class='section'>
-          <div class='title'>Recording Options</div>
-          <div class='sub'><label>Time (seconds):</label><input id='durationSelect' type="number" value='10' min='0' max='360'></input></div>
-          <div class='sub'>
-            <progress-ring></progress-ring>
-            <input id='stop' type='button' value='Stop'></input>
-            <input id='record' type='button' value='Record'></input>
+        <div class='section advanced' id='auto'>
+          <div class='title'><span class='reveal'>▲</span> Auto Control<span ></div>
+          <div class='opts'>
+            <div class="sub"><input id='dataFile' type="file" accept=".csv"></input></div>
+            <div class='sub'><label>File Base Name:</label><input id='baseName' type="text"></input></div>
+            <div class='controlButtons cueMan'>
+              <input id='Add' type='button' value='Add'></input>
+              <input id='Edit' type='button' value='Edit'></input>
+              <input id='Delete' type='button' value='Delete'></input>
+            </div>
+            <div class="sub hide cueSub"><select multiple id='cueList'></select></div>
+            <div class='controlButtons stimControls'>
+              <input id='Run' type='button' value='Run'></input>
+              <input id='Halt' type='button' value='Halt'></input>
+            </div>
+          </div>
+        </div>
+        <div class='section simple'>
+          <div class='title'><span class='reveal'>▲</span> Recording Options</div>
+          <div class='opts'>
+            <div class='sub'><label>Time (seconds):</label><input id='durationSelect' type="number" min='0' max='3600' placeholder='optional'></input></div>
+            <div class='controlButtons'>
+              <progress-ring></progress-ring>
+              <input id='Record' type='button' value='Record'></input>
+              <input id='Stop' type='button' value='Stop'></input>
+            </div>
           </div>
         </div>
       </div>
+      <div class='overlay' id='editOverlay'>
+        <div id='cueEdit'>
+          <div class='editOpts'>
+            <div class='sub'><label>Start Time (s):</label><input id='cueTime' type="number" min='0' max='3600'></input></div>
+            <div class='sub'><label>Frequency (Hz):</label><input id='freqEd' type="number" value='20' min='0' max='800'></input></div>
+            <div class='sub'><label>Amplitude (%):</label><input id='ampEd' type="number" value='50' min='0' max='100'></input></div>
+            <div class='sub'><label>Pulse Length (ms):</label><input id='lenEd' type="number" value='10' min='0' max='100'></input></div>
+            <div class='sub'><label>Quadrants:</label>
+              <input type="checkbox" id="edQuad4" value="3">
+              <input type="checkbox" id="edQuad3" value="2">
+              <br />
+              <input type="checkbox" id="edQuad2" value="1">
+              <input type="checkbox" id="edQuad1" value="0">
+            </div>
+            <div class='sub'>
+              <label>Left Odor:</label><select id='edLeftOdor'>
+                <option value='' selected>None</option>
+                <option value='A'>Odor 1</option>
+                <option value='B'>Odor 2</option>
+                <option value='C'>Odor 3</option>
+                <option value='D'>Air</option>
+              </select>
+            </div>
+            <div class='sub'>
+              <label>Right Odor:</label><select id='edRightOdor'>
+                <option value='' selected>None</option>
+                <option value='A'>Odor 1</option>
+                <option value='B'>Odor 2</option>
+                <option value='C'>Odor 3</option>
+                <option value='D'>Air</option>
+              </select>
+            </div>
+            <!-- <div class='sub'>
+              <label>Backlight:</label><input id='ed-backlight' type="number" value='64' min='0' max='127'></input>
+              <input id='blRange' type="range" min="0" max="127" value="64"></input>
+            </div> -->
+
+            <!-- <div class='sub'><input id='lightApply' type='button' value='Apply'></input></div> -->
+            <div class='controlButtons editor'>
+              <input id='Save' type='button' value='Save'></input>
+              <input id='Cancel' type='button' value='Cancel'></input>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div id='stats'>
+      </div> -->
     </div>
     <!-- s<input type='range' id='color'></input> -->
   </body>

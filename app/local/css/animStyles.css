@@ -12,6 +12,10 @@ body {
   }
 }
 
+.rotate90 {
+  transform: rotate(180deg);
+}
+
 .dot {
   animation: fadeCycle 2s linear infinite alternate;
 }

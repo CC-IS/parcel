@@ -2,8 +2,14 @@ obtain(['µ/serialParser.js', 'events', 'µ/utilities.js'], ({ serialParser }, E
   const SET_FREQ = 1;
   const SET_AMP = 2;
   const SET_PULSE_LENGTH = 3;
-  const STOP = 4;
-  const START = 5;
+  const SET_PINS = 4;
+  const STIMULATE = 5
+  const SET_BACKLIGHT = 6;
+  const SET_OUTPUTS = 7;
+  const STOP = 8;
+  const START = 9;
+  const ALL_OFF = 10;
+  const ERROR = 126;
   const READY = 127;
 
   class LightControl extends EventEmitter{
@@ -15,20 +21,8 @@ obtain(['µ/serialParser.js', 'events', 'µ/utilities.js'], ({ serialParser }, E
       _this.config = {
       };
 
-      parser.on(SET_FREQ, (data)=> {
-        console.log('set Frequency');
-      });
-
-      parser.on(SET_AMP, (data)=> {
-        console.log('set Brightness');
-      });
-
-      parser.on(SET_PULSE_LENGTH, (data)=> {
-        console.log('set pulse length');
-      });
-
-      parser.on(STOP, (data)=> {
-        console.log('stopped pulsing');
+      parser.on(SET_BACKLIGHT, (data)=> {
+        console.log('set back light');
       });
 
       var readyInt;
@@ -42,36 +36,22 @@ obtain(['µ/serialParser.js', 'events', 'µ/utilities.js'], ({ serialParser }, E
         }
       });
 
-      _this.setFrequency = (freq)=> {
-        freq = Math.floor(freq);
-        if(freq > 0 && freq <= 50){
-          parser.sendPacket([1, SET_FREQ, freq & 127]);
-          //_this.emit('frequencyChanged', temp);
-        }
-      };
-
-      _this.setBrightness = (amp)=> {
-        amp = Math.floor(amp);
-        if(amp >= 0 && amp <= 100){
-          parser.sendPacket([1, SET_AMP, amp & 127]);
-          //_this.emit('frequencyChanged', temp);
-        }
-      };
-
-      _this.setPulseLength = (len)=> {
-        len = Math.floor(len);
-        if(len > 0 && len < 127){
-          parser.sendPacket([1, SET_PULSE_LENGTH, len & 127]);
-          //_this.emit('frequencyChanged', temp);
-        }
-      };
-
-      _this.stop = ()=>{
-        parser.sendPacket([1, STOP]);
+      _this.stimulate = (frequency,amplitude,pulseLength,quadArray)=>{
+        var quads = quadArray.reduce((acc,val,ind)=>acc + (val << ind));
+        parser.sendPacket([1, STIMULATE, frequency, amplitude, pulseLength, quads]);
       }
 
-      _this.start = ()=>{
-        parser.sendPacket([1, START]);
+      _this.setBacklight = (intensity)=>{
+        parser.sendPacket([1, SET_BACKLIGHT, intensity & 127]);
+      }
+
+      _this.setOutputs = (outs)=>{
+        //var outs = outputArray.reduce((acc,val,ind)=>acc + (val << ind));
+        parser.sendPacket([1,SET_OUTPUTS, outs & 127, outs>>7]);
+      }
+
+      _this.stop = ()=>{
+        parser.sendPacket([1, ALL_OFF]);
       }
 
       _this.whenReady = (cb)=> {

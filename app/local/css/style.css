@@ -26,6 +26,7 @@ body {
 	left: 0;
 	width: 100vw;
 	--top-bar-hgt: 5vh;
+	--bottom-bar-hgt: 5vh;
 }
 
 .topBar {
@@ -39,7 +40,6 @@ body {
   line-height: var(--top-bar-hgt);
 	font-size: 1.5em;
 	box-shadow: 0px .125em .125em rgba(0, 0, 0, .25);
-	z-index: 100;
 }
 
 .topBar .logo {
@@ -60,29 +60,23 @@ body {
 }
 
 .vid-div {
+	z-index: -10;
 	position: absolute;
 	width: 75vw;
 	height: 90vh;
 	left: 0;
 	top: var(--top-bar-hgt);
-	background-color: black;
-	height: calc(100vh - var(--top-bar-hgt));
+	background-color: #777;
 	text-align: center;
 	vertical-align: middle;
 }
 
-.innerVid {
-	display: inline-block;
-	position: relative;
-	width: 100%;
-	height: auto;
-	margin-top: calc(var(--top-bar-hgt) / 2 + (90vh - 3 / 4 * 75vw) / 2);
-}
-
 cam-era {
-	display: inline-block;
+	display: block;
 	max-height: 80vh;
 	width: 100%;
+	max-width: 75vw;
+	--cam-max-height: calc(100vh - (var(--top-bar-hgt) + var(--bottom-bar-hgt)));
 }
 
 #indicator {
@@ -101,6 +95,7 @@ cam-era {
 	box-sizing: border-box;
 	font-family: monospace;
   vertical-align: middle;
+	z-index: 1000;
 }
 
 .vid-div .dot {
@@ -113,6 +108,34 @@ cam-era {
   float: left;
 }
 
+.feedback {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 75vw;
+	height: var(--bottom-bar-hgt);
+	background-color: #ddd;
+	box-shadow: 0 -.25em .5em rgba(0,0,0,.25);
+	z-index: -2;
+	padding: calc((var(--bottom-bar-hgt) - 1.5em) / 2);
+	color: black;
+	font-family: sans-serif;
+	box-sizing: border-box;
+	text-align: right;
+}
+
+.feedback .frfb {
+}
+
+#FR_note {
+	display: inline-block;
+	background-color: #fff;
+	border-radius: .125em;
+	padding: .125em;
+	width: 5em;
+	text-align: right;
+}
+
 .controls {
 	position: absolute;
 	left: 75vw;
@@ -122,10 +145,11 @@ cam-era {
 	padding: 2vh;
 	color: black;
 	font-family: sans-serif;
-	/* box-shadow: inset .25em 0 .5em rgba(0,0,0,.5); */
-	border-left: 2px solid #777;
+	box-shadow: -.25em 0 .5em rgba(0,0,0,.25);
+	/* border-left: 2px solid #777; */
 	background-color: #fefefe;
-	z-index: 0;
+	z-index: -1;
+	overflow-y: scroll;
 }
 
 .controls select, .controls input{
@@ -143,36 +167,186 @@ div.title {
 	width: calc(25vw - 4vh - 1em);
 	background-color: rgba(0,0,0,.0625);
 	border-radius: .5em;
-	margin-bottom: 1em;
+	margin-bottom: .5em;
 	padding: .5em;
+}
+
+.reveal {
+	display: inline-block;
+	transition: transform .25s;
+	transform: rotate(90deg);
+}
+
+.opts {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height .25s;
+}
+
+.opts.open {
+	max-height: 100vh;
 }
 
 .sub {
 	margin-left: 1em;
 	display: inline-block;
 	width: calc(100% - 1em);
-	margin-bottom: .5em;
+	margin-bottom: .25em;
+	border-bottom: 1px rgba(0,0,0,.125) solid;
+	padding-bottom: .25em;
 }
 
 .sub input {
 	display: inline-block;
 }
 
-#stop {
-	margin-right: 1em;
-	background-color: #d00;
-	color: #fff;
-	border-radius: 2em;
+#blRange {
+	width: 100%;
 }
 
-#record {
-	margin-right: 1em;
-	background-color: #0a0;
-	color: #fff;
-	border-radius: 2em;
+#timeStamp {
+	display: none;
+	position: fixed;
+	bottom: 10vh;
+	left: 5vw;
+	font-family: monospace;
+	font-size: 3em;
+	background-color: rgba(0, 0, 0, 0.75);
+	border-radius: .25em;
+	padding: .25em;
+	z-index: 1000;
 }
+
+/* #Stop {
+	border: 1px solid black;
+	border-radius: .25em;
+}
+
+#Record {
+	margin-right: 1em;
+	border: 1px solid black;
+	border-radius: .25em;
+} */
+
+.controlButtons {
+	text-align: right;
+}
+
+.controlButtons input {
+	display: inline-block;
+	float: none;
+  border: 1px black solid;
+	/* color: white; */
+	border-radius: .25em;
+	outline: none;
+	margin-left: .5em;
+	margin-right: .5em;
+}
+
+.controlButtons input:active {
+	filter: brightness(85%);
+}
+
+.controlButtons.manual {
+	padding-top: .5em;
+	text-align: center;
+}
+
+#Set {
+	float: left;
+	/* background-color: #3a3; */
+}
+
+#Off {
+	float: right;
+	/* background-color: #d55; */
+}
+
+#Mom {
+	/* background-color: #55f; */
+}
+
+#cueList {
+	width: 100%;
+	border: 1px black solid;
+  font-family: "Andale Mono", "Monotype.com", monospace;
+}
+
+.cueSub {
+	width: calc(100% - 1.5em);
+	border-bottom: none;
+}
+
+.cueMan {
+	padding-bottom: .75em;
+	text-align: center;
+}
+
+.cueMan input {
+	color: black;
+}
+
+#dataFile {
+	width: 100%;
+}
+
+.controlButtons.stimControls {
+	text-align: right;
+}
+
+/* #Run {
+	float: right;
+	background-color: #3a3;
+}
+
+#Halt {
+	float: right;
+	background-color: #d55;
+} */
 
 progress-ring {
 	--radius: .5em;
 	--stroke-color: rgba(0,0,0,.5);
+}
+
+.overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0,0,0,.5);
+}
+
+#cueEdit {
+	position: fixed;
+	left:25vw;
+	top:25vh;
+	width: 25vw;
+	background-color: #ddd;
+	border-radius: 1em;
+	border: 1px solid black;
+	padding: 1em;
+	color: #222;
+	font-family: sans-serif;
+}
+
+#cueEdit input, #cueEdit select{
+	float: right;
+}
+
+.controlButtons.editor {
+	padding-top: .5em;
+}
+
+.controlButtons.editor input{
+	background-color: #fff;
+}
+
+#stats {
+	position: fixed;
+	left:0;
+	top:0;
+	background-color: #fff;
 }

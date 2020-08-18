@@ -124,10 +124,12 @@ cam-era {
 	text-align: right;
 }
 
-.feedback .frfb {
+.feedback .sect {
+	display: inline-block;
+	margin-right: 1em;
 }
 
-#FR_note {
+.feedback .sect span {
 	display: inline-block;
 	background-color: #fff;
 	border-radius: .125em;

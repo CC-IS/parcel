@@ -49,7 +49,6 @@ class StimCue {
     var ro = this.rightOdor;
     var lo = this.leftOdor;
     var outNum = ((!!ro)<<(ro + 3)) | (!!lo)<<(lo - 1);
-    console.log(outNum);
     control.setOutputs(outNum);
   }
 };
@@ -113,7 +112,6 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
     cam.getSourceNames(devs=>{
       devs.forEach(dev => {
         if(dev.kind == 'videoinput'){
-          console.log(dev);
           var opt = µ('+option', µ('#cameraSource'));
           opt.value = dev.deviceId;
           opt.textContent = dev.label;
@@ -127,6 +125,14 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
       height: {min: 480, ideal: 2160 },
       frameRate: {ideal: 30}
     };
+
+    cam.video.addEventListener('loadedmetadata', ()=> {
+      widthSelect.value = wid_note.textContent = cam.video.videoWidth;
+      heightSelect.value = hgt_note.textContent = cam.video.videoHeight;
+    });
+
+      // _this.canvas.width = _this.video.videoWidth;
+      // _this.canvas.height = _this.video.videoHeight;
 
     var decoded = 0;
     var startTime = Date.now();
@@ -158,7 +164,6 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
     prog.progress = 0;
 
     µ('.title').forEach(title => {
-      console.log(title.parentElement);
       var reveal = µ('.reveal', title)[0];
       title.onclick = ()=>{
         reveal.classList.toggle("rotate90");
@@ -196,7 +201,6 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
     }
 
     var recordStop = ()=>{
-      console.log(cam.isRecording);
       if(cam.isRecording){
         clearInterval(recInt);
         cam.stop();
@@ -287,7 +291,6 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
       lenEd.value = '';
       edLeftOdor.selectedIndex = 0;
       edRightOdor.selectedIndex = 0;
-      console.log(editingCue.quads);
       for (var i = 0; i < 4; i++) {
         µ(`#edQuad${i+1}`).checked = false;
       }
@@ -315,7 +318,6 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
         opts.push(µ(`#edQuad${i+1}`).checked?1:0);
       }
       opts.splice(5, 0, ampEd.value, freqEd.value, lenEd.value, edLeftOdor.value, edRightOdor.value);
-      console.log(edLeftOdor.value);
       editingCue.set(opts);
       if(editingCue.new){
         editingCue.new = false;
@@ -378,8 +380,6 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
               let cells = lines[i];
               if(cells[0] == 'end') break;
               else {
-                console.log('-----------------------');
-                console.log(cues.length);
                 cues.push(new StimCue(cells));
               }
             }

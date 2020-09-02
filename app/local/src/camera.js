@@ -1,4 +1,5 @@
-obtain([], ()=> {
+obtain(['fs','fluent-ffmpeg', 'path'], (fs, ffmpeg, path)=> {
+  console.log(fs);
   if (!customElements.get('cam-era')) {
 
     class Camera extends HTMLElement {
@@ -9,6 +10,14 @@ obtain([], ()=> {
 
         }
 
+        this.metadata = {
+          foo: "bar",
+          bar: "foo",
+          far: 'boo'
+        };
+
+        this.filePath = '';
+
         this.baseName = '';
       }
 
@@ -18,13 +27,19 @@ obtain([], ()=> {
 
       record() {
         this.isRecording = true;
+        this.recordedChunks = [];
         this.recorder.start();
+        this.recordTime = 0;
+        this.startTime = Date.now();
       }
 
       stop() {
         var _this = this;
-        _this.isRecording = false;
-        _this.recorder.stop();
+        if(_this.isRecording){
+          _this.isRecording = false;
+          _this.recorder.stop();
+          this.recordTime = Date.now() - _this.startTime;
+        }
       }
 
       play() {
@@ -54,8 +69,84 @@ obtain([], ()=> {
         }
       }
 
+      blobToBuffer(blob){
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsArrayBuffer(blob);
+            reader.onloadend = () => { resolve(Buffer.from(reader.result)); };
+            reader.onerror = (ev) => { reject(ev.error); };
+        });
+      }
+
       onDataAvailable (blob){
-        this.makeDownload(blob);
+        //this.makeDownload(blob);
+        var _this = this;
+        _this.blobToBuffer(blob).then(_this.saveFile.bind(_this));
+        //this.addMetadata(blob).then(_this.saveFile);
+      }
+
+      onSaveProgress(perc){
+
+      }
+
+      onSaveEnd(){
+
+      }
+
+      beforeSave(){
+
+      }
+
+      addMetadata (blob){
+        // var _this = this;
+        // const decoder = new Decoder();
+        //
+        // // load webm blob and inject metadata
+        // return _this.blobToBuffer(blob).then((buffer) => {
+        //     decoder.on('data', chunk => console.log(chunk));
+        //     decoder.write(buffer);
+        // });
+      }
+
+
+      saveFile(buffer){
+        var _this = this;
+        _this.beforeSave();
+        console.log('saving');
+        var basePath = path.join(_this.filePath, _this.baseName);
+        var inter = path.join(__dirname,'../../../videos/intermediate.webm');
+        console.log(basePath);
+        console.log(inter);
+        fs.writeFile(inter,buffer,'base64',(e)=>{
+          if(!e){
+            console.log("convert")
+            var command = ffmpeg(inter).noAudio().videoCodec('copy');//.fps(30)
+
+            for (var key in _this.metadata) {
+              if (_this.metadata.hasOwnProperty(key)) {
+                command.outputOptions('-metadata', `"${key}"="${_this.metadata[key]}"`);
+              }
+            }
+
+            command.on('stderr', function(stderrLine) {
+              console.log('Stderr output: ' + stderrLine);
+            });
+
+            command.on('progress', function(progress) {
+              var perc = (Date.parse("15 Jan 1987 "+progress.timemark) - Date.parse("15 Jan 1987 00:00:00")) / _this.recordTime;
+              _this.onSaveProgress(perc);
+            });
+
+            command.on('end', function() {
+              _this.onSaveEnd();
+              console.log('Finished processing');
+            })
+
+
+            command.save(`${basePath}_${(new Date()).toISOString().replace(/:|-|\./g,'_')}.mkv`);
+          }
+        });
+
       }
 
       makeDownload(blob){
@@ -64,7 +155,7 @@ obtain([], ()=> {
         document.body.appendChild(a);
         a.style = "display: none";
         a.href = url;
-        a.download = `${this.baseName}_${(new Date()).toUTCString()}.webm`;
+        a.download = `${this.baseName}_${(new Date()).toISOString()}.webm`;
         a.click();
         window.URL.revokeObjectURL(url);
       }
@@ -113,7 +204,6 @@ obtain([], ()=> {
                     type: "video/webm"
                   });
                 _this.onDataAvailable(blob);
-                this.recordedChunks = [];
               }
             };
 

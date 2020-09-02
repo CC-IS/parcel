@@ -138,6 +138,37 @@ cam-era {
 	text-align: right;
 }
 
+.noteDiv {
+	position: relative;
+	width: 25vw;
+	height: calc(var(--bottom-bar-hgt) / 2);
+	background-color: #fff;
+	border: 1px black solid;
+	border-radius: calc(var(--bottom-bar-hgt) / 8);
+	overflow: hidden;
+	float: left;
+}
+
+#progIn {
+	position: absolute;
+	top: -5%;
+	left: 0;
+	height: 110%;
+	width: 0;
+	background-color: #9df;
+}
+
+#Notes {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	font-family: monospace;
+	text-align: left;
+	padding-left: 1em;
+}
+
 .controls {
 	position: absolute;
 	left: 75vw;
@@ -156,6 +187,34 @@ cam-era {
 
 .controls select, .controls input{
 	float: right;
+}
+
+#Metadata {
+	position: relative;
+	height: 20vh;
+	width: calc(25vw - 4vh - 2em);
+	overflow-y: scroll;
+	background-color: #fff;
+	border: solid 1px black;
+	box-sizing: border-box;
+	margin: .5em;
+	font-family: monospace;
+}
+
+#Metadata input{
+	width: 40%;
+	font-family: monospace;
+	margin-right: .5em;
+}
+
+#Metadata div {
+	display: inline-block;
+	padding: .25em;
+	width: 100%;
+}
+
+#Metadata div:nth-child(2n) {
+	background-color: #ddd;
 }
 
 div.title {

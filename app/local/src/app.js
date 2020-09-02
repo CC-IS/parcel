@@ -5,13 +5,9 @@ var remote = require('electron').remote;
 var process = remote.process;
 
 var config = remote.getGlobal('config');
-//remote.getCurrentWindow().closeDevTools();
 
-var obtains = [
-  './src/controller.js',
-  './src/camera.js',
-  'µ/components/progress.js'
-];
+var dialog = remote.dialog;
+//remote.getCurrentWindow().closeDevTools();
 
 class StimCue {
   constructor(cueArray){
@@ -91,7 +87,15 @@ class CueList extends Array{
   // }
 }
 
-obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
+var obtains = [
+  './src/controller.js',
+  './src/camera.js',
+  'µ/components/progress.js',
+  'os',
+  'path'
+];
+
+obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing}, os, path)=> {
 
   exports.app = {};
 
@@ -103,6 +107,10 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
 // Create the light controller
 
     var cam = µ('cam-era')[0];
+
+    filePath.value = path.join(os.homedir());//os.homedir(), '/Documents/FlyVideos');
+
+    var note = text=>Notes.textContent = text;
 
     var recordTimer = null;
     var progressInt = null;
@@ -148,16 +156,12 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
     var control = new LightControl(config.io);
     var cues = new CueList(control);
 
-    var note = (msg)=>{
-      //µ('#notes').textContent = msg;
-    }
-
     // set warning flags for if the device isn't connected.
     control.onPortNotFound = ()=>{
-      note('Please connect the apparatus.');
+      note('Please connect the control board.');
     }
 
-    if(control.portNotFound) note('Please connect the apparatus.');
+    if(control.portNotFound) note('Please connect the control board.');
 
 
     var prog = µ('progress-ring')[0];
@@ -209,11 +213,13 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
         clearInterval(progressInt);
         clearTimeout(recordTimer);
         prog.progress = 0;
+        note('Saving file...');
       }
     }
 
     var recordStart = ()=>{
       if(!cam.isRecording){
+        note('Recording...');
         var time = µ('#durationSelect').value;
         cam.record();
         µ('#indicator').style.display = 'inline-block';
@@ -222,8 +228,8 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
         recInt = setInterval(()=>{
           var tmr = Date.now() - startTime;
           let hr = String(Math.floor(tmr/3600000.)).padStart(2,'0');
-          let min = String(Math.floor(tmr/60000.)).padStart(2,'0');
-          let sec = String(Math.floor(tmr/1000.)).padStart(2,'0');
+          let min = String(Math.floor(tmr/60000.)%60).padStart(2,'0');
+          let sec = String(Math.floor(tmr/1000.)%60).padStart(2,'0');
           let frac = String(Math.floor(tmr%1000/10)).padStart(2,'0');
           timeStamp.textContent = `${hr}:${min}:${sec}.${frac}`;
         }, 100);
@@ -234,6 +240,25 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
           recordTimer = setTimeout(recordStop, 1000 * time);
         }
       }
+    }
+
+    cam.beforeSave = ()=>{
+      cam.metadata = {};
+      let data = µ('div', Metadata);
+      for (var i = 0; i < data.length; i++) {
+        var key = µ('label', data[i])[0].textContent;
+        var val = µ('input', data[i])[0].value;
+        cam.metadata[key] = val;
+      }
+    }
+
+    cam.onSaveProgress = (perc)=>{
+      progIn.style.width = Math.floor(perc * 100) + '%';
+    }
+
+    cam.onSaveEnd = ()=>{
+      progIn.style.width = '0';
+      note('Saved video file.');
     }
 
     control.onready = ()=>{
@@ -341,6 +366,7 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
         control.setOutputs(0);
       });
       recordStart();
+      note('Running queued actions...');
     }
 
     Halt.onclick = ()=>{
@@ -363,6 +389,27 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
       recordStop();
     }
 
+    SetPath.onclick = ()=>{
+      dialog.showOpenDialog({
+        title: 'Select the File Path to save',
+        defaultPath: filePath.value,
+        buttonLabel: 'Set Filepath',
+        properties:["openDirectory"]
+      }).then(path => {
+        if(!path.canceled){
+          filePath.value = path.filePaths.toString();
+          cam.filePath = filePath.value;
+        }
+
+      }).catch(err => {
+          console.log(err)
+      });
+    }
+
+    filePath.onchange = ()=>{
+      cam.filePath = filePath.value;
+    }
+
     baseName.onchange = ()=>{
       cam.baseName = baseName.value;
     }
@@ -376,12 +423,22 @@ obtain(obtains, ({ LightControl }, {Camera}, {ProgressRing})=> {
 
             cam.baseName = baseName.value = lines[0][1];
 
+            var mode = 'cues';
+
             for (var i = 2; i < lines.length; i++) {
               let cells = lines[i];
-              if(cells[0] == 'end') break;
-              else {
-                cues.push(new StimCue(cells));
-              }
+              if(mode == 'cues'){
+                if(cells[0] == 'end') mode = 'inter';
+                else cues.push(new StimCue(cells));
+              } else if(mode == 'meta'){
+                let opt = µ('+div', Metadata);
+                let lbl = µ('+label', opt);
+                let inpt = µ('+input', opt);
+                lbl.textContent = cells[0];
+                inpt.value = cells[1];
+              } else if(mode == 'inter' && cells[0] == 'Metadata') mode='meta';
+
+
             }
 
             optsFromCues();

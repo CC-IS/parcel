@@ -18,11 +18,24 @@
           <div id='timeStamp'>00:00:00.00</div>
       </div>
       <div class='feedback'>
+        <div class='sect noteDiv'><div id='progIn'></div><div id='Notes'>System Ready</div></div>
         <div class='sect'>Framerate: <span id='FR_note'>30</span></div>
         <div class='sect'>Width: <span id='wid_note'>2160</span></div>
         <div class='sect'>Height: <span id='hgt_note'>2160</span></div>
       </div>
       <div class='controls'>
+        <div class='section simple'>
+          <div class='title'><span class='reveal'>▲</span>Metadata</div>
+          <div class='opts'>
+            <!-- <div class='controlButtons sub cueMan'>
+              <input id='Add' type='button' value='Add'></input>
+              <input id='Edit' type='button' value='Edit'></input>
+              <input id='Delete' type='button' value='Delete'></input>
+            </div> -->
+            <div class='sub' id='Metadata'>
+            </div>
+          </div>
+        </div>
         <div class='section simple'>
           <div class='title'><span class='reveal'>▲</span> Camera Options</div>
           <div class='opts'>
@@ -83,7 +96,6 @@
           <div class='title'><span class='reveal'>▲</span> Auto Control<span ></div>
           <div class='opts'>
             <div class="sub"><input id='dataFile' type="file" accept=".csv"></input></div>
-            <div class='sub'><label>File Base Name:</label><input id='baseName' type="text"></input></div>
             <div class='controlButtons cueMan'>
               <input id='Add' type='button' value='Add'></input>
               <input id='Edit' type='button' value='Edit'></input>
@@ -100,6 +112,13 @@
           <div class='title'><span class='reveal'>▲</span> Recording Options</div>
           <div class='opts'>
             <div class='sub'><label>Time (seconds):</label><input id='durationSelect' type="number" min='0' max='3600' placeholder='optional'></input></div>
+            <div class='sub'><label>File Base Name:</label><input id='baseName' type="text"></input></div>
+            <div class='sub'><label>Save location:</label>
+              <span>
+                <input id='filePath' type="text" />
+                <input id='SetPath' type='button' value='Set' />
+              </span>
+            </div>
             <div class='controlButtons'>
               <progress-ring></progress-ring>
               <input id='Record' type='button' value='Record'></input>

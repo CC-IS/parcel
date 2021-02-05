@@ -1,0 +1,59 @@
+:host {
+  box-sizing: border-box;
+  width: var(--pad-width);
+  height: var(--pad-height);
+  --border-color: #ccc;
+  --mar-gin: calc(var(--pad-width) * .025);
+  --button-height: calc(( var(--pad-height) - var(--mar-gin) * 5)/ 6  );
+  --button-width: calc(( var(--pad-width) - var(--mar-gin) * 2) / 3  );
+  --button-color: #fff;
+  --text-color: #333;
+  font-size: calc(var(--button-height) * .5);
+  padding: none;
+}
+
+:host .holder {
+  box-sizing: border-box;
+  width: var(--pad-width);
+  height: var(--pad-height);
+  margin: 0;
+}
+
+:host .button, :host .padText {
+  display: inline-block;
+  width: var(--button-width);
+  height: var(--button-height);
+  background-color: var(--button-color);
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  margin-bottom: var(--mar-gin);
+  border-radius: calc(var(--button-height) * .125);
+  text-align: center;
+  line-height: var(--button-height);
+  color: var(--text-color);
+}
+
+:host .button:active {
+  filter: invert(1);
+}
+
+:host .button:nth-of-type(3n+2){
+  margin-left: var(--mar-gin);
+  margin-right: var(--mar-gin);
+}
+
+:host .enter {
+  width: var(--pad-width) ;
+}
+
+:host input {
+  width: var(--pad-width) !important;
+  text-align: right !important;
+  padding-right: 2vh;
+  font-size: calc(var(--button-height) / 2);
+  line-height: var(--button-height);
+}
+
+:host(.no-enter) .enter {
+  display: none;
+}

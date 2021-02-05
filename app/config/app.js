@@ -1,8 +1,9 @@
 module.exports = {
-  showDevTools: true,
+  showDevTools: false,
   io: {
     manufacturer: 'Silicon Labs',
-  }
+  },
+  location: 'makerspace'
   // windows: [
   //   {
   //     label: 'main',

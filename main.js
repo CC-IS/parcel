@@ -2,6 +2,8 @@
 
 const electron = require('electron');
 
+const { contextBridge } = require('electron')
+
 var fs = require('fs');
 
 global.obtain = (addr, func)=> func.apply(null, addr.map(adr=>require(adr)));
@@ -12,9 +14,13 @@ if (!window) var window = global;
 
 global.config = require(`${__dirname}/app/config/app.js`);
 
+console.log(global.config);
+
+//require(`${__dirname}/app/contextLoader.js`).load(contextBridge);
+
 if (process.platform == 'linux' && fs.existsSync('/boot/SAFEMODE')) process.exit(0);
 
-obtain(['path', 'url', 'child_process', 'os'], (path, url, { execSync }, os)=> {
+obtain(['path', 'url', 'child_process', 'os', ], (path, url, { execSync }, os)=> {
 
   // Module to control application life.
   const app = electron.app;
@@ -49,7 +55,9 @@ obtain(['path', 'url', 'child_process', 'os'], (path, url, { execSync }, os)=> {
       offscreen: false,
       webPreferences: {
         nodeIntegration: true,
-        enableRemoteModule: true
+        enableRemoteModule: true,
+        worldSafeExecuteJavaScript: true,
+        contextIsolation: false
       }
     });
 

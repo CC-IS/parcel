@@ -2,172 +2,112 @@
 <html lang="en">
 <meta charset="utf-8"></meta>
   <head>
-    <title>Fly Rig Video Controller</title>
-    <script src="../common/src/muse/main.js" main="./src/app.js"></script>
+    <title>Makerspace POS</title>
+    <!-- <script src="../common/src/muse/mainModule.js" main='./src/moduleApp.js'></script> -->
+    <script src="../common/src/muse/main.js" main='./src/app.js'></script>
   	<link rel="stylesheet" href="css/style.css"></link>
   	<link rel="stylesheet" href="css/animStyles.css"></link>
   </head>
   <body>
     <div class="content">
       <div class="topBar">
-        <img class='logo' src='img/logo.png'></img>Fly Rig Video Control
+        <img class='logo' src='img/logo.png'></img>Carleton Makerspace Tracker
       </div>
-      <div class='vid-div'>
-          <cam-era></cam-era>
-          <div id='indicator'><div class='dot'></div>RECORDING</div>
-          <div id='timeStamp'>00:00:00.00</div>
+      <div class='leftArea'>
+          <div id='itemList'>
+
+          </div>
       </div>
       <div class='feedback'>
-        <div class='sect noteDiv'><div id='progIn'></div><div id='Notes'>System Ready</div></div>
-        <div class='sect'>Framerate: <span id='FR_note'>30</span></div>
-        <div class='sect'>Width: <span id='wid_note'>2160</span></div>
-        <div class='sect'>Height: <span id='hgt_note'>2160</span></div>
+        <!-- <div class='noteDiv'><div id='progIn'></div><div id='Notes'>Scan Item or Key-In Code</div></div> -->
+        <span class='noteLabel'>Total:</span><span id='totalCost'>$0.00</span>
       </div>
       <div class='controls'>
-        <div class='section simple'>
-          <div class='title'><span class='reveal'>▲</span>Metadata</div>
-          <div class='opts'>
-            <!-- <div class='controlButtons sub cueMan'>
-              <input id='Add' type='button' value='Add'></input>
-              <input id='Edit' type='button' value='Edit'></input>
-              <input id='Delete' type='button' value='Delete'></input>
-            </div> -->
-            <div class='sub' id='Metadata'>
-            </div>
-          </div>
-        </div>
-        <div class='section simple'>
-          <div class='title'><span class='reveal'>▲</span> Camera Options</div>
-          <div class='opts'>
-            <div class='sub'><label>Source:</label><select id="cameraSource">
-              <option value='0' disabled selected>Select a camera</option>
-            </select></div>
-            <div class='sub'><label>Framerate:</label><input id='rateSelect' type="number" value='30' min='1' max='40'></input></div>
-            <div class='sub'><label>Width (pixels):</label><input id='widthSelect' type="number" value='3840' min='1' max='3840'></input></div>
-            <div class='sub'><label>Height (pixels):</label><input id='heightSelect' type="number" value='2160' min='1' max='2160'></input></div>
-            <div class='controlButtons'><input id='camApply' type='button' value='Apply'></input></div>
-          </div>
-        </div>
-        <div class='section simple' id='manual'>
-          <div class='title'><span class='reveal'>▲</span> Manual Control</div>
-          <div class='opts'>
-            <div class='sub'><label>Frequency:</label><input id='freqSelect' type="number" value='20' min='0' max='800'></input></div>
-            <div class='sub'><label>Amplitude (%):</label><input id='ampSelect' type="number" value='50' min='0' max='100'></input></div>
-            <div class='sub'><label>Pulse Length (ms):</label><input id='lenSelect' type="number" value='10' min='0' max='100'></input></div>
-            <div class='sub'><label>Quadrants:</label>
-              <input type="checkbox" id="quad4" value="3">
-              <input type="checkbox" id="quad3" value="2">
-              <input type="checkbox" id="quad2" value="1">
-              <input type="checkbox" id="quad1" value="0">
-            </div>
-            <div class='sub'>
-              <label>Left Odor:</label><select id='leftOdor'>
-                <option value='0' selected>None</option>
-                <option value='1'>Odor 1</option>
-                <option value='2'>Odor 2</option>
-                <option value='4'>Odor 3</option>
-                <option value='8'>Air</option>
-              </select>
-            </div>
-            <div class='sub'>
-              <label>Right Odor:</label><select id='rightOdor'>
-                <option value='0' selected>None</option>
-                <option value='16'>Odor 1</option>
-                <option value='32'>Odor 2</option>
-                <option value='64'>Odor 3</option>
-                <option value='128'>Air</option>
-              </select>
-            </div>
-            <div class='sub'>
-              <label>Backlight:</label><input id='backlight' type="number" value='64' min='0' max='127'></input>
-              <input id='blRange' type="range" min="0" max="127" value="64"></input>
-            </div>
-            <div class='sub'><label>Time (s):</label><input id='stimTime' type="number" min='0' max='360' placeholder='optional'></input></div>
-
-            <!-- <div class='sub'><input id='lightApply' type='button' value='Apply'></input></div> -->
-            <div class='controlButtons manual'>
-              <input id='Set' type='button' value='Set'></input>
-              <input id='Off' type='button' value='Off'></input>
-              <input id='Mom' type='button' value='Momentary'></input>
-            </div>
-          </div>
-        </div>
-        <div class='section advanced' id='auto'>
-          <div class='title'><span class='reveal'>▲</span> Auto Control<span ></div>
-          <div class='opts'>
-            <div class="sub"><input id='dataFile' type="file" accept=".csv"></input></div>
-            <div class='controlButtons cueMan'>
-              <input id='Add' type='button' value='Add'></input>
-              <input id='Edit' type='button' value='Edit'></input>
-              <input id='Delete' type='button' value='Delete'></input>
-            </div>
-            <div class="sub hide cueSub"><select multiple id='cueList'></select></div>
-            <div class='controlButtons stimControls'>
-              <input id='Run' type='button' value='Run'></input>
-              <input id='Halt' type='button' value='Halt'></input>
-            </div>
-          </div>
-        </div>
-        <div class='section simple'>
-          <div class='title'><span class='reveal'>▲</span> Recording Options</div>
-          <div class='opts'>
-            <div class='sub'><label>Time (seconds):</label><input id='durationSelect' type="number" min='0' max='3600' placeholder='optional'></input></div>
-            <div class='sub'><label>File Base Name:</label><input id='baseName' type="text"></input></div>
-            <div class='sub'><label>Save location:</label>
-              <span>
-                <input id='filePath' type="text" />
-                <input id='SetPath' type='button' value='Set' />
-              </span>
-            </div>
-            <div class='controlButtons'>
-              <progress-ring></progress-ring>
-              <input id='Record' type='button' value='Record'></input>
-              <input id='Stop' type='button' value='Stop'></input>
-            </div>
-          </div>
-        </div>
+        <div class='header'>Scan Item <br />or<br/> Key-In Code</div>
+        <key-pad id='keyPad'></key-pad>
+        <div class="button" id='checkout'>Checkout</div>
+        <div class="button" id='coCancel'>Cancel</div>
       </div>
-      <div class='overlay' id='editOverlay'>
-        <div id='cueEdit'>
-          <div class='editOpts'>
-            <div class='sub'><label>Start Time (s):</label><input id='cueTime' type="number" min='0' max='3600'></input></div>
-            <div class='sub'><label>Frequency (Hz):</label><input id='freqEd' type="number" value='20' min='0' max='800'></input></div>
-            <div class='sub'><label>Amplitude (%):</label><input id='ampEd' type="number" value='50' min='0' max='100'></input></div>
-            <div class='sub'><label>Pulse Length (ms):</label><input id='lenEd' type="number" value='10' min='0' max='100'></input></div>
-            <div class='sub'><label>Quadrants:</label>
-              <input type="checkbox" id="edQuad4" value="3">
-              <input type="checkbox" id="edQuad3" value="2">
-              <br />
-              <input type="checkbox" id="edQuad2" value="1">
-              <input type="checkbox" id="edQuad1" value="0">
-            </div>
-            <div class='sub'>
-              <label>Left Odor:</label><select id='edLeftOdor'>
-                <option value='' selected>None</option>
-                <option value='A'>Odor 1</option>
-                <option value='B'>Odor 2</option>
-                <option value='C'>Odor 3</option>
-                <option value='D'>Air</option>
-              </select>
-            </div>
-            <div class='sub'>
-              <label>Right Odor:</label><select id='edRightOdor'>
-                <option value='' selected>None</option>
-                <option value='A'>Odor 1</option>
-                <option value='B'>Odor 2</option>
-                <option value='C'>Odor 3</option>
-                <option value='D'>Air</option>
-              </select>
-            </div>
-            <!-- <div class='sub'>
-              <label>Backlight:</label><input id='ed-backlight' type="number" value='64' min='0' max='127'></input>
-              <input id='blRange' type="range" min="0" max="127" value="64"></input>
-            </div> -->
+      <div id='overlays' mode='welcomeScan'>
+        <div class='overlay show' id='welcomeOL'>
+          <div class='midFloat'>
+            <div class='icon'><img src='img/id.png'><img><br />Scan ID to<br> check-in</div>
+            <div class='icon' id='startScan'><img src='img/items.png'><img><br />Scan an<br> item</div>
+            <div class='icon' id='manage'><img src='img/acct.png'><img><br />Manage<br> account</div>
+          </div>
+        </div>
 
-            <!-- <div class='sub'><input id='lightApply' type='button' value='Apply'></input></div> -->
-            <div class='controlButtons editor'>
-              <input id='Save' type='button' value='Save'></input>
-              <input id='Cancel' type='button' value='Cancel'></input>
+        <div class='overlay' id='quantOL'>
+          <div class='midFloat'>
+            <div class='leftSide'>
+              <div>Please enter a quantity <br/> (in <span id='quantUnit'>units</span>)</div>
+            </div>
+            <div class='rightSide'>
+              <key-pad id='quantKey' class='no-enter'></key-pad>
+            </div>
+            <div class='buttons'>
+              <div id='quantCancel'>Cancel</div>
+              <div id='quantAccept'>Accept</div>
+            </div>
+          </div>
+        </div>
+
+        <div class='overlay' id='userInfoOL'>
+          <div class='midFloat'>
+            <div class='header'>
+              Tell us about yourself!
+            </div>
+            <div class='stats'>
+              <input id='firstName' type="text" placeholder="First Name (required)" required></input>
+              <input id='lastName' type="text" placeholder="Last Name (required)" required></input>
+              <input id='email' type="text" placeholder="Email (required)" required></input>
+              <input id='pronouns' type='text' placeholder="Pronouns"></input>
+              <input id='department' type='text' placeholder="Department/Major"></input>
+              <input id='year' type='text' placeholder="Class Year or Department Role"></input>
+              <input id='mailList' type='checkbox' value='yes' checked></input><label for="mailList">Join our mailing list</label>
+            </div>
+            <div class='buttons'>
+              <div id='cancelSignUp'>Cancel</div>
+              <div id='saveSignUp'>Save</div>
+            </div>
+          </div>
+        </div>
+        <div class='overlay' id='signInOL'>
+          <div class='midFloat'>
+            <div class='header'>
+              Welcome, <span id='signInName'>Name</span>!
+            </div>
+          </div>
+        </div>
+        <div class='overlay' id='acctScan'>
+          <div class='midFloat'>
+            <div class='header'>
+              Scan ID to continue...
+              <div class='buttons '>
+                <div id='cancelScan'>Cancel</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class='overlay' id='coScan'>
+          <div class='midFloat'>
+            <div class='header'>
+              Scan ID to checkout...
+              <div class='buttons '>
+                <div id='cancelCO'>Cancel</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class='overlay' id='rcptOL'>
+          <div class='midFloat'>
+            <div class='header'>
+              Thank you!
+              Your receipt code is:<br />
+              <canvas id='qrcodeCV'></canvas>
+              <div class='buttons'>
+                <div id='cancelRcpt'>Dismiss</div>
+              </div>
             </div>
           </div>
         </div>

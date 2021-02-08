@@ -78,7 +78,7 @@ echo "Using $ACCOUNT as the github account" >> $OUTPUT
 echo "and $REPO as the github repo" >> $OUTPUT
 
 #clear the log file
-cat /dev/null > stele_install.log
+cat /dev/null >  parcel_install.log
 
 # function to hold the program until network connections are available
 waitForNetwork ()
@@ -183,7 +183,7 @@ echo -e "\n** Installing node and system dependencies..."
 
 startWorking
 
-curl -sL https://deb.nodesource.com/setup_812.x | sudo -E bash - >> ${OUTPUT} 2>&1
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - >> ${OUTPUT} 2>&1
 
 [ $(uname --m) != "x86_64" ] && sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo >> ${OUTPUT} 2>&1
 

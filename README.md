@@ -1,4 +1,5 @@
-# Stele-lite
+<<<<<<< HEAD
+# Parcel
 
 Electron kiosk application wrapper and machine configuration suite for minimal linux machines.
 
@@ -10,9 +11,9 @@ This is a simple wrapper application to manage the complete lifecycle of an elec
 
 _<span style="text-decoration:underline;">Single Command Installation</span>_: This package enables any network-connected debian-based machine to be configured with a single command, detailed below. This process installs the electron wrapper, and then installs a specified github repository as the 'app', which contains all of the application specific customizations.
 
-_<span style="text-decoration:underline;">Custom Installation Scripts</span>_: Stele-lite will run a custom shell script, named 'install.sh', if it is found in the config directory of the 'app' repository. This allows for installation of additional system level dependencies, and other configuration options. 
+_<span style="text-decoration:underline;">Custom Installation Scripts</span>_: Stele-lite will run a custom shell script, named 'install.sh', if it is found in the config directory of the 'app' repository. This allows for installation of additional system level dependencies, and other configuration options.
 
-_<span style="text-decoration:underline;">Machine Configuration</span>_: The stele-lite package includes a system service which monitors the config files in the application directory, and configures the computer accordingly. This process runs at each startup, and if it sees any changes to the machine.js file in the app 'config' folder, it makes the changes, and saves the current configuration.
+_<span style="text-decoration:underline;">Machine Configuration</span>_: The parcel package includes a system service which monitors the config files in the application directory, and configures the computer accordingly. This process runs at each startup, and if it sees any changes to the machine.js file in the app 'config' folder, it makes the changes, and saves the current configuration.
 
 _<span style="text-decoration:underline;">USB updating</span>_: The configurator system service also manages an update system for the app using USB drives. When a USB drive is inserted into the host computer, it is automatically mounted, and the root directory is scanned for a folder called 'update'. If it is found, it loads 'update.js' from that folder, which contains a manafest of directories and files to be updated. The program will recurse through this list of files and copy the specified files from the USB drive to the corresponding location in the app folder. After copying the files, the service automatically ejects the USB drive, and reloads the electron application.
 
@@ -33,12 +34,12 @@ _<span style="text-decoration:underline;">Raspberry Pi:</span>_
 3. Arrange for Network connection.
     1. **Wifi**:
         1. Once the card is written, re-insert it into your computer, and a drive named 'boot' should appear.
-        2. If you wish to configure the Pi wifi connection, drop the contents of the ['pi boot directory' folder](https://github.com/scimusmn/stele-lite/tree/master/install/pi%20boot%20directory) into the '/boot/' folder. The .conf file in the wifi folder is a template for a PEAP secured network. Fill this file in with the relevant network details. For more information about the wpa_supplicant.conf file, see [this link](https://linux.die.net/man/5/wpa_supplicant.conf).
+        2. If you wish to configure the Pi wifi connection, drop the contents of the ['pi boot directory' folder](https://github.com/heidgera/parcel/tree/master/install/pi%20boot%20directory) into the '/boot/' folder. The .conf file in the wifi folder is a template for a PEAP secured network. Fill this file in with the relevant network details. For more information about the wpa_supplicant.conf file, see [this link](https://linux.die.net/man/5/wpa_supplicant.conf).
         3. After booting the machine and logging in, run '/boot/wifi/setup.sh'. If the wpa_supplicant file is correct, the Pi should connect to wifi within ~10 seconds.
     2. **Wired** If not using the wifi connection, plug the Raspberry Pi into an active ethernet connection.
 4. Eject the SD card from your computer, insert it into the Raspberry Pi, and plug in power.
 5. Once the machine has booted, log in using the default credentials.
-6. After logging in, run the following command: ```bash <(curl -sL bit.ly/stele-net) -r REPO -u USER```
+6. After logging in, run the following command: ```bash <(curl -sL parcel.ajhg.me) -r REPO -a USER```
 , where REPO is the repository name, and USER is the github user name that owns the repository.
 7. Let the installer finish running. It will reboot once it has finished, and automatically start the application.
 
@@ -50,11 +51,11 @@ _<span style="text-decoration:underline;">Ubuntu 18.04 Server</span>_
 2. Install the operating system on the target machine.
 3. Connect the target machine to an active ethernet connection, or configure wifi manually.
 4. After installation, start the machine, and login with the credentials defined in the installation process.
-5. Run this command in the terminal prompt: ```bash <(curl -sL bit.ly/stele-net) -u USERNAME -r REPO```
+5. Run this command in the terminal prompt: ```bash <(curl -sL parcel.ajhg.me) -a USERNAME -r REPO```
 
 ## Configuration
 
-All of the configuration options for the stele-lite wrapper are made from the individual application's config folder. This is done so that each app can carry it's particular machine setup instructions. These configuration options are detailed below.
+All of the configuration options for the parcel wrapper are made from the individual application's config folder. This is done so that each app can carry it's particular machine setup instructions. These configuration options are detailed below.
 
 _<span style="text-decoration:underline;">machine.js</span>:_
 
@@ -293,3 +294,6 @@ This is a javascript file, in which you can define actions to occur on given key
 
 
 <!-- Docs to Markdown version 1.0β16 -->
+=======
+# Parcel
+>>>>>>> 5ffbc7b069359c789705b9bc7f4bf9c25d5745d5

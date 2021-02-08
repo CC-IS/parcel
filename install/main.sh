@@ -3,7 +3,7 @@
 # save the directory of the shell script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-OUTPUT="${HOME}/stele_install.log"
+OUTPUT="${HOME}/parcel_install.log"
 
 OPTS="$@"
 
@@ -131,7 +131,7 @@ handleError ()
   echo -e "\n**********************************************************"
   echo -e "Error at line $1"
   echo -e "\nCheck network connections and restart the install script."
-  echo -e "Also check stele_install.log for error information."
+  echo -e "Also check parcel_install.log for error information."
   doneWorking
 }
 
@@ -151,7 +151,7 @@ trap 'onExit' EXIT
 ################################################
 # beginning of install script
 
-echo -e "\n* Starting stele-lite installation"
+echo -e "\n* Starting parcel installation"
 
 # if the password hasn't yet been changed, prompt the user to change it.
 if [ ! -f "${DIR}/passwordChanged" ] && [[ $USER = 'pi' ]]; then
@@ -205,20 +205,20 @@ sudo chmod 777 /usr/local/src
 
 cd /usr/local/src
 
-# if the stele-lite directory does not exist, clone it from github, and create
+# if the parcel directory does not exist, clone it from github, and create
 # a link in the home directory
-if [[ ! -d "stele-lite" ]]; then
+if [[ ! -d "parcel" ]]; then
   waitForNetwork
   echo  -e "\n** Cloning the repository..."
-  git clone --recurse-submodules https://github.com/scimusmn/stele-lite.git
-  ln -s /usr/local/src/stele-lite ~/application
+  git clone --recurse-submodules https://github.com/heidgera/parcel.git
+  ln -s /usr/local/src/parcel ~/application
 fi
 
-cd stele-lite
+cd parcel
 
-mkdir -p /usr/local/src/stele-lite/current
+mkdir -p /usr/local/src/parcel/current
 
-echo  -e "\n** Installing node dependencies for stele-lite:"
+echo  -e "\n** Installing node dependencies for parcel:"
 
 startWorking
 

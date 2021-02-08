@@ -10,11 +10,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scimusmn/stele-lite.git"
+    "url": "git+https://github.com/heidgera/parcel.git"
   },
   "author": "ajhg",
   "license": "CC0-1.0",
-  "homepage": "https://github.com/scimusmn/stele-lite",
+  "homepage": "https://github.com/heidgera/parcel",
   "dependencies": {
     "google-auth-library": "^6.1.2",
     "googleapis": "^61.0.0",

@@ -14,6 +14,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 ACCOUNT="heidgera"
 REPO="parcelTemplate"
 
+# special thanks to jozsef morrissey: https://stackoverflow.com/questions/14447406/
 declare -A flags
 declare -A booleans
 args=()

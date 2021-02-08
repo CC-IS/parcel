@@ -183,7 +183,7 @@ echo -e "\n** Installing node and system dependencies..."
 
 startWorking
 
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - >> ${OUTPUT} 2>&1
+curl -sL https://deb.nodesource.com/setup_812.x | sudo -E bash - >> ${OUTPUT} 2>&1
 
 [ $(uname --m) != "x86_64" ] && sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo >> ${OUTPUT} 2>&1
 

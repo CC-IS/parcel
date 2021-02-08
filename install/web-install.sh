@@ -68,7 +68,7 @@ cd /usr/local/src/setup
 
 curl -sL "https://raw.githubusercontent.com/${ACCOUNT}/${REPO}/master/config/machine.js" -o machine.js
 
-curl -sL "https://raw.githubusercontent.com/scimusmn/stele-lite/master/install/main.sh" -o install.sh
+curl -sL "https://raw.githubusercontent.com/heidgera/parcel/master/install/main.sh" -o install.sh
 
 chmod 777 ./install.sh
 

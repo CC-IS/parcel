@@ -185,13 +185,35 @@ startWorking
 
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - >> ${OUTPUT} 2>&1
 
+echo -e "\n * nodejs v12. \n"
+
 [ $(uname --m) != "x86_64" ] && sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo >> ${OUTPUT} 2>&1
+
+echo -e "\n * fbturbo \n"
 
 sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libgtk-3-0 >> ${OUTPUT} 2>&1
 
+echo -e "\n * libgtk-3-0 \n"
+
 sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install git libudev-dev >> ${OUTPUT} 2>&1
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install build-essential hostapd dnsmasq network-manager xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 git nodejs libgtk2.0-0 libxtst6  >> ${OUTPUT} 2>&1
+echo -e "\n * libudev-dev \n"
+
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install build-essential  >> ${OUTPUT} 2>&1
+
+echo -e "\n * build tools \n"
+
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install hostapd dnsmasq network-manager  >> ${OUTPUT} 2>&1
+
+echo -e "\n * network tools \n"
+
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg xinit xserver-xorg-video-fbdev libxss1 libgconf-2-4 libnss3 >> ${OUTPUT} 2>&1
+
+echo -e "\n * graphics libraries \n"
+
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install git nodejs libgtk2.0-0 libxtst6  >> ${OUTPUT} 2>&1
+
+echo -e "\n * miscellaneous tools \n"
 
 sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install libasound2 >> ${OUTPUT} 2>&1
 

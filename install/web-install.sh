@@ -72,5 +72,5 @@ curl -sL "https://raw.githubusercontent.com/heidgera/parcel/master/install/main.
 
 chmod 777 ./install.sh
 
-./install.sh -r $REPO -a $ACCOUNT "$@" -s "/usr/local/src/setup"
+./install.sh "$@" -s "/usr/local/src/setup"
 #-u "$ACCOUNT" -r "$REPO" $DEBUG

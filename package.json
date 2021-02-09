@@ -16,6 +16,7 @@
   "license": "CC0-1.0",
   "homepage": "https://github.com/heidgera/parcel",
   "dependencies": {
+    "drivelist": "^9.2.4",
     "google-auth-library": "^6.1.2",
     "googleapis": "^61.0.0",
     "greg": "0.0.2",

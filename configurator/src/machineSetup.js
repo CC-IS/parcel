@@ -29,12 +29,12 @@ var obs = [
   `${__dirname}/createService.js`,
   'fs',
   `${__dirname}/keyLogger.js`,
-  `${__dirname}/usbDriveMonitor.js`,
+  //`${__dirname}/usbDriveMonitor.js`,
   'child_process',
   'os',
 ];
 
-obtain(obs, (hotspot, wiredRouter, wifi, staticIP, preventSleep, soft, { config }, services, fs, { keyboards: kbds }, usbDrive, { exec, execSync }, os)=> {
+obtain(obs, (hotspot, wiredRouter, wifi, staticIP, preventSleep, soft, { config }, services, fs, { keyboards: kbds }, /*usbDrive,*/ { exec, execSync }, os)=> {
 
   if (process.platform == 'linux' && fs.existsSync('/boot/SAFEMODE')) {
     console.log('Starting in safemode; exiting application.');
@@ -85,9 +85,9 @@ obtain(obs, (hotspot, wiredRouter, wifi, staticIP, preventSleep, soft, { config 
       bundleRoot = curCfg.bundleRoot;
     }
 
-    usbDrive.startWatch({
-      app: bundleRoot + '/app/',
-    });
+    // usbDrive.startWatch({
+    //   app: bundleRoot + '/app/',
+    // });
 
     // var acInd = opts.indexOf('--account') + 1;
     // var rInd = opts.indexOf('--repo') + 1;

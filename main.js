@@ -256,8 +256,12 @@ obtain(['path', 'url', 'child_process', 'os', ], (path, url, { execSync }, os)=>
   app.on('ready', ()=> {
     var launched = false;
     var watcher = null;
-    makeWindows();
-    launched = true;
+    var startDelay = global.config.startDelay || 0;
+    setTimeout(()=>{
+      makeWindows();
+      launched = true;
+    }, startDelay)
+
 
     // this delayed starting the app if not everything was installed, unnecessary
     // if (fs.existsSync(appRoot + '/current/appReady')) {

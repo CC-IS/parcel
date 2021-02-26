@@ -3,6 +3,7 @@ exports.config = {
     autostart: true,
     gitWatch: true,
     preventSleep: true,
+    monitorConfig: true,
     // softShutdown: {
     //   monitorPin: 24,
     //   controlPin: 25,

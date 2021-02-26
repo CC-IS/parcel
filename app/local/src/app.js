@@ -7,15 +7,17 @@ var config = remote.getGlobal('config');
 var obtains = [
   'µ/google/jwt.js',
   'µ/google/sheets_2.js',
+  'µ/components/growl.js',
   './src/sheetInfo.js',
   './src/keypad.js',
   './src/items.js',
   'uuid',
   'greg',
-  'qrcode'
+  'qrcode',
+  'child_process'
 ]
 
-obtain(obtains, ({Client}, {SpreadSheet}, {SheetInfo}, {Keypad}, {Item}, { v4: uuidv4 }, greg, qr)=>{
+obtain(obtains, ({Client}, {SpreadSheet}, growl, {SheetInfo}, {Keypad}, {Item}, { v4: uuidv4 }, greg, qr, {execSync})=>{
   exports.app = {};
 
   console.log(config);
@@ -97,7 +99,8 @@ obtain(obtains, ({Client}, {SpreadSheet}, {SheetInfo}, {Keypad}, {Item}, { v4: u
       'ea': 'each',
       'in': 'inches',
       'oz': 'ounces',
-      'g': 'grams'
+      'g': 'grams',
+      'yd': 'yards'
     };
     quantUnit.textContent = conv[data.unit];
     if(data.quantity) quantKey.input.value = data.quantity;
@@ -147,10 +150,12 @@ obtain(obtains, ({Client}, {SpreadSheet}, {SheetInfo}, {Keypad}, {Item}, { v4: u
   }
 
   var findUser = (userID) => {
+    mainGrowl.message('Finding User...','note',true);
     profile.objectFromKeyValue('userID', userID).then(profile=>{
+      mainGrowl.dismiss();
       console.log(profile);
       if(overlays.mode == 'acctScan') accountDialog(profile);
-      else if(overlays.mode == 'welcomeScan') signIn(profile);
+      else if(overlays.mode == 'welcomeScan' || overlays.mode == 'signInScan') signIn(profile);
       else if(overlays.mode == 'coScan') recordTransaction(profile);
     }).catch(err=>{
       if(err == 'VAL_NOT_FOUND'){
@@ -181,6 +186,8 @@ obtain(obtains, ({Client}, {SpreadSheet}, {SheetInfo}, {Keypad}, {Item}, { v4: u
       findUser(scanResult);
     } else if (scanResult.length == 16){
       findUser(scanResult.substring(1,15));
+    } else if (scanResult == '0028'){
+      execSync('sudo shutdown now');
     }
   }
 
@@ -188,6 +195,20 @@ obtain(obtains, ({Client}, {SpreadSheet}, {SheetInfo}, {Keypad}, {Item}, { v4: u
 
     /////////////////////////////////////////////////////////////////
     // element event handlers
+
+    var screensaverTO = null;
+
+    var resetSS = ()=>{
+      screensaver.classList.remove('active');
+      if(screensaverTO) clearTimeout(screensaverTO);
+      screensaverTO = setTimeout(()=>{
+        screensaver.classList.add('active');
+      }, 30000);
+    }
+
+    µ('body')[0].onclick = e=>{
+      resetSS();
+    }
 
     Object.defineProperty(overlays, 'mode', {
       get: ()=>overlays.getAttribute('mode'),
@@ -208,6 +229,11 @@ obtain(obtains, ({Client}, {SpreadSheet}, {SheetInfo}, {Keypad}, {Item}, { v4: u
       overlays.mode = 'shopScan';
     }
 
+    signInButton.onclick = e=>{
+      e.preventDefault();
+      overlays.mode = 'signInScan';
+    }
+
     cancelScan.onclick = (e)=>{
       overlays.mode = 'welcomeScan';
       e.preventDefault();
@@ -225,6 +251,7 @@ obtain(obtains, ({Client}, {SpreadSheet}, {SheetInfo}, {Keypad}, {Item}, { v4: u
       e.preventDefault();
       overlays.mode = 'welcomeScan';
       while(itemList.firstChild) itemList.removeChild(itemList.firstChild);
+      calculateTotal();
     }
 
     saveSignUp.onclick = (e)=>{
@@ -300,6 +327,7 @@ obtain(obtains, ({Client}, {SpreadSheet}, {SheetInfo}, {Keypad}, {Item}, { v4: u
         if(e.keyCode > 32 && e.keyCode < 127){
           scanString += e.key;
         } else if(e.key == 'Enter'){
+          resetSS();
           onScan(scanString);
           scanString = '';
         }
@@ -310,7 +338,7 @@ obtain(obtains, ({Client}, {SpreadSheet}, {SheetInfo}, {Keypad}, {Item}, { v4: u
         if(e.key == 'Enter'){
           quantAccept.onclick();
         }
-      } 
+      }
     };
   };
 

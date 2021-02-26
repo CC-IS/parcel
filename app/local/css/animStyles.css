@@ -19,3 +19,45 @@ body {
 .dot {
   animation: fadeCycle 2s linear infinite alternate;
 }
+
+#screensaver {
+  display:none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,.5);
+
+  --img-sz: 30vw;
+}
+
+#screensaver.active {
+  display: block;
+}
+
+@keyframes vertBounce {
+  0%   {
+    top: 0
+  }
+  100% {
+    top: calc(100vh - var(--img-sz));
+  }
+}
+
+@keyframes horBounce {
+  0%   {
+    left: 0
+  }
+  100% {
+    left: calc(100vw - var(--img-sz));
+  }
+}
+
+#screensaver.active #bouncer {
+  position: absolute;
+  width: var(--img-sz);
+  height: var(--img-sz);
+  left: 0;
+  top: 0;
+
+  animation: vertBounce 7s linear infinite alternate, horBounce 6s linear infinite alternate;
+}

@@ -6,6 +6,7 @@
     <!-- <script src="../common/src/muse/mainModule.js" main='./src/moduleApp.js'></script> -->
     <script src="../common/src/muse/main.js" main='./src/app.js'></script>
   	<link rel="stylesheet" href="css/style.css"></link>
+  	<link rel="stylesheet" href="css/growl.css"></link>
   	<link rel="stylesheet" href="css/animStyles.css"></link>
   </head>
   <body>
@@ -31,7 +32,7 @@
       <div id='overlays' mode='welcomeScan'>
         <div class='overlay show' id='welcomeOL'>
           <div class='midFloat'>
-            <div class='icon'><img src='img/id.png'><img><br />Scan ID to<br> check-in</div>
+            <div class='icon' id='signInButton'><img src='img/id.png'><img><br />Scan ID to<br> check-in</div>
             <div class='icon' id='startScan'><img src='img/items.png'><img><br />Scan an<br> item</div>
             <div class='icon' id='manage'><img src='img/acct.png'><img><br />Manage<br> account</div>
           </div>
@@ -111,6 +112,10 @@
             </div>
           </div>
         </div>
+      </div>
+      <muse-growl id='mainGrowl'></muse-growl>
+      <div id='screensaver' class='active'>
+        <img id='bouncer' src='img/logo.png'></img>
       </div>
       <!-- <div id='stats'>
       </div> -->

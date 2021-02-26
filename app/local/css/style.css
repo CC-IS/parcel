@@ -311,7 +311,7 @@ div.title {
 	display: block;
 }
 
-#overlays[mode='acctScan'] #acctScan {
+#overlays[mode='acctScan'] #acctScan, #overlays[mode='signInScan'] #acctScan {
 	display: block;
 }
 
@@ -375,8 +375,9 @@ div.title {
 
 #welcomeOL .midFloat{
 	/* display: block; */
-	--dialog-height: 75vh;
-	padding-top: 22.5vh;
+	--dialog-height: 100vh;
+	--dialog-width: 100vw;
+	padding-top: 30vh;
 	padding-left: 5vh;
 	padding-right: 5vh;
 	border: 5px solid rgb(0,10,40);
@@ -385,12 +386,13 @@ div.title {
 #welcomeOL .icon {
 	display: inline-block;
 	width: calc(var(--dialog-width) / 4);
+	height: calc(var(--dialog-height) / 2.5);
 	font-size: 5vh;
 	border: 2px solid rgb(0,5,20);
 	border-radius: 2vh;
 	margin: 1vh;
 	padding: 2vh;
-	height: 30vh;
+	padding-top: 5vh;
 	background-color: #0B5091;
 	color:  #F3B61D;
 }

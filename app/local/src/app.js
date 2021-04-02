@@ -14,10 +14,11 @@ var obtains = [
   'uuid',
   'greg',
   'qrcode',
-  'child_process'
+  'child_process',
+  './src/mailer.js'
 ]
 
-obtain(obtains, ({Client}, {SpreadSheet}, growl, {SheetInfo}, {Keypad}, {Item}, { v4: uuidv4 }, greg, qr, {execSync})=>{
+obtain(obtains, ({Client}, {SpreadSheet}, growl, {SheetInfo}, {Keypad}, {Item}, { v4: uuidv4 }, greg, qr, {execSync}, {sendMail})=>{
   exports.app = {};
 
   console.log(config);
@@ -41,9 +42,21 @@ obtain(obtains, ({Client}, {SpreadSheet}, growl, {SheetInfo}, {Keypad}, {Item}, 
   var inventory = new SheetInfo(materials, 'Inventory');
   var transactions = new SheetInfo(materials, 'Transactions');
   var balances = new SheetInfo(materials, 'UserBalances');
+  var tools = new SheetInfo(materials, 'Tools');
+  var toolCheckouts = new SheetInfo(materials, 'ToolCheckouts');
 
   var profile = new SheetInfo(users, 'Users');
   var activity = new SheetInfo(users, 'Activity');
+
+  var imgCanv = µ('+canvas');
+  const headerImg = new Image();
+  headerImg.onload = function() {
+    imgCanv.width = headerImg.width;
+    imgCanv.height = headerImg.height;
+    var ctx = imgCanv.getContext('2d');
+    ctx.drawImage(headerImg, 0,0,headerImg.width, headerImg.height);
+  }
+  headerImg.src = 'img/LogoHeaderSmall.png';
 
 ////////////////////////////////////////////////////////
 
@@ -66,6 +79,27 @@ obtain(obtains, ({Client}, {SpreadSheet}, growl, {SheetInfo}, {Keypad}, {Item}, 
     }
   }
 
+  var getTools = toolCodes=>{
+      return toolCheckouts.objectArrayFromKeyValues('code',toolCodes);
+  }
+
+  var getToolCheckouts = profile=>{
+    toolCheckouts.objectFromKeyValue('user', profile.email).then((data)=>{
+      console.log('got checkouts')
+      console.log(data);
+      var tools = JSON.parse(data.tools);
+      console.log(tools);
+      var toolInd = 0;
+
+      if(tools.length) getTools(tools.map(tool=>tool.code)).then(tools=>{
+        console.log(tools);
+      })
+
+    }).catch(err=>{
+      if(err == 'VAL_NOT_FOUND') console.log('no tools checked out');
+    });
+  }
+
   var startOrder = ()=>{
 
   }
@@ -80,13 +114,52 @@ obtain(obtains, ({Client}, {SpreadSheet}, growl, {SheetInfo}, {Keypad}, {Item}, 
       userID: profile.userID,
       userEmail: profile.email,
       jsonCart: JSON.stringify(list),
-      cartTotal: cart.reduce((acc,item)=>acc + item.getSubtotal(), 0)
+      cartTotal: cart.reduce((acc,item)=>acc + item.getSubtotal(), 0),
+      projectDescription: projectDescription.value
     }
 
     console.log(newTA);
 
     overlays.mode = 'rcpt';
-    qr.toCanvas(qrcodeCV,newTA.uuid);
+    qr.toCanvas(qrcodeCV, newTA.uuid);
+
+    var codeURL = qrcodeCV.toDataURL().split('base64,')[1];
+    var logoURL = imgCanv.toDataURL().split('base64,')[1];
+
+    const msg = {
+      to: profile.email, // Change to your recipient
+      from: 'no-reply@admin.make-it.cc', // Change to your verified sender
+      subject: 'Makerspace Transaction Receipt',
+      html: `<div style='text-align: center; font-family: sans-serif;'>
+        <img class='header' style='width: 50%; height: auto;' src="cid:header"></img>
+        <h1 style='color: 2B388F;'>Thank you for using the Class of '69 Makerpace! </h1>
+        <p>Please find your receipt code below:</p>
+        <img style="display: inline-block" src="cid:qrcode"></img>
+        <br />
+        <strong>${newTA.uuid}</strong>
+      </div>`,
+      attachments: [
+        {
+          content: logoURL,
+          filename: "header.png",
+          content_id: 'header',
+          type: "image/png",
+          disposition: "inline"
+        },
+        {
+          content: codeURL,
+          filename: "receiptCode.png",
+          content_id: 'qrcode',
+          type: "image/png",
+          disposition: "inline"
+        }
+      ]
+    }
+
+    while(itemList.firstChild) itemList.removeChild(itemList.firstChild);
+    calculateTotal();
+
+    sendMail(msg);
     //uuidSpan.textContent = newTA.uuid;
     return transactions.amendOrAddFromObject(newTA, 'uuid');
   }
@@ -157,6 +230,7 @@ obtain(obtains, ({Client}, {SpreadSheet}, growl, {SheetInfo}, {Keypad}, {Item}, 
       if(overlays.mode == 'acctScan') accountDialog(profile);
       else if(overlays.mode == 'welcomeScan' || overlays.mode == 'signInScan') signIn(profile);
       else if(overlays.mode == 'coScan') recordTransaction(profile);
+      else if(overlays.mode == 'toolUserScan') getToolCheckouts(profile);
     }).catch(err=>{
       if(err == 'VAL_NOT_FOUND'){
         newUserDialog(userID);
@@ -234,6 +308,17 @@ obtain(obtains, ({Client}, {SpreadSheet}, growl, {SheetInfo}, {Keypad}, {Item}, 
       overlays.mode = 'signInScan';
     }
 
+    borrow.onclick = e=>{
+      e.preventDefault();
+      overlays.mode = 'toolUserScan';
+    }
+
+    µ('.cancelTool').forEach(el=>el.onclick = (e)=>{
+      overlays.mode = 'welcomeScan';
+      e.preventDefault();
+    });
+
+
     cancelScan.onclick = (e)=>{
       overlays.mode = 'welcomeScan';
       e.preventDefault();
@@ -241,6 +326,7 @@ obtain(obtains, ({Client}, {SpreadSheet}, growl, {SheetInfo}, {Keypad}, {Item}, 
 
     checkout.onclick = e=>{
       overlays.mode = 'coScan';
+      projectDescription.value = '';
     }
 
     cancelCO.onclick = e=>{

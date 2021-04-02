@@ -48,13 +48,36 @@ class SheetInfo extends Array{
         else throw('VAL_NOT_FOUND');
       });
     });
+  }
 
+  rangesFromKeyValues(key, searched){
+    var _this = this;
+    return _this.initProm.then(()=>{
+      return _this.query(_this.keyRange(key)).then((values)=>{
+        var range = '';
+        searched.forEach((sought,i) => {
+          var row = values.findIndex(el => el[0] == value) + 1;
+          if(row > 0) range += `${_this.sub}!${row}:${row}`;//return(`${_this.sub}!${row}:${row}`);
+          else throw('VAL_NOT_FOUND');
+          if(i<searched.length-1) range+=',';
+        });
+        return range;
+      });
+    });
   }
 
   rowFromKeyValue(key, value){
     var _this = this;
     return _this.rangeFromKeyValue(key, value).then((range)=>{
       return _this.query(range);
+    });
+  }
+
+  rowsFromKeyValues(key, values){
+    var _this = this;
+    console.log(values);
+    return _this.rangesFromKeyValues(key, values).then((ranges)=>{
+      return _this.query(ranges);
     });
   }
 
@@ -67,6 +90,17 @@ class SheetInfo extends Array{
       });
       return ret;
     })
+  }
+
+  objectArrayFromValues(key, values){
+    var _this = this;
+    return _this.rowsFromKeyValues(key, value).then(values=>values.map(val=>{
+      var ret = {};
+      _this.forEach((selfKey, i) => {
+        ret[selfKey] = val[i];
+      });
+
+    }));
   }
 
   amendOrAddFromObject(obj, key){

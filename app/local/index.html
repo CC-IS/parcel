@@ -32,9 +32,30 @@
       <div id='overlays' mode='welcomeScan'>
         <div class='overlay show' id='welcomeOL'>
           <div class='midFloat'>
-            <div class='icon' id='signInButton'><img src='img/id.png'><img><br />Scan ID to<br> check-in</div>
-            <div class='icon' id='startScan'><img src='img/items.png'><img><br />Scan an<br> item</div>
-            <div class='icon' id='manage'><img src='img/acct.png'><img><br />Manage<br> account</div>
+            <div class='icon' id='signInButton'>
+              <div>
+                <span class='row'><p><img src='img/id.png'></img></p></span>
+                <span class='row'><p class='text'>Check-in</p></span>
+              </div>
+            </div>
+            <div class='icon' id='startScan'>
+              <div>
+                <span class='row'><p><img src='img/items.png'></p></img></span>
+                <span class='row'><p class='text'>Track<br>Material<br>Use</p></span>
+              </div>
+            </div>
+            <div class='icon' id='borrow'>
+              <div>
+                <span class='row'><p><img src='img/tools.png'></img></p></span>
+                <span class='row'><p class='text'>Borrow or<br /> Return <br> Tools</p></span>
+              </div>
+            </div>
+            <div class='icon' id='manage'>
+              <div>
+                <span class='row'><p><img src='img/acct.png'><img></p></span>
+                <span class='row'><p class='text'>Manage<br> Account</p></span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -93,11 +114,25 @@
         <div class='overlay' id='coScan'>
           <div class='midFloat'>
             <div class='header'>
+              <input id='projectDescription' type="text" placeholder="Enter a brief project description"></input><br>
+              <em>then</em><br>
               Scan ID to checkout...
-              <div class='buttons '>
-                <div id='cancelCO'>Cancel</div>
-              </div>
             </div>
+            <div class='buttons '>
+              <div id='cancelCO'>Cancel</div>
+            </div>
+          </div>
+        </div>
+        <div class='overlay' id='toolUserScan'>
+          <div class='midFloat'>
+            <div class='header'>Scan ID to proceed...</div>
+            <div class='buttons '>
+              <div class='cancelTool'>Cancel</div>
+            </div>
+          </div>
+        </div>
+        <div class='overlay' id='toolScan'>
+          <div class='midFloat'>
           </div>
         </div>
         <div class='overlay' id='rcptOL'>

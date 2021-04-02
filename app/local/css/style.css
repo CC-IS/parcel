@@ -190,8 +190,36 @@ body {
 .controls key-pad {
 }
 
-#coScan {
+#toolScan {
+
+}
+
+#toolUserScan {
 	--dialog-height: 50vh;
+}
+
+.cancelTool {
+	margin-top: 5vh;
+	background-color: #05a;
+}
+
+.cancelTool:active {
+	filter: brightness(.75);
+}
+
+#coScan {
+	--dialog-height: 60vh;
+}
+
+#coScan em{
+	font-size: .5em;
+}
+
+#coScan input{
+	font-size: 4vh;
+	padding: 1vh;
+	text-align: center;
+	width: 75%;
 }
 
 #coScan .buttons > div {
@@ -323,6 +351,14 @@ div.title {
 	display: block;
 }
 
+#overlays[mode='toolUserScan'] #toolUserScan {
+	display: block;
+}
+
+#overlays[mode='toolScan'] #toolScan {
+	display: block;
+}
+
 #rcptOL .buttons > div {
 	margin-top: 2vh;
 	background-color: #05c;
@@ -384,9 +420,10 @@ div.title {
 }
 
 #welcomeOL .icon {
+	--wel-height: calc(var(--dialog-height) / 2.5);
 	display: inline-block;
 	width: calc(var(--dialog-width) / 4);
-	height: calc(var(--dialog-height) / 2.5);
+	height: var(--wel-height);
 	font-size: 5vh;
 	border: 2px solid rgb(0,5,20);
 	border-radius: 2vh;
@@ -395,12 +432,36 @@ div.title {
 	padding-top: 5vh;
 	background-color: #0B5091;
 	color:  #F3B61D;
+	overflow-y: hidden;
+}
+
+#welcomeOL .icon div {
+	display: inline-table;
+}
+
+#welcomeOL .icon .row {
+	display: table-row;
+}
+
+#welcomeOL .icon p {
+	display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+#welcomeOL .icon .text {
+	height: calc(var(--wel-height) - (10vh + 7vh));
+	width: 100%;
 }
 
 #welcomeOL .icon img{
-	height: 15vh;
+	height: 10vh;
 	width:auto;
 	display: inline-block;
+}
+
+#borrow {
+	display: none !important;
 }
 
 #quantOL {

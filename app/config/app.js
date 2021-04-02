@@ -4,7 +4,7 @@ module.exports = {
     manufacturer: 'Silicon Labs',
   },
   location: 'makerspace',
-  startDelay: 20000,
+  startDelay: 1000,
   // windows: [
   //   {
   //     label: 'main',

@@ -172,7 +172,7 @@ obtain(obs, (hotspot, wiredRouter, wifi, staticIP, preventSleep, soft, { config 
       if (pfg.autostartNode) services.configure(
         'node',
         'Autostart main application',
-        `/usr/bin/node ${bundleRoot}`
+        `/usr/bin/node ${bundleRoot}/app/local/app.js`
       );
       else if (curCfg.autostartNode) services.disable('node');
       curCfg.autostartNode = pfg.autostartNode;

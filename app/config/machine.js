@@ -1,6 +1,6 @@
 exports.config = {
   machine: {
-    autostart: true,
+    autostartNode: true,
     gitWatch: true,
     preventSleep: true,
     monitorConfig: true,

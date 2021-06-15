@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
-    "dist": "electron-builder build"
+    "dist": "electron-builder build",
+    "run": "node app/local/app.js"
   },
   "repository": {
     "type": "git",
@@ -16,6 +17,7 @@
   "homepage": "https://github.com/heidgera/parcel",
   "dependencies": {
     "path": ">=0.12.7",
+    "serialport": "^9.1.0",
     "yarn": "^1.22.10"
   },
   "devDependencies": {

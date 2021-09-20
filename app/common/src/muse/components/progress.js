@@ -17,6 +17,7 @@ class ProgressRing extends HTMLElement {
   }
 
   setProgress(percent) {
+    console.log(1 - percent);
     const circle = µ('circle', this._root)[0];
     circle.style.strokeDashoffset = `calc(${1 - percent} * var(--circ))`;
 

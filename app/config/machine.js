@@ -1,6 +1,6 @@
 exports.config = {
   machine: {
-    autostartNode: true,
+    autostart: true,
     gitWatch: true,
     preventSleep: true,
     monitorConfig: true,
@@ -13,10 +13,10 @@ exports.config = {
     //   ssid: 'SensorServer',
     //   password: 'defaultPass',
     // },
-    // wifiHotspot: {
-    //   ssid: 'Template',
-    //   password: 'template!',
-    //   domainName: 'template.net',
-    // },
+    wifiHotspot: {
+      ssid: 'DysartLCS',
+      password: 'very_secure',
+      domainName: 'lightcontrol.io',
+    },
   },
 };

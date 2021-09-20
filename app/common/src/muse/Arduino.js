@@ -63,13 +63,13 @@ obtain(['µ/serialParser.js', 'events'], ({ serialParser }, EventEmitter)=> {
         else console.error('Analog pins must be less than 6');
       };
 
-      _this.analogReport = (pin, cb, interval)=> {
+      _this.analogReport = (pin, int, cb)=> {
         _this.on('analogRead', (which, val)=> {
           if (pin == which) cb(val);
         });
 
         _this.whenReady(()=> {
-          parser.sendPacket([1, ANA_REPORT, pin, (interval >> 7) & 127, interval & 127]);
+          parser.sendPacket([1, ANA_REPORT, pin, (int >> 7) & 127, int & 127]);
         });
 
       };

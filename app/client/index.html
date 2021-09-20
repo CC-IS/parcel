@@ -7,8 +7,35 @@
   	<link rel="stylesheet" href="css/style.css"></link>
   </head>
   <body>
-    <div id='outer'>
-      <div id='track'></div>
+    <h1>Dysart Light Control System</h1>
+    <div class='controls'>
+      <p><label for='lightChan'>Channels per Light</label><input type="number" value='9' id='lightChan'></p>
+      <p><input type="button" id='setTime' value='Set Time'></p>
+      <p><input type="button" id='play' value='Run'></p><p><input type="button" id='save' value ="Save Settings"></p>
+      <div class='catHolder'>
+        <h2>Motor Control</h2>
+        <div class='accordian' id='motorControl'>
+          <p><label for='ballSpeed'>Rotation Speed</label><input type="range" value='20' min='0' max='127' step='1' id='ballSpeed'></p>
+          <p><label for='rotDir'>Reverse Direction: </label><input type="checkbox" id='rotDir'></p>
+        </div>
+      </div>
+      <div class='catHolder'>
+        <h2>Color Picker</h2>
+        <div class='accordian' id='colorPicker'>
+        </div>
+      </div>
+      <div class='catHolder'>
+        <h2>Light Config</h2>
+        <div class='accordian' id='lightHolder'>
+          test
+        </div>
+      </div>
+      <div class='catHolder'>
+        <h2>Show Config</h2>
+        <div class='accordian' id='showHolder'>
+          stuff
+        </div>
+      </div>
     </div>
   </body>
 </html>

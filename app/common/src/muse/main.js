@@ -9,7 +9,7 @@ var muse = {
 if (!window) {
   var window = global;
   muse.Node = true;
-  muse.root = __dirname + '/';
+  muse.root = __dirname;
   window.document = false;
 } else {
   if (typeof require == 'undefined') var require = false;
@@ -20,7 +20,7 @@ if (!window) {
     muse.root.replace(/\\/g, '/');
   }
 
-  if (require) muse.root = muse.root.replace('file://', '')+'//';
+  if (require) muse.root = muse.root.replace('file://', '');
 }
 
 window.muse = muse;

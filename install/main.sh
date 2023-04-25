@@ -186,7 +186,7 @@ startWorking
 sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes  update 
 sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes upgrade
 
-curl -fsSL https://deb.nodesource.com/setup_19.x | sudo bash -
+curl -sL https://deb.nodesource.com/setup_19.x | sudo bash -
 sudo apt -qq -o=Dpkg::Use-Pty=0 --assume-yes install nodejs
 
 
@@ -235,12 +235,17 @@ cd /usr/local/src
 
 # if the parcel directory does not exist, clone it from github, and create
 # a link in the home directory
-if [[ ! -d "parcel" ]]; then
-  waitForNetwork
-  echo  -e "\n** Cloning the repository..."
-  git clone --recurse-submodules https://github.com/heidgera/parcel.git
-  ln -s /usr/local/src/parcel ~/application
-fi
+# if [[ ! -d "parcel" ]]; then
+#   waitForNetwork
+#   echo  -e "\n** Cloning the repository..."
+#   git clone --recurse-submodules https://github.com/heidgera/parcel.git
+#   ln -s /usr/local/src/parcel ~/application
+# fi
+
+waitForNetwork
+echo  -e "\n** Cloning the repository..."
+git clone --recurse-submodules https://github.com/heidgera/parcel.git
+ln -s /usr/local/src/parcel ~/application
 
 cd parcel
 

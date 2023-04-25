@@ -186,8 +186,7 @@ startWorking
 sudo apt-get update 
 sudo apt-get upgrade
 
-sudo -i
-curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - &&\
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo bash - &&\
 apt-get install -y nodejs
 apt-get install -y build-essential
 

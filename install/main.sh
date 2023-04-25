@@ -187,7 +187,7 @@ sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes  update
 sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes upgrade
 
 curl -fsSL https://deb.nodesource.com/setup_19.x | sudo bash -
-sudo apt install nodejs
+sudo apt -qq -o=Dpkg::Use-Pty=0 --assume-yes install nodejs
 
 
 

@@ -235,17 +235,17 @@ cd /usr/local/src
 
 # if the parcel directory does not exist, clone it from github, and create
 # a link in the home directory
-# if [[ ! -d "parcel" ]]; then
-#   waitForNetwork
-#   echo  -e "\n** Cloning the repository..."
-#   git clone --recurse-submodules https://github.com/heidgera/parcel.git
-#   ln -s /usr/local/src/parcel ~/application
-# fi
+if [[ ! -d "parcel" ]]; then
+  waitForNetwork
+  echo  -e "\n** Cloning the repository..."
+  git clone --recurse-submodules https://github.com/heidgera/parcel.git
+  ln -s /usr/local/src/parcel ~/application
+fi
 
-waitForNetwork
-echo  -e "\n** Cloning the repository..."
-git clone --recurse-submodules https://github.com/heidgera/parcel.git
-ln -s /usr/local/src/parcel ~/application
+# waitForNetwork
+# echo  -e "\n** Cloning the repository..."
+# git clone --recurse-submodules https://github.com/CC-IS/parcel
+# ln -s /usr/local/src/parcel ~/application
 
 cd parcel
 

@@ -183,9 +183,11 @@ echo -e "\n** Installing node and system dependencies..."
 
 startWorking
 
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - >> ${OUTPUT} 2>&1
+apt-get update --allow-releaseinfo-change
 
-echo -e "\n * nodejs v12. \n"
+curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - >> ${OUTPUT} 2>&1
+
+echo -e "\n * nodejs v19.x. \n"
 
 [ $(uname --m) != "x86_64" ] && sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo >> ${OUTPUT} 2>&1
 

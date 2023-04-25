@@ -183,7 +183,8 @@ echo -e "\n** Installing node and system dependencies..."
 
 startWorking
 
-sudo apt-get update --allow-releaseinfo-change
+sudo apt-get update 
+sudo apt-get upgrade
 
 curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - >> ${OUTPUT} 2>&1
 

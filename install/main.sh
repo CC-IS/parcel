@@ -256,7 +256,8 @@ while [[ $(npm i 2> >( tee -a ${OUTPUT} | grep -o -i -m 1 'ERR!')) = 'ERR!' ]]; 
   doneWorking
   echo -e "\033[0;33m"
   echo -e "\nErrors while trying to install packages, retrying..."
-  echo ${OUTPUT}
+  package=$(tail -n 1 ${OUTPUT} | awk '{print $2}')
+  echo "Retrying package installation: ${package}"
   waitForNetwork
   echo -e "\033[0m"
   startWorking

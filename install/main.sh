@@ -186,7 +186,10 @@ startWorking
 sudo apt-get update 
 sudo apt-get upgrade
 
-curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - >> ${OUTPUT} 2>&1
+curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - &&\
+apt-get install -y nodejs
+apt-get install -y build-essential
+
 
 echo -e "\n * nodejs v19.x. \n"
 

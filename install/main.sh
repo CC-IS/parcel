@@ -186,7 +186,7 @@ startWorking
 sudo apt-get update 
 sudo apt-get upgrade
 
-curl -fsSL https://deb.nodesource.com/setup_17.x | sudo bash -
+curl -fsSL https://deb.nodesource.com/setup_19.x | sudo bash -
 sudo apt install nodejs
 
 

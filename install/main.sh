@@ -183,8 +183,8 @@ echo -e "\n** Installing node and system dependencies..."
 
 startWorking
 
-sudo apt-get -qq update 
-sudo apt-get -qq upgrade
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes  update 
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes upgrade
 
 curl -fsSL https://deb.nodesource.com/setup_19.x | sudo bash -
 sudo apt install nodejs
@@ -256,7 +256,7 @@ while [[ $(npm i 2> >( tee -a ${OUTPUT} | grep -o -i -m 1 'ERR!')) = 'ERR!' ]]; 
   doneWorking
   echo -e "\033[0;33m"
   echo -e "\nErrors while trying to install packages, retrying..."
-  echo OUTPUT
+  echo ${OUTPUT}
   waitForNetwork
   echo -e "\033[0m"
   startWorking

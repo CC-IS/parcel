@@ -183,15 +183,20 @@ echo -e "\n** Installing node and system dependencies..."
 
 startWorking
 
+echo -e "\n** updating apt-get."
+
+
 sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes  update 
 sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes upgrade
 
-curl -sL https://deb.nodesource.com/setup_19.x | sudo bash -
+echo -e "\n** Installing node.js version 19."
+
+curl -sL https://deb.nodesource.com/setup_19.x | sudo bash - > /dev/null 2>&1
 sudo apt -qq -o=Dpkg::Use-Pty=0 --assume-yes install nodejs
 
 
 
-echo -e "\n * nodejs v19.x. \n"
+echo -e "\n * nodejs v19.x. installed\n"
 
 [ $(uname --m) != "x86_64" ] && sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes install xserver-xorg-video-fbturbo >> ${OUTPUT} 2>&1
 

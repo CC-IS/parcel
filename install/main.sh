@@ -243,7 +243,7 @@ cd /usr/local/src
 if [[ ! -d "parcel" ]]; then
   waitForNetwork
   echo  -e "\n** Cloning the repository..."
-  git clone --recurse-submodules https://github.com/heidgera/parcel.git
+  git clone --recurse-submodules https://github.com/heidgera/parcel.git &> /dev/null
   ln -s /usr/local/src/parcel ~/application
 fi
 
@@ -287,8 +287,9 @@ if [[ ! -d "app" ]]; then
   startWorking
 
   waitForNetwork
-
-  git clone  --recurse-submodules "https://github.com/${ACCOUNT}/${REPO}" app > /dev/null 2>&1
+  
+  
+  git clone  --recurse-submodules "https://github.com/${ACCOUNT}/${REPO}" app > /dev/null 2>&1 &> /dev/null
 
   doneWorking
 

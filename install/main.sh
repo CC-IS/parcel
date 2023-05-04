@@ -188,6 +188,7 @@ echo -e "\n** updating apt-get."
 
 sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes  update 
 sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes upgrade
+sudo apt -qq -o=Dpkg::Use-Pty=0 --assume-yes install  --reinstall libraspberrypi0 libraspberrypi-{bin,dev,doc} raspberrypi-bootloader
 
 echo -e "\n** Installing node.js version 19."
 

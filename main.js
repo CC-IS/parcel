@@ -261,8 +261,8 @@ obtain(['path', 'url', 'child_process', 'os', ], (path, url, { execSync }, os)=>
       makeWindows();
       launched = true;
     }, startDelay)
-
-
+    globalShortcut.register('Control+Shift+I', () => {return false;});
+    
     // this delayed starting the app if not everything was installed, unnecessary
     // if (fs.existsSync(appRoot + '/current/appReady')) {
     //   makeWindows();

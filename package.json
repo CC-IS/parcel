@@ -1,7 +1,7 @@
 {
-  "name": "MakerTracker",
+  "name": "Parcel Application Loader",
   "version": "1.0.0",
-  "description": "Makerspace User and Material Tracking",
+  "description": "General purpose kiosk application",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js",
@@ -10,21 +10,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/heidgera/parcel.git"
+    "url": "git+https://github.com/cc-is/parcel.git"
   },
   "author": "ajhg",
   "license": "CC0-1.0",
   "homepage": "https://github.com/heidgera/parcel",
   "dependencies": {
     "path": ">=0.12.7",
-"serialport": "^10.3.0",
+    "serialport": "^12.0.0",
     "yarn": "^1.22.10"
   },
   "devDependencies": {
-    "electron": "10.1.3"
+    "electron": "^29.0.1",
   },
   "build": {
-    "appId": "com.ccis.mkr-trkr",
+    "appId": "com.ccis.parcel",
     "portable": {
       "splashImage": "..\\..\\..\\..\\build\\img\\splash.bmp"
     },

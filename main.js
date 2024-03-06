@@ -54,10 +54,11 @@ obtain(['path', 'url', 'child_process', 'os', ], (path, url, { execSync }, os)=>
       title: info.title,
       offscreen: false,
       webPreferences: {
-        nodeIntegration: true,
-        enableRemoteModule: true,
-        worldSafeExecuteJavaScript: true,
-        contextIsolation: false
+        preload: path.join(app.getAppPath(), '/app/local/src/preload.js'),
+        frame: false,
+        enableRemoteModule: true, //this must be true
+        nodeIntegration: true, // to allow require
+        contextIsolation: false, // allow use with Electron 12+
       }
     });
 
@@ -260,9 +261,9 @@ obtain(['path', 'url', 'child_process', 'os', ], (path, url, { execSync }, os)=>
     setTimeout(()=>{
       makeWindows();
       launched = true;
-    }, startDelay)
+    }, startDelay);
     globalShortcut.register('Control+Shift+I', () => {return false;});
-    
+
     // this delayed starting the app if not everything was installed, unnecessary
     // if (fs.existsSync(appRoot + '/current/appReady')) {
     //   makeWindows();

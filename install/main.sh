@@ -244,7 +244,7 @@ cd /usr/local/src
 if [[ ! -d "parcel" ]]; then
   waitForNetwork
   echo  -e "\n** Cloning the repository..."
-  git clone --recurse-submodules https://github.com/cc-is/parcel.git &> /dev/null
+  git clone --recurse-submodules https://github.com/CC-IS/parcel.git &> /dev/null
   ln -s /usr/local/src/parcel ~/application
 fi
 

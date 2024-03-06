@@ -186,14 +186,14 @@ startWorking
 echo -e "\n** updating apt-get."
 
 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes  update 
-sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes upgrade
-sudo apt -qq -o=Dpkg::Use-Pty=0 --assume-yes install  --reinstall libraspberrypi0 libraspberrypi-{bin,dev,doc} raspberrypi-bootloader
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes  update > /dev/null 2>&1
+sudo apt-get -qq -o=Dpkg::Use-Pty=0 --assume-yes upgrade > /dev/null 2>&1
+sudo apt -qq -o=Dpkg::Use-Pty=0 --assume-yes install libraspberrypi0 libraspberrypi-{bin,dev,doc} raspberrypi-bootloader > /dev/null 2>&1
 
 echo -e "\n** Installing node.js version 19."
 
 curl -sL https://deb.nodesource.com/setup_19.x | sudo bash - > /dev/null 2>&1
-sudo apt -qq -o=Dpkg::Use-Pty=0 --assume-yes install nodejs
+sudo apt -qq -o=Dpkg::Use-Pty=0 --assume-yes install nodejs > /dev/null 2>&1
 
 
 

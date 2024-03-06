@@ -2,7 +2,7 @@
 
 const electron = require('electron');
 
-const { contextBridge } = require('electron')
+const { contextBridge, globalShortcut } = require('electron')
 
 var fs = require('fs');
 

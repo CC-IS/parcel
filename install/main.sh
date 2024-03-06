@@ -83,10 +83,10 @@ cat /dev/null >  parcel_install.log
 # function to hold the program until network connections are available
 waitForNetwork ()
 {
-  if ! $(ping -c 1 -W 1 registry.nodejs.org > /dev/null 2>&1)
+  if ! $(ping -c 1 -W 1 1.1.1.1 > /dev/null 2>&1)
   then
     echo -e "\n** Waiting for network..."
-    while ! $(ping -c 1 -W 1 registry.nodejs.org > /dev/null 2>&1); do
+    while ! $(ping -c 1 -W 1 1.1.1.1 > /dev/null 2>&1); do
        echo "Still waiting..."
        sleep 1
     done

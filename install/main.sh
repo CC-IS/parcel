@@ -192,7 +192,7 @@ sudo apt -qq -o=Dpkg::Use-Pty=0 --assume-yes install libraspberrypi0 libraspberr
 
 echo -e "\n** Installing node.js version 19."
 
-curl -sL https://deb.nodesource.com/setup_19.x | sudo bash - > /dev/null 2>&1
+#curl -sL https://deb.nodesource.com/setup_19.x | sudo bash - > /dev/null 2>&1
 sudo apt -qq -o=Dpkg::Use-Pty=0 --assume-yes install nodejs > /dev/null 2>&1
 
 

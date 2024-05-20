@@ -22,8 +22,8 @@
     "yarn": "^1.22.10"
   },
   "devDependencies": {
+    "@electron/rebuild": "^3.6.0",
     "electron": "^29.0.1",
-    "electron-rebuild": "^3.2.9",
     "node-gyp": "^10.1.0"
   },
   "extraResources": [

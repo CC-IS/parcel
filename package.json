@@ -22,7 +22,9 @@
     "yarn": "^1.22.10"
   },
   "devDependencies": {
-    "electron": "^29.0.1"
+    "electron": "^29.0.1",
+    "electron-rebuild": "^3.2.9",
+    "node-gyp": "^10.1.0"
   },
   "extraResources": [
     "app/local/src/preload.js"

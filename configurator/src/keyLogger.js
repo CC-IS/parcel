@@ -217,7 +217,7 @@ class Keyboards extends EventEmitter {
             device.file.on('data', function (data) {
               let count = 0;
               let packSize = (process.arch === 'x64') ? 24 : 16;
-              while (count < data.length) {
+              while (data.length - count < packSize) {
                 let slc = data.slice(count, count + packSize);
                 let event = {};
                 if (process.arch === 'x64') {

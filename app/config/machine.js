@@ -13,10 +13,10 @@ exports.config = {
     //   ssid: 'SensorServer',
     //   password: 'defaultPass',
     // },
-    wifiHotspot: {
-      ssid: 'DysartLCS',
-      password: 'very_secure',
-      domainName: 'lightcontrol.io',
-    },
+    // wifiHotspot: {
+    //   ssid: 'Template',
+    //   password: 'template!',
+    //   domainName: 'template.net',
+    // },
   },
 };

@@ -208,6 +208,11 @@ obtain(['path', 'url', 'child_process', 'os', ], (path, url, { execSync }, os)=>
         windows[evt.sender.label].close();
       });
 
+      ipcMain.on('quitApp', (evt, arg) => {
+        console.log('test');
+        app.quit();
+      });
+
       // if we see a monitor added to the computer, check to see if there are any windows for it
       electron.screen.on('display-added', (evt, display)=> {
 

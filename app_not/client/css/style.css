@@ -1,0 +1,77 @@
+/*@font-face {
+    font-family: roboto;
+}*/
+
+html, body {
+	margin: 0;
+	color: #ddd;
+	font-family: sans-serif;
+	font-weight: lighter;
+	text-align: left;
+  z-index: -100;
+	font-size: 2vh;
+}
+
+input {
+	font-size: 2vh;
+}
+
+input[type="range"] {
+	width: 50%;
+	height: 2vh;
+}
+
+body {
+  background-color: #2a2a2a;
+	padding: 1vmin;
+}
+
+label {
+	margin-right: 2vmin;
+}
+
+h1,h2 {
+	border-bottom: 1px solid white;
+}
+
+h2 {
+	background-color: #07d;
+	padding: 1vmin;
+}
+
+.colorChoose {
+	border: 1px solid white;
+	padding: 1vmin;
+}
+
+.colorSelect {
+	vertical-align: middle;
+}
+
+.colorSelect>span {
+	display: inline-block;
+	height: 10vh;
+}
+
+.swatch {
+	width: 10vh;
+	height: 10vh;
+	display:inline-block;
+	margin-right: 2vmin;
+}
+
+.selectArea {
+	width: 75vw;
+}
+
+.selectArea input[type=range]{
+	width: 75%;
+}
+
+.accordian.open {
+	display: block;
+}
+
+.accordian {
+	display: none;
+}

@@ -216,14 +216,14 @@ class Keyboards extends EventEmitter {
             device.file.on('end', ()=> { console.log('file closed');});
             device.file.on('data', function (data) {
               let count = 0;
-              let packSize = (process.arch === 'x64') ? 24 : 16;
-              while (data.length - count < packSize) {
+              let packSize = (process.arch === 'x64' || process.arch == 'arm64') ? 24 : 16;
+              while (data.length - count > packSize) {
                 let slc = data.slice(count, count + packSize);
                 let event = {};
-                if (process.arch === 'x64') {
+                if (process.arch === 'x64' || process.arch == 'arm64') {
                   event = {
                       timeS: slc.readUInt32LE(0, 8),
-                      timeMS: slc.readUIntLE(8, 8),
+                      timeMS: slc.readUInt32LE(8, 8),
                       type: slc.readUInt16LE(16),
                       code: slc.readUInt16LE(18),
                       value: slc.readInt32LE(20),

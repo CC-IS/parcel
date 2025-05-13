@@ -1,9 +1,9 @@
 module.exports = {
-  showDevTools: true,
-  monitorConfig: true,
+  showDevTools: false,
   io: {
-    manufacturer: 'Microsoft',
-  }
+    manufacturer: 'Silicon Labs',
+  },
+  startDelay: 0,
   // windows: [
   //   {
   //     label: 'main',

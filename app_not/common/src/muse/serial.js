@@ -1,19 +1,16 @@
 'use strict';
 
-//const { SerialPort } = require('serialport');
-//const { SerialPort } = require('serialport')
-
-obtain(['serialport'], ({SerialPort})=> {
-  //var {SerialPort = window.SerialPort;
-  console.log(window.SerialPort);
-  DelimiterParser = window.DelimiterParser;
+obtain(['serialport'], (com)=> {
   exports.Serial = function (delim = '\r\n') {
+
+    //const parser = new com.parsers.Regex({ regex: /[\r\n]+/ });
+    //const parser = new com.parsers.ByteLength({ length: 8 });
+    const parser = new com.parsers.Delimiter({ delimiter: delim });
 
     var _this = this;
     let ser = null;
     _this.isOpen = false;
     _this.onOpen = () => {};
-    _this.onClose = () => {};
 
     _this.onMessage = () => {console.log('test');};
 
@@ -26,14 +23,13 @@ obtain(['serialport'], ({SerialPort})=> {
     };
 
     _this.send = (arr) => {
-      if (_this.isOpen) ser.write(Buffer.from(arr));
+      if (_this.isOpen) ser.write(new Buffer(arr));
     };
 
     var openByName = (portName, baud) => {
       console.log('Opening serialport ' + portName);
-      ser = new SerialPort({
-        path: portName,
-        baudRate: baud
+      ser = new com(portName, {
+        baudRate: baud,
       });
 
       /*let Pass = require('stream').PassThrough;
@@ -45,7 +41,7 @@ obtain(['serialport'], ({SerialPort})=> {
       });
 
       ser.pipe(b);*/
-      var parser = ser.pipe(new DelimiterParser({ delimiter: delim }));
+      ser.pipe(parser);
 
       parser.on('data', function (data) {
         _this.onMessage(data);
@@ -56,12 +52,6 @@ obtain(['serialport'], ({SerialPort})=> {
         _this.onOpen();
       });
 
-      ser.on('close', function () {
-        _this.isOpen = false;
-        console.log('port closed');
-        _this.onClose();
-      });
-
       ser.on('error', function () {
         console.log('Error from SerialPort');
       });
@@ -69,14 +59,14 @@ obtain(['serialport'], ({SerialPort})=> {
 
     _this.open = (props) => {
       var name = null;
-      SerialPort.list().then((ports)=> {
+      com.list().then(ports=>{
         ports.forEach(function (port) {
-          console.log(port);
-          if (port.path.includes(props.name) ||
+          //console.log(port);
+          if (port.comName.includes(props.name) ||
               (port.manufacturer && props.manufacturer &&
               port.manufacturer.toLowerCase() == props.manufacturer.toLowerCase()) ||
               (port.serialNumber && port.serialNumber == props.serialNumber)
-            ) name = port.path;
+            ) name = port.comName;
         });
 
         if (!name) _this.onPortNotFound(ports);

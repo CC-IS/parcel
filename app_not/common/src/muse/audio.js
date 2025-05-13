@@ -1,4 +1,4 @@
-obtain(['µ/utilities.js'], function({clamp, sign}) {
+obtain([], function() {
   var synth = function(which) {
     var _this = this;
     var audio = new window.AudioContext();

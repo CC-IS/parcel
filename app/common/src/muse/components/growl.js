@@ -11,7 +11,7 @@ obtain([`${__dirname}/museElement.js`, 'path'], ({ MuseElement }, path)=> {
         this.displayTime = 3000;
       }
 
-      message(text, type, persist) {
+      message(text, type='note', persist) {
         var _this = this;
         this.display.textContent = text;
         this.className = type;

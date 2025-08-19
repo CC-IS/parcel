@@ -29,7 +29,7 @@ _<span style="text-decoration:underline;">Raspberry Pi:</span>_
 
 
 1. Obtain a Raspberry Pi 3 B+. The software will work on older models, but to use all of the features, the Raspberry Pi 3 B+ will give you the best results.
-2. Using Etcher, burn an SD card (minimum 4GB) with the [November 2018 version of Raspbian Stretch Lite](https://downloads.raspberrypi.org/raspbian_lite_latest).
+2. Using the [raspberry Pi imager](https://www.raspberrypi.com/software/), burn an SD card (minimum 4GB) with Raspberry Pi OS lite.
 3. Arrange for Network connection.
     1. **Wifi**:
         1. Once the card is written, re-insert it into your computer, and a drive named 'boot' should appear.
